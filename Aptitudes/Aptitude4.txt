@@ -1,0 +1,86 @@
+
+ * A restaurant charges one price for all dinner meals and one price for all breakfast meals. If the price of six dinner meals and three breakfast meals is £105 and the price of two dinner meals and eight breakfast meals is £84, which of the following will NOT cost one-half the price of six dinner meals and four breakfast meals?
+ https://www.scaler.com/academy/mentee-dashboard/class/28425/assignment/problems/2511/?navref=cl_pb_nv_tb
+
+
+Solution -
+
+Given: 6X + 3Y = 105;
+Given: 2X + 8Y = 84;
+
+2X = 84 - 8Y;
+
+Lets Put X value into first equation
+- 84 - 8Y + 84 - 8Y + 84 - 8Y + 3Y = 105;
+-24Y + 3Y + 252 = 105;
+-21Y = 105 - 252;
+-21Y = - 147;
+Y = 147 / 21 = 7
+breakfast = 7
+
+meal > 6X + 21 = 105
+    > 6X = 84
+meal > X = 14
+
+
+6X + 4Y >> 6 * 14 + 4 * 7
+    = 84 + 28
+    = 112;
+112 / 2 = 56
+
+2 * 14 + 4 * 7
+28 + 28 = 56
+
+42 + 14 = 56;
+
+14 + 35 = 49 // Correct Answer. (One dinner meal and five breakfast meals)
+
+/***************************************************************************
+
+* In a singing contest there are 16 singers, each has to sing a duet with each of the other singers. If the contest is 4 days long, and there is an equal number of duets performed on each day, how many duets will be performed every day?
+
+Solution -
+
+total 16 singers
+1 will sing duet with > 15 other singers
+2 > 14
+3 > 13
+14 > 2
+15 > 1
+16 > all done;
+
+total rounds > 1 to 15 add all numbers
+sum of 1 to 5 > 15
+sum of 6 to 10 > 40
+sum of 11 to 15 = 65.
+sum of 1 to 15 = 120.
+
+120 rounds in 4 days as given in question.
+So 30 rounds in one day. (answer)
+
+/***************************************************************************
+
+Find the odd one out:
+EGK
+HJN
+BDH
+OQT
+
+ANSWER > OQT.
+
+EGK > G comes after 2 chars from E (includeing E). K comes after 4 chars after G.
+So this pattern in not fit in last option.
+
+/***************************************************************************
+
+Series >
+8, 10, 13, 18, 25, ?
+ANS - 36
+
+8 + 2 = 10 + 0 = 10
+10 + 2 = 12 + 1 = 13
+13 + 3 = 16 + 2 = 18
+18 + 4 = 22 + 3 = 25
+25 + 5 = 30
+
+
