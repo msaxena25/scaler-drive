@@ -84,3 +84,28 @@ ANS - 36
 25 + 5 = 30
 
 
+/***************************************************************************
+
+A, B, C, D, E, F, and G are sitting around a circle facing the center.
+A is third to the left of G and to the immediate right of D.
+B is second to the left of F, who is not an immediate neighbor of E.
+
+Who is second to the left of D ?
+
+Solution -
+
+    right 😊 left                   G
+                                F        B
+        Center                  C        E
+                                        A
+    left  😊 right                 D
+
+    ANSWER - second to the left of D > F
+
+
+Calculate power of any number
+https://bodheeprep.com/find-last-two-digits-number
+
+
+logarithm formulas - 
+https://www.vedantu.com/formula/logarithm-formula
