@@ -68,7 +68,7 @@ OQT
 
 ANSWER > OQT.
 
-EGK > G comes after 2 chars from E (includeing E). K comes after 4 chars after G.
+EGK > G comes after 2 chars from E (including E). K comes after 4 chars after G.
 So this pattern in not fit in last option.
 
 /***************************************************************************
@@ -107,5 +107,5 @@ Calculate power of any number
 https://bodheeprep.com/find-last-two-digits-number
 
 
-logarithm formulas - 
+logarithm formulas -
 https://www.vedantu.com/formula/logarithm-formula

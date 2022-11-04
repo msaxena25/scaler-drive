@@ -259,7 +259,7 @@ function printPrimeNumbersWithThirdWay(n) {
         let sqrtI = Math.floor(Math.sqrt(i));
         let isPrime = true;
         for (let j = 2; j <= sqrtI; j++) { // every number is devided by 1 so dont need to check that.
-            if (i !== j && i % j === 0) { // // every number is devided by itself so dont need to check that (i !== j).
+            if (i % j === 0) { // // every number is devided by itself so dont need to check that (i !== j).
                 isPrime = false;
                 break;
             }
@@ -269,11 +269,11 @@ function printPrimeNumbersWithThirdWay(n) {
         }
 
     }
-    console.log(numbers);
+    console.log('printPrimeNumbersWithThirdWay', numbers);
 
 }
 
-printPrimeNumbersWithThirdWay(100)
+printPrimeNumbersWithThirdWay(47)
 
 
 // Perfect Number program
