@@ -1,12 +1,15 @@
-function run1() {
+function run1(n) {
     for (let i = 1; i <= 100; i *= 2) {
         for (let j = 1; j <= n; j++) {
             console.log(i + j);
         }
     }
 }
+
+//? Outer For loop will always run 5o times only.
+
 // O(n^2)
-// O(n)
+// O(n) ✔️
 // 0(nlogn)
 // O(1)
 
@@ -18,7 +21,7 @@ function run2() {
         }
     }
 }
-// O(n^2)
+// O(n^2)`✔️
 // O(n)
 // O(nlogn)
 // O(n^3)
@@ -36,22 +39,28 @@ function run3() {
 }
 // O(n^2)
 // O(nlogn)
-// O(n)
+// O(n) ✔️
 // O(1)
 
 
-function run4() {
+function run4(n) {
     for (let i = 1; i <= n; i++) {
+        console.count('outer')
         for (let j = 1; j <= Math.pow(3, i); j++) {
-            console.count(i * j)
+            console.count('inner for i = ' + i)
             //console.log(i + j);
         }
     }
 }
+run4(5);
+//? Here outer loop is running for n times and inner loop running for 3^n times.
+// TC - n * 3^n
+
+
 // O(n^2)
 // O(nlogn)
 // O(2^n)
-// O(3^n)' ✔️
+// O(3^n) ✔️
 
 
 function run5() {
@@ -93,7 +102,7 @@ O(1) - constant time - When time complexity is constant (notated as “O(1)”),
 O(log(n)) - logarithmic time - if time execution is proportional to the logarithm of the input size. When the input size grows, the number of operations grows very slowly.
 O((log(n))c) - polylogarithmic time
 O(n) - linear time - When time complexity grows in direct proportion to the size of the input,
-O(n2) - quadratic time - the time it takes to run grows directly proportional to the square of the size of the input
+O(n^2) - quadratic time - the time it takes to run grows directly proportional to the square of the size of the input
 O(n^c) - polynomial time - same as quadtraic time but here we have taken constant value as c.
 O(c^n) - exponential time - the growth rate doubles with each addition to the input (n),
 O(n!) - factorial time
@@ -174,13 +183,13 @@ function run8(N) {
 
 // Spaces after i and ++ does not have any impact. Below both for loop output are same.
 function run9(n) {
-    for (let i = 0; i <= n; i ++) {
+    for (let i = 0; i <= n; i++) {
         console.log(i);
     }
     for (let i = 0; i <= n; i++) {
         console.log(i);
     }
-    for (let i = 0; i <= n; i    ++) {
+    for (let i = 0; i <= n; i++) {
         console.log(i);
     }
 }
@@ -207,12 +216,14 @@ function run10(N) {
 // None of these
 
 function run11(n) {
-    while(n > 0) {
+    while (n > 0) {
         console.count('while')
         n++;
-        n-= 2;
+        n -= 2;
     }
 }
+//? Inside while - we are increasing n by 1 and then decreasing by 2. OVerall n will be n-1. SO it while loop 
+//? will run n times.
 
 //run11(5);
 
@@ -233,7 +244,10 @@ function run12(N) {
         }
     }
 }
-run12(2)
+//run12(5)
+
+//? When  at last i will be near to 2^n then inner while loop will also run 2^n times.
+//? 2^n * 2^n = 4^n
 
 // O(N * N)
 // O(2^N)
