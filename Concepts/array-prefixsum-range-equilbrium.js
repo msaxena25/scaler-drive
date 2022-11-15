@@ -350,3 +350,16 @@ evenNumberInRangeRefactor([1, 2, 3, 4, 5], [[0, 2], [2, 4]])
 //* Error - TypeError: Cannot mix BigInt and other types, use explicit conversions on  A[0] % 2;
 //? Solution -  (parseInt(A[0]) % 2);
 
+/************************ */
+
+//! Array prefix sum with Space C -  O(1)
+// https://leetcode.com/problems/running-sum-of-1d-array/description/
+
+// Updating origional array
+var runningSum = function (nums) {
+    for (let i = 1; i < nums.length; i++) {
+        nums[i] = nums[i - 1] + nums[i];
+    }
+    return nums;
+
+};
