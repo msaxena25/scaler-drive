@@ -2,7 +2,7 @@
 //! Generate all subarrays
 
 /**
-A subarray is commonly defined as a part or section of an array.
+A subarray is commonly defined as a continuous part or section of an array.
 
  */
 
@@ -23,7 +23,7 @@ printAllSubarrays([1, 2, 3]);
 
 //printAllSubarrays([36, 63, 63, 26, 87, 28, 77, 93, 7])
 
-//! Print all subarrays - same as above, just code writing change.
+//! Print all subarrays - same as above, Here j started from i.
 function printAllSubarrays1(A) {
     let subarrays = [];
     for (let i = 0; i < A.length; i++) {
@@ -177,9 +177,9 @@ function subArrayWithLength3(A) {
     }
     log(subarrays)
 }
-subArrayWithLength3([1, 2])
-subArrayWithLength3([2])
-subArrayWithLength3([1, 2, 3])
+// subArrayWithLength3([1, 2])
+// subArrayWithLength3([2])
+// subArrayWithLength3([1, 2, 3])
 subArrayWithLength3([1, 2, 3, 4, 5, 6, 7])
 
 //! Sum of All Subarrays
