@@ -103,6 +103,19 @@ Solution -
     ANSWER - second to the left of D > F
 
 
+/********************
+
+Say the bulb is ON initially, after pressing the switch odd number of times, what will be the final state of the bulb?
+
+ANS - OFF
+
+Say the bulb is ON initially, after pressing the switch even number of times, what will be the final state of the bulb?
+
+ANS - ON
+
+/*********************************
+
+
 Calculate power of any number
 https://bodheeprep.com/find-last-two-digits-number
 

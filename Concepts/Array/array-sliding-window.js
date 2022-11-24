@@ -248,7 +248,7 @@ minSwap(C, 18);
 Step 1: Count numbers  < B => 3
 Logic: In each subarray of length 3, element which are greater then 8 (B) needs to swap out to make all numbers of that subarray < B.
 Step 2: Find no. of max elements in first 3 elements starts from 0 index => max elements = 3 from (10, 12, 11)
-        So now minswap are atmost 3 and current window is (10, 12, 11)
+        So now atleast minswap are 3 and current window is (10, 12, 11)
 Step 3: Now check in next window (12, 11, 2) that starts from index 1.
         s =  1 and e = 3, First check A[s-1] > B then ans--;; and then check A[e] > B then ans = ans + 1;
 
@@ -298,7 +298,7 @@ const B = [31, 98, 58, 86, 36, 31, 3, 22, 4, 17, 51, 33, 56, 7, 91, 17, 59, 66, 
 minSwapWithSlidingWindow(B, 18);
 
 /*
-* Undestand A[s - 1] > B condition.
+* Understand A[s - 1] > B condition.
 
 A = [5, 6, 1, 4, 2, 0] & B = 3(check numbers less then 3)
 Step 1: Count elements less then B and that is 3 => k = 3
@@ -317,4 +317,313 @@ So if 5 > 3 (B) => ans--; means there is only 1 element greater then B from rema
 
 
 
+/****************************************** */
 
+//! print boundries element of 2d array (order does not matter).
+
+/*
+? Input-
+[
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+
+Output > [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
+*/
+
+//? Hint -  In (n * m) matrix, A[i][j] is Boundry element if-
+//? i == 0 OR i == n-1 OR j == 0 OR j == m-1
+
+
+function printBoundries(A) {
+    console.log('printBoundries :', A);
+    const ans = [];
+    for (let i = 0; i < A.length; i++) { // there are 4 boundries
+        for (let j = 0; j < A[0].length; j++) {
+            if (i == 0 || j == 0 || j == A[0].length - 1 || i == A.length - 1) {
+                ans.push(A[i][j])
+            }
+        }
+    }
+    console.log(ans)
+}
+const arr1 = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+printBoundries(arr1) // [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
+
+/*************************************** */
+
+//! Print boundries elements of 2 d array (n*n) clockwise.
+
+/*
+? Input -
+[
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+
+?Output > [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5]
+
+*/
+
+/*
+* Solution -
+- We have to print boundries elements top row, right column, bottom row and left column.
+- For this we will use 4 for or while loop.
+- In each loop, we will read n-1 elements, so that in next loop, we could start from corner element.
+- In first while loop - we read  1 2 3
+- In Second while loop - we read  4 8 12
+- In third while loop - we read  16 15 14
+- In fourth while loop - we read  13 9 5
+
+*/
+
+//* Best approach-
+function printBoundriesClockWise(A) {
+    console.log('printBoundriesClockWise :', A);
+    let n = A.length;
+    const ans = [];
+
+    let i = 0;
+    let j = 0;
+
+    for (let k = 1; k < n; k++) {
+        ans.push(A[i][j]);
+        j++;
+    }
+    for (let k = 1; k < n; k++) {
+        ans.push(A[i][j]);
+        i++;
+    }
+    for (let k = 1; k < n; k++) {
+        ans.push(A[i][j]);
+        j--;
+    }
+    for (let k = 1; k < n; k++) {
+        ans.push(A[i][j]);
+        i--;
+    }
+    console.log(ans);
+    return ans;
+}
+
+
+//@ Solution with while loop if we dont use another variable k - we have used i and j updated values every time.
+
+function printBoundriesClockWiseWhileLoop(A) {
+    console.log('printBoundriesClockWiseWhileLoop :', A);
+    const n = A.length;
+    const ans = [];
+
+    let i = 0;
+    let j = 0;
+    while (j < n - 1) { // L to R
+        ans.push(A[i][j])
+        j++;
+    }
+    console.log(i, j) // 0 3
+    while (i < n - 1) { // T to B
+        ans.push(A[i][j])
+        i++;
+    }
+    console.log(i, j) // 3 3
+    while (j > 0) { // R to L
+        ans.push(A[i][j])
+        j--;
+    }
+    console.log(i, j) // 3 0
+    while (i > 0) { // B to T
+        ans.push(A[i][j])
+        i--;
+    }
+    console.log(i, j) // 0 0
+    console.log(ans);
+    return ans;
+}
+printBoundriesClockWiseWhileLoop(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1]
+
+
+
+
+//@ Below program is same as above , Just one difference is starting element. in while loop
+// - In first while loop - we read  1 2 3 4
+// - In Second while loop - we read  8 12 16
+// - In third while loop - we read   15 14 13
+// - In fourth while loop - we read  9 5
+
+
+/* // TC  = O(n)
+function printBoundriesClockWise1(A) {
+    console.log('printBoundriesClockWise1 :', A);
+    const n = A.length;
+    const m = A[0].length;
+    const ans = [];
+    let i = 0;
+    let j = 0;
+
+    while (j < m) {
+        ans.push(A[i][j]);
+        j++;
+    };
+    i = 1; //  first row
+    j = m - 1; // last column is fixed
+    while (i < n) {
+        ans.push(A[i][j]);
+        i++;
+    };
+    i = n - 1; // last row is fixed
+    j = m - 2; // start from second last column
+    while (j >= 0) {
+        ans.push(A[i][j]);
+        j--;
+    };
+    i = n - 2; // start from second last row
+    j = 0; // first column fixed
+    while (i > 0) {
+        ans.push(A[i][j]);
+        i--;
+    }
+    console.log(ans)
+
+}
+printBoundriesClockWise1(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1] */
+
+
+
+
+/*************************************************** */
+
+//! Array Spiral printing of elements in Clockwise direction -
+
+//* Using boundries program approach and run that approach for each elements using while loop.
+
+function spiral(A) {
+    console.log('spiral :', A);
+    let n = A.length;
+    const ans = [];
+
+    let i = 0;
+    let j = 0;
+
+    while (n > 0) {
+        for (let k = 1; k < n; k++) { // Top row
+            ans.push(A[i][j]);
+            j++;
+        }
+        for (let k = 1; k < n; k++) { // Right column
+            ans.push(A[i][j]);
+            i++;
+        }
+        for (let k = 1; k < n; k++) { // Bottom row
+            ans.push(A[i][j]);
+            j--;
+        }
+        for (let k = 1; k < n; k++) { // Left column
+            ans.push(A[i][j]);
+            i--;
+        }
+        if (n == 1) { // in case n == 1, means only 1 item left.
+            ans.push(A[i][j]);
+        }
+        n = n - 2; // after every round, n-2 elements remains in a row or column.
+        i++;
+        j++;
+    }
+    console.log(ans);
+}
+const arr2 = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+]
+spiral(arr2); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10]
+
+const arr3 = [
+    [1, 2, 3, 4, 5],
+    [6, 7, 8, 9, 10],
+    [11, 12, 13, 14, 15],
+    [16, 17, 18, 19, 20],
+    [21, 22, 23, 24, 25]
+]
+spiral(arr3); // [1, 2, 3, 4, 5, 10, 15, 20, 25, 24, 23, 22, 21, 16, 11, 6, 7, 8, 9, 14, 19, 18, 17, 12, 13]
+
+const arr4 = [
+    [1, 2, 3, 4, 5, 26],
+    [6, 7, 8, 9, 10, 27],
+    [11, 12, 13, 14, 15, 28],
+    [16, 17, 18, 19, 20, 29],
+    [21, 22, 23, 24, 25, 30],
+    [31, 32, 33, 34, 35, 36]
+]
+spiral(arr4);
+
+const arr5 = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+spiral(arr5); //  [1, 2, 3, 6, 9, 8, 7, 4, 5]
+
+
+/*********************************************** */
+
+//! Return Spiral matrix -
+
+/* Given an integer A, generate a square matrix filled with elements from 1 to A2 in spiral order and 
+return the generated square matrix.
+
+Input > 5
+Output >
+[ [1, 2, 3, 4, 5], [16, 17, 18, 19, 6], [15, 24, 25, 20, 7], [14, 23, 22, 21, 8], [13, 12, 11, 10, 9] ] */
+
+
+function spiralMatrix(A) {
+    console.log('spiralMatrix :', A);
+    let n = A;
+    const ans = [];
+    let num = 1;
+
+    // create n rows to store spiral elements
+    for (let i = 0; i < n; i++) {
+        ans.push([])
+    }
+    let i = 0;
+    let j = 0;
+
+    while (n > 0) {
+        for (let k = 1; k < n; k++) { // Top row
+            ans[i][j] = num++;
+            j++;
+        }
+        for (let k = 1; k < n; k++) { // Right column
+            ans[i][j] = num++;
+            i++;
+        }
+        for (let k = 1; k < n; k++) { // Bottom row
+            ans[i][j] = num++;
+            j--;
+        }
+        for (let k = 1; k < n; k++) { // Left column
+            ans[i][j] = num++;
+            i--;
+        }
+        if (n == 1) { // in case n == 1, means only 1 item left.
+            ans[i][j] = num++;
+        }
+        n = n - 2; // after every round, n-2 elements remains in a row or column.
+        i++;
+        j++;
+    }
+    console.log(ans);
+    return ans;
+}
+spiralMatrix(5);

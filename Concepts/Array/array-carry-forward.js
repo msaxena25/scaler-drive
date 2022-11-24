@@ -234,3 +234,44 @@ closestMinMax1([1, 3, 4, 8, 8, 1])
 closestMinMax1([4, 5, 2, 4, 3, 2, 6, 2, 6])
 closestMinMax1([4, 1, 2, 4, 3, 2, 8, 8, 8])
 closestMinMax1([4, 4, 4])
+
+
+/****************************** */
+
+//!  Even Subarrays
+
+/* You are given an integer array A.
+
+Decide whether it is possible to divide the array into one or more subarrays of even length such that the first and last element of all subarrays will be even.
+
+Return "YES" if it is possible; otherwise, return "NO" (without quotes).
+
+Input 1:
+ A = [2, 4, 8, 6]
+Output >  "YES" ( We can divide A into [2, 4] and [8, 6].)
+
+A = [2, 4, 8, 7, 6]
+ "NO"
+ There is no way to divide the array into even length subarrays.
+
+*/
+
+//@ HINT -  1. If array length is not even, then we can not create subarray of even length. 2. Check array first and last element, they should be even number as per problem statement.
+
+function evenSubarrays(A) {
+    console.log('evenSubarrays :', A);
+    if (A.length % 2 != 0) {
+        return 'NO'
+    } else {
+        if (A[0] % 2 != 0 || A[A.length - 1] % 2 != 0) {
+            return 'NO';
+        } else {
+            return 'YES';
+        }
+    }
+}
+
+console.log(evenSubarrays([2, 4, 8, 7, 6]));
+console.log(evenSubarrays([2]));
+console.log(evenSubarrays([2, 4, 4, 6]));
+console.log(evenSubarrays([2, 4, 3, 4, 3, 4, 1]));
