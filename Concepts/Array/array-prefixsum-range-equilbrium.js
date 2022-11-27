@@ -363,3 +363,30 @@ var runningSum = function (nums) {
     return nums;
 
 };
+
+
+//! Return prefix sum array of even and odd indices elements
+
+function findPFOfEvenOddIndices(A) {
+    console.log('findPFOfEvenOddIndices :', A);
+    const evenPf = [];
+    const oddPf = [];
+
+    evenPf[0] = A[0]; // first even index is 0.
+    oddPf[0] = 0; // first odd index is 1. So assign 0 at 0th index.
+
+    for (let i = 1; i < A.length; i++) {
+        if (i % 2 == 0) {
+            evenPf[i] = evenPf[i - 1] + A[i];
+            oddPf[i] = oddPf[i - 1];
+        } else {
+            evenPf[i] = evenPf[i - 1];
+            oddPf[i] = oddPf[i - 1] + A[i];
+        }
+    }
+    console.log(evenPf, oddPf)
+
+}
+findPFOfEvenOddIndices([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+// evenPf - [1, 1, 4, 4, 9, 9, 16, 16, 25, 25]
+// oddPf - [0, 2, 2, 6, 6, 12, 12, 20, 20, 30]

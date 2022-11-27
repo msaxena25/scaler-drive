@@ -382,8 +382,11 @@ console.log(majorityElementsWithSort([4, 4, 1, 4, 4, 6, 1, 4, 1, 4]))
 console.log(majorityElementsWithSort([2, 2, 1, 1]))
 console.log(majorityElementsWithSort([1, 1, 2]))
 
+//! Moore's Voting Algorithm
+// https://www.programming9.com/tutorials/competitive-programming/428-moore-s-voting-algorithm
 
-//@ Marority problem with TC -  O(n) & SC - O(n)
+
+//@ Majority problem with TC -  O(n) & SC - O(1)
 function majorityFinal(A) {
     console.log('majorityFinal :', A);
     const n = A.length;
@@ -415,3 +418,222 @@ function majorityFinal(A) {
 console.log(majorityFinal([4, 4, 1, 4, 4, 6, 1, 4, 1, 4]))
 console.log(majorityFinal([2, 2, 1, 1]))
 console.log(majorityFinal([1, 1, 2]))
+
+
+/******************************************************* */
+
+//! Special Index
+/*
+Given an array, arr[] of size N, the task is to find the count of array indices such that removing an element from these indices makes the sum of even-indexed and odd-indexed array elements equal.
+
+Input Format
+First argument contains an array A of integers of size N
+
+Output Format
+Return the count of array indices such that removing an element from these indices makes the sum of even-indexed and odd-indexed array elements equal.
+
+Example Input
+Input 1:
+A=[2, 1, 6, 4]
+Input 2:
+A=[1, 1, 1]
+
+Example Output
+Output 1:
+1
+Output 2:
+3
+
+Explanation 1:
+Removing arr[1] from the array modifies arr[] to { 2, 6, 4 } such that, arr[0] + arr[2] = arr[1].
+Therefore, the required output is 1.
+Explanation 2:
+
+Removing arr[0] from the given array modifies arr[] to { 1, 1 } such that arr[0] = arr[1]
+Removing arr[1] from the given array modifies arr[] to { 1, 1 } such that arr[0] = arr[1]
+Removing arr[2] from the given array modifies arr[] to { 1, 1 } such that arr[0] = arr[1]
+Therefore, the required output is 3.
+ */
+
+//! Brute force solution
+
+//@ TC - O(n^2) & SC - O(1)
+function specialIndex(A) {
+    console.log('specialIndex :', A);
+    let countSpecialIndex = 0;
+    for (let i = 0; i < A.length; i++) {
+        let evenSum = 0; let oddSum = 0;
+        for (let j = 0; j < A.length; j++) {
+            let index = -1;
+            if (j < i) { // dont need to run for j == i
+                index = j;
+            } else if (j > i) { // as we have to remove jth index thats why did -1 from j and assign into index.
+                index = j - 1;
+            }
+            if (index > -1) {
+                if ((index) % 2 == 0) { // even index
+                    evenSum = evenSum + A[j];
+                } else {          // odd index
+                    oddSum = oddSum + A[j];
+                }
+            }
+        }
+        console.log(evenSum, oddSum)
+        if (evenSum == oddSum) {
+            countSpecialIndex++;
+            console.log('special index -', i)
+        }
+    }
+    return countSpecialIndex;
+
+}
+console.log(specialIndex([4, 3, 2, 7, 6, -2]))
+
+//! Optimized solution using prefix sum technique.
+
+/*
+
+Origional array arr = [3, 2, 6, 8, 2, 9, 7, 6, 4, 12]
+? Indices are          0  1  2  3  4  5  6  7  8   9
+
+    > Lets remove index 4.
+
+new array temp =      [3, 2, 6, 8, 9, 7, 6, 4, 12]
+? Indices are          0  1  2  3  4  5  6  7  8
+
+3, 2, 6, 8 values are still on the same position (index). It means there is no any changes in indices before index 4.
+9, 7, 6, 4, 12 values's indices are now decreased by 1.
+Before 9 was on index 5 and now it is on 4th.
+Before 7 was on index 6 and now it is on 5th.
+Before 6 was on index 7 and now it is on 6th.
+
+? Lets use prefix sum and find sum of elements-
+
+From new TEMP ARRAYS, Sum of all elements = pf[0, 3] + pf[4, 8]
+From Origional arrys, We will get same sum with = pf[0, 3] + pf[5, 9] // ignored index 4
+
+From temp arrays >
+@ Sum of even indices = evenPf[0, 3] + evenPf[4, 8]
+@ Sum of odd indices = oddPf[0, 3] + oddPf[4, 8]
+
+Rewrite the above same formula with Origional array ->
+
+@ Sum of even indices = evenPf[0, 3] + oddPf[5, 9]
+-- In resulting temp array - values on even indices 4 to 8 are 9, 6, 12.
+-- In Origional array -      values on odd indices 5 to 9 are  9, 6, 12. That's why we did  + oddPf[5, 9]
+
+@ Sum of odd indices = oddPf[0, 3] + evenpf[5, 9]
+
+
+*/
+
+
+//! Return prefix sum array of even and odd indices elements
+
+function findPFOfEvenOddIndices(A) {
+    console.log('findPFOfEvenOddIndices :', A);
+    const evenPf = [];
+    const oddPf = [];
+
+    evenPf[0] = A[0]; // first even index is 0.
+    oddPf[0] = 0; // first odd index is 1. So assign 0 at 0th index.
+
+    for (let i = 1; i < A.length; i++) {
+        if (i % 2 == 0) {
+            evenPf[i] = evenPf[i - 1] + A[i];
+            oddPf[i] = oddPf[i - 1];
+        } else {
+            evenPf[i] = evenPf[i - 1];
+            oddPf[i] = oddPf[i - 1] + A[i];
+        }
+    }
+    console.log(evenPf, oddPf)
+
+}
+findPFOfEvenOddIndices([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+
+//@ Special index problem with prefix sum.
+
+function specialIndexWithPF(A) {
+    console.log('specialIndexWithPF :', A);
+    const evenPf = [];
+    const oddPf = [];
+    const n = A.length;
+
+    evenPf[0] = A[0]; // first even index is 0.
+    oddPf[0] = 0; // first odd index is 1. So assign 0 at 0th index.
+
+    for (let i = 1; i < n; i++) {
+        if (i % 2 == 0) {
+            evenPf[i] = evenPf[i - 1] + A[i];
+            oddPf[i] = oddPf[i - 1];
+        } else {
+            evenPf[i] = evenPf[i - 1];
+            oddPf[i] = oddPf[i - 1] + A[i];
+        }
+    }
+    //console.log(evenPf, oddPf)
+    let specialIndexCount = 0;
+    for (let i = 0; i < n; i++) {
+        let evenSum = 0; let oddSum = 0;
+        if (i > 0) { // if i > 0 means, calculate left portion
+            evenSum = evenPf[i - 1]; // evenPf[0, i - 1] + oddPf[i + 1, n - 1];
+            oddSum = oddPf[i - 1]; // oddPf[0, i - 1] + evenPf[i + 1, n - 1];
+        }
+        evenSum += oddPf[n - 1] - oddPf[i] // oddPf[i + 1, n - 1]
+        oddSum += evenPf[n - 1] - evenPf[i]; // evenPf[i + 1, n - 1]
+        console.log(evenSum, oddSum);
+        if (evenSum == oddSum) {
+            specialIndexCount++;
+        }
+    }
+    return specialIndexCount;
+}
+console.log(specialIndexWithPF([4, 3, 2, 7, 6, -2]))
+
+
+/************************************* */
+
+
+//! Sum of even indices
+/*
+You are given an array A of length N and Q queries given by the 2D array B of size Q * 2.
+Each query consists of two integers B[i][0] and B[i][1].
+For every query, the task is to calculate the sum of all even indices in the range A[B[i][0]…B[i][1]].
+
+Output Format
+Return an array of integers.
+
+Input 1:
+A = [1, 2, 3, 4, 5]
+B = [[0, 2]
+[1, 4]]
+
+Output 1:
+[4, 8]
+ */
+
+function sumOfEvenIndicesElements(A, B) {
+    console.log('sumOfEvenIndicesElements :', A);
+    let pf = [];
+    pf[0] = A[0]; // 0 is even index
+    for (let i = 1; i < A.length; i++) {
+        if (i % 2 == 0) {
+            pf[i] = pf[i - 1] + A[i];
+        } else {
+            pf[i] = pf[i - 1];
+        }
+    }
+    let ans = [];
+    for (let i = 0; i < B.length; i++) {
+        let [a, b] = B[i];
+        if (a == 0) {
+            ans.push(pf[b]);
+        } else {
+            ans.push(pf[b] - pf[a - 1]);
+        }
+    }
+    return ans;
+}
+console.log(sumOfEvenIndicesElements([1, 2, 3, 4, 5], [[0, 2], [1, 4]]))

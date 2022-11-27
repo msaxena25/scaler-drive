@@ -272,6 +272,87 @@ function evenSubarrays(A) {
 }
 
 console.log(evenSubarrays([2, 4, 8, 7, 6]));
-console.log(evenSubarrays([2]));
-console.log(evenSubarrays([2, 4, 4, 6]));
-console.log(evenSubarrays([2, 4, 3, 4, 3, 4, 1]));
+console.log(evenSubarrays([2, 4, 5, 6]));
+// console.log(evenSubarrays([2]));
+// console.log(evenSubarrays([2, 4, 4, 6]));
+// console.log(evenSubarrays([2, 4, 3, 4, 3, 4, 1]));
+
+
+
+/*********************************************** */
+
+
+//! Pick from both sides!
+
+
+// https://www.scaler.com/academy/mentee-dashboard/class/40873/homework/problems/9900
+
+
+/*
+You are given an integer array A of size N.
+
+You have to pick B elements. Some or 0 elements from left end and some or 0 from the right end
+of array A to get the maximum sum.
+
+Find and return this maximum possible sum.
+
+Output Format
+Return an integer denoting the maximum possible sum of elements you picked.
+
+Example Input
+
+Input 1:
+A = [5, -2, 3, 1, 2]
+B = 3
+Input 2:
+A = [1, 2]
+B = 1
+
+Example Output
+Output 1:
+8
+
+Output 2:
+2
+
+Example Explanation
+Explanation 1:
+Pick element 5 from front and element(1, 2) from back so we get 5 + 1 + 2 = 8
+
+Explanation 2:
+Pick element 2 from end as this is the maximum we can get
+ */
+
+
+
+
+
+//!  Amazing Subarrays
+
+
+/*
+You are given a string S, and you have to find all the amazing substrings of S.
+An amazing Substring is one that starts with a vowel (a, e, i, o, u, A, E, I, O, U).
+
+Example
+
+Input
+    ABEC
+
+Output
+    6
+*/
+
+function countSubStringStartFromVowels(str) {
+    console.log('countSubStringStartFromVowels :', str);
+    let count = 0;
+    let vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+    for (let i = 0; i < str.length; i++) {
+        if (vowels.includes(str[i])) {
+            count += (str.length - i);
+        }
+    }
+    console.log(count);
+    return count;
+}
+countSubStringStartFromVowels('ABECEU'); //13
