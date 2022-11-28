@@ -111,7 +111,7 @@ ________       ________
 */
 
 /*
-@ Left Shift Opeartions-
+@ Left Shift Operations-
 
  a =      0  0  1  0  1  1  0  1  (45)
  a << 1 = 0  1  0  1  1  0  1  0  (90)
@@ -149,7 +149,7 @@ See left shift-
 n = 45 = 1 0 1 1 0 1    n = 45 = 1 0 1 1 0 1    n = 45 = 1 0 1 1 0 1    n = 45 = 1 0 1 1 0 1
 1 << 2 = 0 0 0 1 0 0    1 << 3 = 0 0 1 0 0 0    1 << 4 = 0 1 0 0 0 0    1 << 5 = 1 0 0 0 0 0
 OR     = 1 0 1 1 0 1    OR     = 1 0 1 1 0 1    OR     = 1 1 1 1 0 1   OR     = 1 0 1 1 0 1
-Result = 45                    = 45                     = 61                    = 45
+Result = 45                    = 45                    = 61                   = 45
 
 Observation in above calculation-
 
@@ -231,46 +231,276 @@ console.log(checkbitWithRightShift(711, 8))
 /******************************************* */
 
 
-//! Unset ith bit of a number if it is set, else no change.
+//! Set ith bit of a number if it is unset, else no change. (0 to 1)
 
-function unsetBit(num, i) {
-    console.log('unsetBit :', num, i, (num).toString(2));
+//? Used OR here Because 1 | 1 = 1 , 0 | 1 = 1, Means if bit is 1 then no change and if 0 then changed to 1.
+function changeUnsetToSet(num, i) {
+    console.log('changeUnsetToSet :', num, i, (num).toString(2));
     // return num | Math.pow(2, i);
     return num | (1 << i);
 
     // above both way are same. 2^i is same as 1 << i.
 
 }
-console.log(unsetBit(45, 2));
-console.log(unsetBit(45, 4));
-console.log(unsetBit(8, 3));
-console.log(unsetBit(8, 2));
+// console.log(changeUnsetToSet(45, 2));
+// console.log(changeUnsetToSet(45, 4));
+console.log(changeUnsetToSet(8, 3));
+console.log(changeUnsetToSet(8, 2));
+//console.log(changeUnsetToSet(4, 1));
+
+//! Unset ith bit if it is set- (1 to 0)
+
+function changeSetToUnsetBit(num, i) {
+    console.log('changeSetToUnsetBit :', num, i, (num).toString(2));
+    if ((num & (1 << i)) != 0) { // it it is not 0, means ith bit is 1
+        return num ^ (1 << i); // If ith bit is 1 change it to 0 by using XOR. 1 ^ 1 = 0
+    } else {
+        return num;
+    }
+}
+console.log(changeSetToUnsetBit(8, 3))
+console.log(changeSetToUnsetBit(8, 2))
+
 
 
 
 
 /******************************************* */
 
+//! What is the size of int?
+//@ In 16-bit operating systems, the int type is usually 16 bits, or 2 bytes. In 32-bit operating systems, the int type is usually 32 bits, or 4 bytes.
+
+//! 64-bit UNIX applications
+/*
+1 byte  = 8 bits
+
+Name    Length
+
+char	1 byte
+short	2 bytes
+int	    4 bytes
+long	8 bytes
+float	4 bytes
+double	8 bytes
+long double	16 bytes
+ */
+
+
+
+//! Count the number of set bits in given number.
+
+function countSetbits(num) {
+    console.log('countSetbits :', num, (num).toString(2));
+    let count = 0;
+    while (num > 0) {
+        if (num & 1 == 1) { // A & 1 == 1 if A's last bit is 1.
+            count++;
+        }
+        num = num >> 1; // one by one do right shift
+    }
+    console.log(count);
+    return count;
+
+}
+countSetbits(45);
+countSetbits(256);
+
+
+
+/********************************** */
+
+//! negative numbers -
+
+/*
+A geometric progression, GP is generally represented in form a, ar, ar2.... where 'a' is the first term and
+'r' is the common ratio of the progression.
+
+geometric progression a, ar, ar^2, ar^3, ...
+nth term: a(n) = ar^(n - 1)
+* Sum of the first n terms: Sn = a(r^n - 1) / (r - 1) when r ≠ 1
+*/
+
+//!  Most Significant Bit
+
+/*
+    If we take a look decimal number, 231, the most significant digit is the leading 2. Compared to the other two digits, the leading 2 determines the greatest part of the number's numerical value, as it signifies the hundreds in the number.
+
+If we take, for example, the binary number 11100111 (231 in decimal), and send it as a string of data of a network, we can send it in two ways: starting from left to right, or starting right to left. These two orderings are commonly called
+Most Significant Bit First, and Least Significant Bit First, respectively.
+
+*/
+
+//! MSB as signed Bit
+
+/* The msb can also be used to denote the sign bit of a binary number in it's one's or two's complement notation, with 1 meaning it's a negative number, and 0 meaning it's a positive number. */
+
+//! One's complement & two's complement
+
+/* One's complement of a binary number is obtained by simply inverting (flipping) all of it digits.
+In order to calculate a binary number's two's complement, we first determine it's one's complement (by swapping it's digits like before), and then adding 1 to it.
+In basic calculus, this two's complement will behave like the negative number of the starting bit sequence.
+ */
+
+//! The least significant bit
+
+/* The least significant bit is the right-most bit in a string. It is called that because it has the least effect on the value of the binary number, in the same way as the unit digit in a decimal number has the least effect on the number's value. The lsb also determines whether the given number is odd or even. The number 11100111 is an odd number, since it's lsb (1) is an odd number.
+ */
+
+//! Return negative number of given number.
+/*
+number = 45      1 0 1 1 0 1
+This is Int and int have 4 bytes (4 * 8 = 32 bit).
+
+Lets represent 45 in 8 bits = 0 0 1 0 1 1 0 1
+Flip all values             = 1 1 0 1 0 0 1 0      (1's Complement)
+Now add 1                   = 0 0 0 0 0 0 0 1
+                            ____________________
+                              1 1 0 1 0 0 1 1      (2's complement)
+Decimal result              = 211
+
+
+Now we know If MSB is 1 means it is - signed and if 0 then it + signed.
+
+*     1   1   0   1   0   0   1   1
+?    -128 64  32  16  8   4   2   1
+=   -45 */
+
+
+
+//! Range of Integer
+
+/*
+* Int = 32 bit
+
+    Min value = 1  0   0   0 ... .. 0   0   0         = -2^31 (why - because MSB is 1)
+?               31 30  29  28       2   1   0
+
+    Max value = 0  1   1   1 ... .. 1   1   1         = 2^31 - 1 (+ value, thats why we have written MSB as 0)
+?               31 30  29  28       2   1   0
+
+@  -2^31       = -2147483648   =  -2 * 10^9
+@  2^31 - 1    =  2147483647   =   2 * 10^9
+
+*/
+
+//! Create an array of 32 bit & If We will add all values result will be 2147483647 as mentioned above.
+function createArrayOfSize32() {
+    console.log('createArray :');
+    let arr = []
+    // loop will run from 0 to 30 for positive values because when last bit is 1, it consider as negative number.
+    for (let i = 0; i < 31; i++) {
+        arr.push(1 << i)
+    }
+    console.log(arr)
+    return arr;
+}
+//createArrayOfSize32();
+
+
+//! Range of Long
+
+/*
+* Long  = 64 bit
+
+Min Value   = -2^63      = -9 * 10^18
+Max Value   = 2^63 - 1   =  9 * 10^18
+
+*/
+
+
+//! Calculate sum of all given number in an array
+
+/**
+Constraints-
+1 <= N >= 10^5
+1 <= A[i] >= 10^6
+*/
+
+function sum(A) {
+    console.log('sum :', A);
+    let sum = 0;
+    for (let i = 0; i < A.length; i++) {
+        sum += A[i];
+    }
+    console.log(sum);
+}
+sum([1, 2, 3, 4, 5, 6, 7, 8, 9])
+sum([1 << 2, 1 << 3, 1 << 4, 1 << 5, 1 << 6]) // 1 << 2 means Math.pow(2, 2)
+
+//sum(createArrayOfSize32()) // 2147483647
+
+
+
+
+//! Lets Understand INT Overflow
+
+/**
+Constraints-
+1 <= N >= 10^5
+1 <= A[i] >= 10^6
+*/
+
+//! create an Array Of Size 10^5 With each value 10^6 as per constraints
+function createArrayWithMaxConstraintsValues() {
+    console.log('createArrayOfSize32WithMaxElements :');
+    let arr = [];
+    let value = Math.pow(10, 6); // max value of one element as per above Constraints.
+    let arrayRange = Math.pow(10, 5) // max length of array as per above constraints
+    // loop will run from 0 to 30 for positive values because when last bit is 1, it consider as negative number.
+    for (let i = 0; i < arrayRange; i++) {
+        arr.push(value)
+    }
+    //console.log(arr)
+    return arr;
+}
+//createArrayWithMaxConstraintsValues(); // [10^6, 10^6, 10^6, 10^6.. .........]
+sum(createArrayWithMaxConstraintsValues()); // 100000000000 = 10^11
+
+// We can calculate with simple maths = 10^6 * 10^5 = 10^11.
+
+
+//@ Integer has max limit of 10^9 only. But here total sum of 10^11 so it can not store in Integer & Will raise error as INT OVERFLOW when called sum of each value.
+
+// * NOTE - Locally In JavaScript we can not see any error because, in Javascript there is VAR, no int or long. But we can see this error on Online editor platforms like Leetcode Or In other languages like Java and C.
+
+//? SOLUTION OF INT OVERFLOW - take sum variable as LONG.
+
+
+
+
+//! INT OVERFLOW WHEN DOING MULTIPLICATION OF 2 MAX VALUES
+/*
+Constraints -
+
+    a >= 2 * 10 ^ 9;
+b >= 2 * 10 ^ 9;
+
+var c = a * b; // 4 * 10^18  (INT OVERFLOW)
+
+var c = a * b;
+parseInt(c); // Still same problem because overlow will happen during multiplication step.
+
+var c = parseInt(a) * b; // will work.
+ */
+
+
+
+
+
+
+
+
+
+
+
+
 
 //param A : integer
 //param B : integer
 //return an integer
 function DecimalToAnyBase(A, B) {
-    //   return (A).toString(B);
-
-    if (A < B) { // 0 1 2
-        return A;
-    }
-    let ans = Math.floor(A / B).toString();
-    A = Math.floor(A % B);
-    while (A > B) {
-        A = Math.floor(A % B);
-        ans += Math.floor(A / B).toString();
-    }
-    if (A < B) {
-        ans = ans.toString() + (A).toString();
-    }
-    return ans;
+    console.log('DecimalToAnyBase :', A, B);
+    return (A).toString(B);
 
 }
 
@@ -335,6 +565,36 @@ function anyBaseToDecimal(A, B) {
     }
     console.log(sum)
     return sum;
+    // return parseInt(A, B); // smallest way
 }
 anyBaseToDecimal(22, 3);
 anyBaseToDecimal(1010, 2);
+
+
+//! You are given two integers A and B. Set the A-th bit and B-th bit in 0, and return output in decimal.
+
+/*
+Example Input
+Input 1:
+A = 3
+B = 5
+Input 2:
+A = 4
+B = 4
+
+
+Example Output
+Output 1:
+40
+Output 2:
+16
+*/
+
+function setBit(A, B) {
+    console.log('setBit :', A, B);
+    return (1 << A) | (1 << B); // smallest way
+
+    // A = 3, 2^3 = 8  =   1000
+    // B = 5, 2^5 = 32 = 100000
+}
+console.log(setBit(3, 5))

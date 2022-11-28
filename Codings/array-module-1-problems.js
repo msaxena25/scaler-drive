@@ -637,3 +637,92 @@ function sumOfEvenIndicesElements(A, B) {
     return ans;
 }
 console.log(sumOfEvenIndicesElements([1, 2, 3, 4, 5], [[0, 2], [1, 4]]))
+
+
+/***************************************** */
+
+
+//! Josephus Problem - 2 (Knife problem)
+
+/*
+There are A people standing in a circle. Person 1 kills their immediate clockwise neighbour and pass the knife to the next person standing in circle. This process continues till there is only 1 person remaining. Find the last person standing in the circle. 
+
+Example Input
+Input 1:
+A = 4
+Input 2:
+A = 5
+
+
+Example Output
+Output 1:
+1
+Output 2:
+3
+
+*/
+
+
+/*
+ * Let's understand some values first when 1 always start the game. (Try with pen and paper)
+
+n = 2 (1, 2) => 1 will win. (because 1 have knife & will kill to 2)
+n = 3 (1,2,3) => 3 will win.
+n = 4 (1,2,3,4) => 1 will win.
+n = 5 (1,2,3,4,5) => 3 will win.
+n = 6 (1,2,3,4,5,6) => 5 will win.
+n = 7 (1,2,3,4,5,6,7) => 7 will win.
+n = 8 (1,2,3,4,5,6,7,8) => 1 will win.
+n = 9 (1,2,3,4,5,6,7,8,9) => 3 will win.
+n = 10 (1,2,3,4,5,6,7,8,9, 10) => 5 will win.
+n = 11 (1,2,3,4,5,6,7,8,9, 10, 11) => 7 will win.
+..
+..
+n = 16 (1,2,3,4,5,6,7,8,9,... 16)  => 1 will win.
+
+
+@ OBSERVATIONS-
+
+* 1. If 1 starts the game then Odd number will always win, because all even numbers will be killed in the first round.
+* When n = 2 (2^1) or 4 (2^2) or 8 (2^3) or 16 (2^4) or (2^5)..... in this case, who has knife, he is winner.
+* If 1 starts the game-
+    - After 1 kill who have knife - 3
+    - After 2 kills who have knife - 5
+    - After 3 kill who have knife - 7
+    - After 4 kill who have knife - 9
+    - After 5 kill who have knife - 11
+    ..
+    ..
+    - After k kill who have knife - 1 + 2 * k
+    - After 20 kills who have knife - 1 + 2 * 20 = 41.
+    - After 36 kill who have knife - 1 + 2 * 36 = 73.
+
+* If n = 5, 3 is winner.
+    - We know that if n is 4 & if 1 have knife then 1 wins.
+    - So If there are 5 person and lets kill 1 then remaining are 4 and currently 3 has knife, so 3 will win.
+* If n is 7, 7 is winner.
+    - Nearest 7, 4 comes in 2 to the power. (2^2)
+    - To reach 4, we need to kills 3 persons (7 - 3 = 4).
+    - After 3 kills , who have knife = 1 + 2 * k = 1 + 2 * 3 = 7 will win.
+* If n is 11, 7 is winner.
+     - Nearest 11, 8 comes in 2 to the power. (2^3)
+    - To reach 8, we need to kills 3 persons (11 - 3 = 8).
+    - After 3 kills , who have knife = 1 + 2 * k = 1 + 2 * 3 = 7 will win.
+
+* If n is 40, who is winner?
+     - Nearest 40, 32 comes in 2 to the power. (2^5)
+    - To reach 32, we need to kills 8 persons (40 - 8 = 32).
+    - After 8 kills , who have knife = 1 + 2 * k = 1 + 2 * 8 = 17 will win.
+
+ */
+
+function winner(A) {
+    console.log('winner :', A);
+    let logOfA = Math.floor(Math.log2(A));
+    let requiredKills = A - Math.pow(2, logOfA);
+    return 1 + 2 * requiredKills;
+
+
+}
+console.log(winner(40))
+console.log(winner(100))
