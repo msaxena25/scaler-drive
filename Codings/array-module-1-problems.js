@@ -726,3 +726,130 @@ function winner(A) {
 }
 console.log(winner(40))
 console.log(winner(100))
+
+
+
+/********************************** */
+
+//! Bulbs
+
+/*
+A wire connects N light bulbs.
+
+Each bulb has a switch associated with it; however, due to faulty wiring, a switch also changes the state of all the bulbs to the right of the current bulb.
+
+Given an initial state of all bulbs, find the minimum number of switches you have to press to turn on all the bulbs.
+
+You can press the same switch multiple times.
+
+Note: 0 represents the bulb is off and 1 represents the bulb is on.
+
+0 <= N <= 5×105
+0 <= A[i] <= 1
+
+Example Input
+Input 1:
+ A = [0, 1, 0, 1]
+Input 2:
+ A = [1, 1, 1, 1]
+
+
+Example Output
+Output 1:
+ 4
+Output 2:
+ 0
+ */
+
+//@ Brute Force Solution - O(n^2)
+function swithOnAllBulbs(A) {
+    console.log('swithOnAllBulbs :', A);
+    if (A.length == 0) {
+        return 0;
+    }
+    let sum = 0;
+    for (let i = 0; i < A.length; i++) {
+        sum += A[i];
+    }
+    if (sum == 0) { // all given values are 0, So just switch on first bulb & it will make On to all rights one.
+        return 1;
+    }
+    if (sum == A.length) { // it means all bulbs are already On.
+        return 0;
+    }
+    let count = 0;
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] == 0) { // off state
+            count++;
+            let j = i;
+            while (j < A.length) {
+                A[j] = A[j] ^ 1; // 1 ^ 1 = 0 , 0 ^ 1 = 1
+                j++;
+            }
+        }
+    }
+    return count;
+}
+console.log(swithOnAllBulbs([0, 1, 0, 1]))
+console.log(swithOnAllBulbs([0, 0, 0, 0]))
+console.log(swithOnAllBulbs([1, 1, 1]))
+console.log(swithOnAllBulbs([]))
+
+
+
+//@ TC = O(n)
+
+/*
+* Lets understand LOGIC Step by step with below one example.
+
+* 1, 1, 0, 0, 1, 1, 0, 0, 1 (Values)
+? 0  1  2  3  4  5  6  7  8 (Indices)
+
+Initially switch Count will be 0.
+
+> Index 0 - Here Switch count is 0 (means we did not perform any switch operation till now) & Value is 1 means at this position bulb is already ON so no need to make any change.
+> Index 1 - Same as Index 0.
+> Index 2 - Switch Count is still 0, it means no any switch operation has been done before. Here Bulb is OFF means 0, so we have to switch ON this and changed to 1. Now switch Count is increased by 1.
+> Index 3 - At this point now switch count is 1 means one operation has been done before. The initial value was 0 which must have been changed to 1 by previos 1 operation. Means current value is 1 (Bulb ON). so no need to make any further change here.
+> Index 4 - Switch count is 1 & Here Initial value was 1 and till now one operation has been done that means its value must be changed to 1 to 0 that means Currently Bulb is Off and We have to turn it ON (make it 1). So Now Switch count will be 2.
+> Index 5 -  Initial value is 1 & Switch opeartion count is 2. So state changes from 1 to 0 and 0 to 1. Current value is 1 means bulb is ON, So any further action here.
+> Index 6 - Initial Value is 0 and switch count is 2, means 0 to 1 then 1 to 0. Current value is 0 so changed it to 1, So now switch Count will go to 3.
+> Index 7 - Initial Value is 0 and switch count is 3. 0 > 1 > 0 > 1. So currently bulb is ON  so no change.
+> Index 8 - Initial Value is 1 and switch count is 3. 1 > 0 > 1 > 0. So currently bulb is OFF so make it ON (1). So now switch count is 4.
+
+* So at last Minimum switch operation required to ON all bulbs is 4.
+
+
+@ OBSERVATIONS
+
+1. We have to focus on switch operations count. Either it will be a Odd number or even number.
+2. When count is an Odd number, It means current state is different from Initial stage.
+    Switch Count = 3, Initial value 1 then states will be 1 > 0 > 1 > 0.
+    Switch Count = 5, Initial value 1 then states will be 1 > 0 > 1 > 0 > 1> 0.
+    Switch Count = 7, Initial value 0 then states will be 0 > 1 > 0 > 1 > 0 > 1 > 0 > 1.
+3. When switch count is Even number, It means current state is same as Initial stage.
+    Switch Count = 2, Initial value 1 then states will be 1 > 0 > 1.
+    Switch Count = 4, Initial value 1 then states will be 1 > 0 > 1 > 0 > 1.
+    Switch Count = 8, Initial value 0 then states will be 0 > 1 > 0 > 1 > 0 > 1 > 0 > 1 > 0.
+
+4. If last state of a particular index is 0 (means bulb is off) Just increase count by 1.
+
+
+ */
+function swithOnAllBulbsOptimized(A) {
+    console.log('swithOnAllBulbsOptimized :', A);
+    let switchOperation = 0;
+    for (let i = 0; i < A.length; i++) {
+        if (A[i] == 0 && switchOperation % 2 == 0) {
+            switchOperation++;
+        } else if (A[i] == 1 && switchOperation % 2 != 0) {
+            switchOperation++;
+        }
+
+    }
+    return switchOperation;
+}
+console.log(swithOnAllBulbsOptimized([0, 1, 0, 1]))
+console.log(swithOnAllBulbsOptimized([0, 0, 0, 0]))
+console.log(swithOnAllBulbsOptimized([1, 1, 0, 0, 1, 1, 0, 0, 1]))
+console.log(swithOnAllBulbsOptimized([]))
