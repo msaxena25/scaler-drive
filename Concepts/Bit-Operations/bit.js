@@ -485,16 +485,6 @@ var c = parseInt(a) * b; // will work.
 
 
 
-
-
-
-
-
-
-
-
-
-
 //param A : integer
 //param B : integer
 //return an integer
@@ -598,3 +588,91 @@ function setBit(A, B) {
     // B = 5, 2^5 = 32 = 100000
 }
 console.log(setBit(3, 5))
+
+//! XOR Sum
+
+/* Given two integers A and B. Find the minimum value (A ⊕ X) + (B ⊕ X) that can be achieved for any X.
+
+where P ⊕ Q is the bitwise XOR operation of the two numbers P and Q.
+
+Example Input
+Input 1:-
+A = 6
+B = 12
+Input 2:-
+A = 4
+B = 9
+
+Example Output
+Output 1:-
+10
+output 2:-
+13
+
+Example Explanation
+Expanation 1:-
+X ^ A + X ^ B = 10 when X = 8
+Explanation 2:-
+X ^ A + X ^ B = 13 when X = 1
+*/
+
+
+//@ Giving TLE error for large set of data..............
+//!TODO
+function xorSum(A, B) {
+    console.log('xorSum :', B - A);
+    let ans = Number.MAX_SAFE_INTEGER;
+    let start = A < B ? A : B;
+    let limit = A > B ? A : B;
+    for (let i = start; i <= limit; i++) {
+        let xor = (A ^ i) + (B ^ i);
+        if (xor < ans) {
+            ans = xor;
+            console.log(ans, i)
+        }
+    }
+    return ans;
+}
+console.log(xorSum(6, 12))
+console.log(xorSum(4, 9))
+// console.log(xorSum(967654297, 437680754)) //599474667
+// console.log(xorSum(77136780, 840287549)) //915195569
+
+
+//! Subarrays with Bitwise OR 1
+
+/*
+Given an array B of length A with elements 1 or 0. Find the number of subarrays such that the bitwise OR of all the elements present in the subarray is 1.
+
+A = 3
+B = [1, 0, 1]
+Output
+5
+
+The subarrays are :- [1], [0], [1], [1, 0], [0, 1], [1, 0, 1]
+Except the subarray [0] all the other subarrays has a Bitwise OR = 1
+
+*/
+
+//@ Giving TLE error for large set of data..............
+//!TODO
+function subarraysWithBitwise(B) {
+    console.log('subarraysWithBitwise :', B);
+    let count = 0;
+    for (let i = 0; i < B.length; i++) {
+        if (B[i] == 1) {
+            count++;
+        }
+        let orResult = B[i];
+        for (let j = i + 1; j < B.length; j++) {
+            orResult = orResult | B[j];
+            if (orResult) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+console.log((subarraysWithBitwise([1, 0, 1])))
+console.log((subarraysWithBitwise([1, 0])))
+console.log((subarraysWithBitwise([1, 0, 0])))

@@ -8,8 +8,8 @@
             "strikethrough": false,
             "underline": false,
             "backgroundColor": "transparent",
-            "bold": false,
-            "italic": false
+            "bold": true,
+            "italic": false,
         },
         {
             "tag": "?",
