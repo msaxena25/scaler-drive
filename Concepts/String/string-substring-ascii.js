@@ -194,6 +194,19 @@ function sortedChar(A) {
 // TC - O( nlog(n) )
 sortedChar(['d', 'b', 'd', 'c', 'a']);
 
+//! Comparator in JavaScript
+
+/*
+* Comparing a < b
+
+1. If you want a to come before b, return -1.
+2. If you want a and b both have same rank, return 0
+3. If you want b to come before a, return 1
+
+*/
+
+
+
 /*
 * O(n) solution-
 
