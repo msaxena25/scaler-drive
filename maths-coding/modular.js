@@ -291,3 +291,42 @@ output - 2
 (2 ^ 3) % 3 = 8 % 3 = 2
 */
 
+//? Brute force - Will not work for very large values (give NaN )
+function powerWithModules(A, B, C) {
+    console.log('powerWithModules :', A, B, C);
+    return Math.pow(A, B) % C;
+}
+console.log(powerWithModules(2, 3, 5))
+console.log(powerWithModules(211111111, 31111, 51111)); //NaN
+//console.log(powerWithModules((Math.pow(10, 9)), Math.pow(10, 5), Math.pow(10, 9)));
+
+//? Brute force - Range Error For very long values (will give NaN)
+function powerWithModules1(A, B, C) {
+    console.log('powerWithModules1 :', A, B, C);
+    let power = 1;
+    for (let i = 1; i <= B; i++) {
+        power = power * A;
+    }
+
+    return power % C;
+}
+console.log(powerWithModules1(2, 3, 5));
+console.log(powerWithModules1(211111111, 31111, 51111)); //NaN
+//console.log(powerWithModules1((Math.pow(10, 9)), Math.pow(10, 5), Math.pow(10, 9)));
+
+
+//@ Optimized way
+function powerWithModules2(A, B, C) {
+    console.log('powerWithModules2 :', A, B, C);
+    let ans = 1;
+    for (let i = 0; i <B; i++) {
+        ans = (ans * A)%C; // at every step mod with C
+    }
+
+    return ans;
+}
+console.log(powerWithModules2(2, 3, 5));
+console.log(powerWithModules2(9, 0, 7));
+console.log(powerWithModules2(211111111, 31111, 51111)); //18793
+console.log(powerWithModules2(637759701, 48998, 296839866)); //36291
+//console.log(powerWithModules2((Math.pow(10, 9)), Math.pow(10, 5), Math.pow(10, 9)));
