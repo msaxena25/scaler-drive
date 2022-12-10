@@ -170,3 +170,41 @@ sortArrayBasedOnFactorsUsingInbuiltMethod([6, 8, 9, 6])
 sortArrayBasedOnFactorsUsingInbuiltMethod([8, 7, 53, 2, 31, 0, 97, 5, 6, 4]) //  [0, 2, 5, 7, 31, 53, 97, 4, 6, 8]
 
 
+//! Longest Number
+
+/*
+Given an array A of non-negative integers, arrange them such that they form the largest number.
+
+Note: The result may be very large, so you need to return a string instead of an integer.
+Return a string representing the largest number.
+
+ A = [3, 30, 34, 5, 9]
+ output -  "9534330"
+ Reorder the numbers to [9, 5, 34, 3, 30] to form the largest number.
+ */
+
+function formLargestNumber(A) {
+    console.log('formLargestNumber :', A);
+    A.sort((a, b) => {
+        if (String(a).length == String(b).length) {
+            if (a > b)
+                return -1;
+        } else {
+            let a1 = a + (b).toString();
+            let a2 = b + (a).toString();
+            if (a1 > a2)
+                return -1;
+        }
+    })
+    let ans = A.join('');
+    if (ans == 0) {
+        return 0;
+    } else {
+        return ans;
+    }
+}
+// TC - nlogn
+console.log(formLargestNumber([3, 30, 34, 5, 9]))
+console.log(formLargestNumber([0, 0, 0]))
+console.log(formLargestNumber([0, 0, 1]))
+console.log(formLargestNumber([472, 663, 964, 722, 485, 852, 635, 4, 368, 676, 319, 412, 4])) //9648527226766636354854724412368319

@@ -39,10 +39,13 @@ Similarly if you press "a", the ASCII value will be 097 which is equivalent to 0
 
 function asciiValuesOfCapsChar() {
     console.log('ascii Values Of Capital Letters:');
+    let ans = '';
     let alphabets = 'ABCDEFGHIJKLMNOPQUERSTUVWXYZ';
     for (let i = 0; i < alphabets.length; i++) {
-        console.log(alphabets[i], alphabets.charCodeAt(i));
+        //console.log(alphabets[i], alphabets.charCodeAt(i));
+        ans = ans + alphabets[i] + ' ' + alphabets.charCodeAt(i) + ', ';
     }
+    console.log(ans)
 }
 asciiValuesOfCapsChar()
 
@@ -50,9 +53,12 @@ asciiValuesOfCapsChar()
 function asciiValuesOfSmallChar() {
     console.log('ascii Values Of Small Letters:');
     let alphabets = 'abcdefghijklmnopquerstuvwxyz';
+    let ans = '';
     for (let i = 0; i < alphabets.length; i++) {
-        console.log(alphabets[i], alphabets.charCodeAt(i));
+        //console.log(alphabets[i], alphabets.charCodeAt(i));
+        ans = ans + alphabets[i] + ' ' + alphabets.charCodeAt(i) + ', ';
     }
+    console.log(ans)
 }
 asciiValuesOfSmallChar();
 
@@ -72,10 +78,13 @@ findAsciiOfChar();
 
 function asciiCodeOfNumberChars() {
     console.log('asciiCodeOfNumberChars :');
+    let ans = '';
     for (let i = 0; i < 10; i++) {
-        console.log(i, i.toString().charCodeAt())
-
+        //console.log(i, i.toString().charCodeAt())
+        ans = `${ans} '${i}' ${i.toString().charCodeAt()}, `;
+        //ans = ans +  + ' ' + i.toString().charCodeAt() + ', ';
     }
+    console.log(ans)
 }
 asciiCodeOfNumberChars();
 
@@ -130,9 +139,8 @@ function toggleStringUsingAsciiRange(str) {
         // Will not work like this: str[i] = String.fromCharCode(code); Because string is primitive data type.
         ans += String.fromCharCode(code)
     }
-    console.log(ans)
-
-
+    console.log(ans);
+    return ans;
 }
 toggleStringUsingAsciiRange('MOHITSaxenA');
 
@@ -193,6 +201,8 @@ function sortedChar(A) {
 }
 // TC - O( nlog(n) )
 sortedChar(['d', 'b', 'd', 'c', 'a']);
+
+
 
 //! Comparator in JavaScript
 
@@ -408,8 +418,8 @@ Longest substring length = 5
 */
 
 
-function longestPalindrome(str) {
-    console.log('longestPalindrome :', str);
+function longestPalindromeLength(str) {
+    console.log('longestPalindromeLength :', str);
     let ans = 0;
 
     // This loop will check only for Odd number substring
@@ -423,21 +433,26 @@ function longestPalindrome(str) {
             l--;
             r++;
         }
-        let len = (r - 1) - (l + 1) + 1;
+        let len = (r - 1) - (l + 1) + 1; // take the previous value of r and l.
         if (len > ans) {
             ans = len;
         }
     }
 
     /*   This loop will check even number of substring
-      Assume two chars as a center and then start left and right.
+      Assume two chars as a middle and then traverse left and right.
       So start from index 1.
       For index 1 - index 0 & 1 assume two char as middle.
       For index 2 - index 1 & 2 assume two char as middle.
-      thats why l will be: i-2; */
+      thats why l will be: i-2;
+      If Middle two chars are not same then no need to continue inner while loop.
+      */
     for (let i = 1; i < str.length; i++) {
         let l = i - 2;
         let r = i + 1;
+        if (str[i] != str[i - 1]) {
+            continue;
+        }
         while (l >= 0 && r < str.length) {
             if (str[l] != str[r]) {
                 break;
@@ -452,5 +467,217 @@ function longestPalindrome(str) {
     }
     return ans;
 }
-console.log(longestPalindrome('abbada'))
-console.log(longestPalindrome('xbdyzzydbdyzydx'))
+console.log(longestPalindromeLength('abbada'))
+console.log(longestPalindromeLength('xbdyzzydbdyzydx'))
+console.log(longestPalindromeLength('aaaabaaa'))
+
+
+//! Longest Palindrome
+
+// TC - O(n^3)
+//@ This give error of 'Time Limit exceeded'
+function longestPalindrome1(str) {
+    console.log('longestPalindrome :', str);
+    let ans = '';
+    for (let i = 0; i < str.length; i++) {
+        let temp = str[i];
+        if (temp.length > ans.length) {
+            ans = temp;
+        }
+        for (let j = i + 1; j < str.length; j++) {
+            temp += str[j];
+            let s = 0;
+            let e = temp.length - 1;
+            while (s < e) {
+                if (temp[s] != temp[e]) {
+                    break;
+                }
+                s++;
+                e--;
+            }
+            if (s == e || s > e) {
+                if (temp.length > ans.length) {
+                    ans = temp;
+                }
+
+            }
+        }
+    }
+    return ans;
+}
+
+// TC - O(n^2) , SC - O(n)
+//@ This gives error 'Memory Limit Exceeded' when run on Online editor platform
+function longestPalindrome2(str) {
+    console.log('longestPalindrome :', str);
+    let ans = '';
+    let subs = [];
+    for (let i = 0; i < str.length; i++) {
+        let temp = str[i];
+        subs.push(temp);
+        for (let j = i + 1; j < str.length; j++) {
+            temp += str[j];
+            subs.push(temp);
+        }
+    }
+    for (let i = 0; i < subs.length; i++) {
+        let s = 0;
+        let el = subs[i];
+        let e = el.length - 1;
+        while (s < e) {
+            if (el[s] != el[e]) {
+                break;
+            }
+            s++;
+            e--;
+        }
+        if (s == e || s > e) {
+            if (el.length > ans.length) {
+                ans = el;
+            }
+
+        }
+
+    }
+    return ans;
+}
+console.log(longestPalindrome2('abbada'))
+console.log(longestPalindrome2('ac'))
+console.log(longestPalindrome2('a'))
+let bigStr = "abcdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
+//console.log(longestPalindrome(bigStr))
+
+
+
+//@ Optimized way with O(n^2)
+
+function longestPalindrome3(str) {
+    console.log('longestPalindrome3 :');
+    let ans = '';
+    for (let i = 0; i < str.length; i++) {
+        let l = i - 1;
+        let r = i + 1;
+        let leftStr = '';
+        let rightStr = '';
+        while (l >= 0 && r < str.length) {
+            if (str[l] != str[r]) {
+                break;
+            }
+            leftStr = str[l] + leftStr;
+            rightStr += str[r];
+            l--;
+            r++;
+        }
+        // In case left and right str is blank, it means there is single char str(i) and that is always a palidrome.
+        let pal = leftStr + str[i] + rightStr;
+        if (pal.length > ans.length) {
+            ans = pal;
+        }
+    }
+
+    // Taking two chars as middle.
+    for (let i = 1; i < str.length; i++) {
+        let l = i - 2;
+        let r = i + 1;
+        let leftStr = '';
+        let rightStr = '';
+
+        // If two chars are not same then no need to proceed further while code.
+        if (str[i] != str[i - 1]) {
+            continue;
+        }
+        while (l >= 0 && r < str.length) {
+            if (str[l] != str[r]) {
+                break;
+            }
+            leftStr = str[l] + leftStr;
+            rightStr += str[r];
+            l--;
+            r++;
+        }
+        // If left and right str is blank, it means there are two chars only so we have to check for that.
+        // If those two chars are same then only considered as palindrome.
+        let pal = leftStr + str[i - 1] + str[i] + rightStr;
+        if (pal.length > ans.length) {
+            ans = pal;
+        }
+    }
+    console.log(ans);
+    return ans;
+}
+longestPalindrome3('abb');
+longestPalindrome3('abbccbb');
+longestPalindrome3('aaaabaaa');
+longestPalindrome3(bigStr)
+
+
+//!  Simple Reverse
+
+/*
+Given a string A, you are asked to reverse the string and return the reversed string.
+
+ A = "academy"
+ output- "ymedaca"
+*/
+
+function reverseSimple(str) {
+    console.log('reverseSimple :', str);
+    let i = str.length - 1;
+    let ans = '';
+    while (i >= 0) {
+        ans += str[i];
+        i--;
+    }
+    console.log(ans);
+}
+reverseSimple('academy')
+reverseSimple('My Name is Mohit');
+
+
+//!  Reverse the String
+
+
+/*
+You are given a string A of size N.
+Return the string A after reversing the string word by word.
+
+"the sky is blue" // output -  "blue is sky the"
+*/
+
+function reverseString(str) {
+    let arr = str.split(' ');
+    let i = arr.length - 1;
+    let ans = [];
+    while (i >= 0) {
+        ans.push(arr[i]);
+        i--;
+    }
+    return ans.join(' ');
+}
+
+console.log(reverseString('the sky is blue'))
+
+
+//@ TC - O(n)
+function reverseString1(str) {
+    let ans = '';
+    let temp = '';
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] != ' ') {
+            temp += str[i];
+        }
+        // when char is space, append temp with ans.
+        // Ignore multiple spaces arround words
+        if (str[i] == ' ' && str[i - 1] != ' ') {
+            ans = ' ' + temp + ans;
+            temp = '';
+        }
+        // when we reach last index.
+        if (i == str.length - 1) {
+            ans = temp + ans;
+        }
+    }
+    return ans;
+}
+console.log(reverseString1('My   name is   mohit')) //mohit is name My
+console.log(reverseString1('the sky     is blue')) //blue is sky the
