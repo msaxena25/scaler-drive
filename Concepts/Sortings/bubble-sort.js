@@ -208,3 +208,78 @@ console.log(formLargestNumber([3, 30, 34, 5, 9]))
 console.log(formLargestNumber([0, 0, 0]))
 console.log(formLargestNumber([0, 0, 1]))
 console.log(formLargestNumber([472, 663, 964, 722, 485, 852, 635, 4, 368, 676, 319, 412, 4])) //9648527226766636354854724412368319
+
+
+//!  Elements Removal
+
+
+/*
+Given an integer array A of size N. You can remove any element from the array in one operation.
+The cost of this operation is the sum of all elements in the array present before this operation.
+
+Find the minimum cost to remove all elements from the array.
+
+Input = [3, 6, 2, 4]
+Output = 31
+*/
+
+
+/*
+@ HINT-
+
+- Sort array in descending order
+- Cost of removing an item is sum of all elements in the array present before this operation.
+- So in starting, if we remove any item, cost will be sum of all elements, Either you remove small item or large item, so benifit is in removing large item, so that it is not included in further operation.
+- Same we have to do with remaining items, always remove large item first.
+- That why we have sorted array in descending order.
+- First cost will be sum of all elements then for next iteration, remove previous element from sum to get sum of remaining items.
+*/
+
+
+
+// TC - nlogn
+function elementRemoval(A) {
+    console.log('elementRemoval :', A);
+    A.sort((a, b) => b - a) // decreasing order. larger to smaller
+    let cost = 0;
+    for (let i = 0; i < A.length; i++) {
+        cost += A[i]; // sum of all elements
+    }
+    let sum = cost;
+    for (let i = 1; i < A.length; i++) {
+        sum = (sum - A[i - 1]); // sum of remaining items
+        cost = cost + sum;
+    }
+    return cost;
+
+}
+console.log(elementRemoval([3, 6, 2, 4]))
+console.log(elementRemoval([2, 1]))
+console.log(elementRemoval([]))
+
+
+//@ Trick 2 to calculate sum
+
+/*
+Lets take a example [a, b, c, d] where elements are in descending order.
+Remove a, cost  = a + b + c + d;
+Remove b, cost  =  b + c + d;
+Remove c, cost = c + d;
+Remove d, cost  = d;
+
+? Observation-
+Observe above removal process, we see that first item appears 1 time, second item appears 2 times. 3rd 3 times and 4th 4 times in cost calculation.
+So cost = cost +  A[i] * (i + 1);
+*/
+
+function elementRemoval1(A) {
+    console.log('elementRemoval1 :', A);
+    A.sort((a, b) => b - a) // decreasing order. larger to smaller
+    let cost = 0;
+    for (let i = 0; i < A.length; i++) {
+        cost = cost + A[i] * (i + 1);
+    }
+    return cost;
+}
+console.log(elementRemoval1([3, 6, 2, 4]))
+console.log(elementRemoval1([2, 1]))

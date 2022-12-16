@@ -138,7 +138,7 @@ A = [1, 3]
 
 /**
 ** STEPS -
-1. Find MAX AND MIN value from aray
+1. Find MAX AND MIN value from array
 2. If they are same means every items of the array are same then return 1.
 3. In worst case - answer could be array.length (means first element and last element are only min or max value)
 4. Take two variables minIndex and maxIndex. Initially they are -1.

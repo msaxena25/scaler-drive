@@ -453,7 +453,7 @@ printBoundriesClockWiseWhileLoop(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9
 
 
 
-//@ Below program is same as above , Just one difference is starting element. in while loop
+//@ Below program is same as above , Just one difference is starting element, in while loop
 // - In first while loop - we read  1 2 3 4
 // - In Second while loop - we read  8 12 16
 // - In third while loop - we read   15 14 13

@@ -315,15 +315,23 @@ console.log(powerWithModules1(211111111, 31111, 51111)); //NaN
 //console.log(powerWithModules1((Math.pow(10, 9)), Math.pow(10, 5), Math.pow(10, 9)));
 
 
-//@ Optimized way
+//@ Optimized way - at each iteration Mod with C to reduce size of answer & use BigInt.
+
+//! BigInt - BigInt values represent numeric values which are too large to be represented by the number primitive.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
+
+
 function powerWithModules2(A, B, C) {
     console.log('powerWithModules2 :', A, B, C);
-    let ans = 1;
-    for (let i = 0; i <B; i++) {
-        ans = (ans * A)%C; // at every step mod with C
+    let ans = BigInt(1);
+    A = BigInt(A);
+    B = BigInt(B);
+    C = BigInt(C);
+    for (let i = 0; i < B; i++) {
+        ans = (ans * A) % C; // at every step mod with C
     }
 
-    return ans;
+    return Number(ans);
 }
 console.log(powerWithModules2(2, 3, 5));
 console.log(powerWithModules2(9, 0, 7));
