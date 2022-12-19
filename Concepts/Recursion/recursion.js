@@ -139,3 +139,290 @@ function checkPalindrome(A, s, e) {
 }
 console.log(checkPalindrome('naman', 0, 4))
 console.log(checkPalindrome('pencil', 0, 5))
+
+
+//! Given a and n Find a^n Using recursion. (It should not be overflow)
+
+/*
+@ Recursive manner -
+
+@ Lets devide a problem into a subproblem
+
+2^5  = 2 * 2 * 2 * 2 * 2 = 32
+2^5  = 2^4 * 2 (I can also do this)
+2^n  = 2^n-1 * 2
+..
+..
+a^n = a^n-1 * a
+
+pow(a, n) = pow(a, n-1) * a;
+
+
+*/
+
+console.log('Find a to the power n')
+
+function power1(a, n) {
+    if (n == 0) {
+        return 1;
+    }
+    return power1(a, n - 1) * a;
+}
+console.log(power1(2, 5));
+console.log(power1(2, 50)); //1125899906842624
+//console.log(power1(2, 5000)); //Infinity
+
+//console.log(power1(2, 50000)); //Uncaught RangeError: Maximum call stack size exceeded
+
+//? It means the above solution is not perfect because its giving call stack error for a very large value.
+
+//@ NOTE: Keep in mind that a problem can be devided into multiple sub problems.
+
+/*
+@ Multiple subproblems
+
+2^5 = 2^4 * 2 (devide into a single subproblem)
+
+2^5 = 2^2 * 2^2 * 2 (devide into two subproblems)
+
+2^64 = 2^32 * 2^32
+2^65 = 2^32 * 2^32 * 2
+
+a^n = a^(n/2) * a^(n/2)         -- If n is Even
+a^n = a^(n/2) * a^(n/2) * a     -- If n is Odd
+
+*/
+
+function power2(a, n) {
+    if (n <= 0) {
+        return 1;
+    }
+    if (n % 2 == 0) { // even case
+        return power2(a, Math.floor(n / 2)) * power2(a, Math.floor(n / 2));
+    } else {
+        return power2(a, Math.floor(n / 2)) * power2(a, Math.floor(n / 2)) * a;
+    }
+}
+
+console.log(power2(2, 50000)); //Infinity (Not getting any maximum call stack error)
+
+//@ Optimized version of above code
+
+function power3(a, n) {
+    if (n <= 0) {
+        return 1;
+    }
+    let p = power2(a, Math.floor(n / 2)); // store power function call result into a variable and use that
+    if (n % 2 == 0) { // even case
+        return p * p;
+    } else {
+        return p * p * a;
+    }
+}
+console.log(power3(2, 50000)); //Infinity
+
+
+//! Understanding of recursion Time complexity
+
+
+//@ Recursive Cost Formula of function power2-
+
+/*
+? a^n = a^(n/2) * a^(n/2)         -- If n is Even
+? a^n = a^(n/2) * a^(n/2) * a     -- If n is Odd
+
+
+* f(n) = f(n/2) + f(n/2) + 1;
+
+Why we added 1 at last because
+    - We are doing multiplication operation of n/2 * n/2 and that airthmatic operation takes O(1)
+    - n/2 * n/2 * a - It also cost O(1)
+
+
+f(n) = 2 * f(n/2) + 1;
+
+f(n/2) = 2 * f(n/4) + 1; // calculate for n/2
+
+then
+
+f(n) = 2 * 2(f(n/4) + 1) + 1;
+     = 4f(n/4) + 3;
+     = 2^2 f(n / 2^2) + 2^2 - 1; // we can also write this in power of 2.
+
+
+f(n/4) = 2 * f(n/8) + 1; // calculate for n/4
+
+f(n) = 4 (2 * f(n/8) + 1) + 3;
+     = 8 f(n/8) + 7;
+     = 2^3 f(n / 2^3) + 2^3 - 1;
+
+-- After k steps
+
+In first step when n/2,  2 to the power 1
+In second step when n/4, 2 to the power 2
+In third step when n/8 2 to the power 3
+In kth step when n/k, 2 to the power k
+
+* f(n) = 2^k f(n / (2^k)) + 2^k - 1;
+
+* base case was f(0) = 1;   -- it means for n = 0, cost is only O(1)
+
+? To make n/2^k to its base case, we can do
+
+n / 2^k = 1
+n = 2^k
+
+k = logn
+
+
+Lets put logn in place of k
+
+f(n) = 2^(logn) f (n / 2^logn) + 2^logn - 1;
+f(n) = n f( n/ n) + n - 1;
+f(n) = n f(1) + n - 1;
+
+* and for the above equation, TC is O(n)
+
+*/
+
+
+//@ Recursive Cost Formula of function power3 -
+
+
+/*
+? let p = power2(a, Math.floor(n / 2));
+ if (n % 2 == 0) { // even case
+        return p * p;
+    } else {
+        return p * p * a;
+ }
+
+* f(n) = f(n/2) + 1; // Here we are doing recursive call only 1 time, so no need of multiply by 2.
+
+f(n/2) = f(n/4) + 1; // value of n/2
+
+f(n) = f(n/4) + 2; ==> f(n) = f(n/2^2) + 2;
+
+f(n/4) = f(n/8) + 1; // value of n/4
+
+f(n) = f(n/8) + 3 ==> f(n) = f(n/2^3) + 3;
+
+f(n/8) = f(n/16) + 1; // value of n/8
+
+f(n) = f(n/16) + 4 ==> f(n) = f(n/2^4) + 4;
+
+-- After kth step
+
+f(n) = f(n/2^k) + k;
+
+* base case was f(0) = 1;   -- it means for n = 0, cost is only O(1)
+
+? To reach n/2^k to its base case
+
+k = logn (as explained in above example)
+
+f(n) = f(n/2^logn) + logn;
+f(n) = f(n/n) + logn;
+f(n) = f(1) + logn;
+f(n) = 1 + logn  = logn
+
+* Time Complexity is O(logn)
+
+
+*/
+
+
+//! Understanding of Space Complexity of recursion
+
+
+console.log('Space complexity')
+function sum(n) {
+    if(n == 1) {
+        return 1;
+    }
+    return sum(n-1) + n;
+}
+console.log(sum(5)); // 15
+console.log(sum(10)); // 55
+
+/*
+@ Lets check the SC for sum(5)
+
+? Iteration flow: sum(5) => sum(4) => sum(3) => sum(2) => sum(1) => 1
+
+* How to store in RAM?
+
+4 index: sum(1)
+3 index: sum(2)
+2 index: sum(3)
+1 index: sum(4)
+0 index: sum(5)
+
+After index 4, sum(1) will return 1 and pop out from memory.
+Then sum(2) will execute and return some value and removed from memory and so on........
+
+In such way There is only n block required to process complete program.
+
+* It means SC - O(n)
+*/
+
+
+
+
+//!  Implement Power Function using recursion
+//? (We have done same in modular.js file 'powerWithModules2' using for loop)
+
+/*
+Implement pow(A, B) % C.
+In other words, given A, B and C, Find (AB % C).
+
+Note: The remainders on division cannot be negative. In other words, make sure the answer you return is non-negative.
+
+-10^9 <= A <= 10^9
+0 <= B <= 10^9
+1 <= C <= 10^9
+*/
+console.log('power function  pow(A, B) % C:');
+
+function mainPowerFun(A, B, C) {
+    function powerFun(A, B, C) {
+        if (B == 0) {
+            return 1 % Number(C); // 1 is number so convert C to number
+        }
+        let p = powerFun(A, (Math.floor(B / 2)), C); // returning number
+        let p1 = BigInt(p) * BigInt(p); // bigint
+        let p2 = p1 % C; // bigint
+        let p3 = (BigInt(p1) * A) % C; // bigint
+        if (B % 2 == 0) {
+            return p2 < 0 ? Number(p2 + C) : Number(p2);
+        } else {
+            return p3 < 0 ? Number(p3 + C) : Number(p3);
+        }
+    }
+    return powerFun(BigInt(A), (B), BigInt(C));
+}
+
+//@ Understand BigInt usecase here-
+
+/*
+? powerFun(BigInt(A), (B), BigInt(C));
+
+Converted A to BigInt because in program A is multipling by itself so it will become a bigger value.
+Converted C to BigInt because we are doing A % C and A is BigInt so C will also be a BigInt Value.
+Dont need to Convert B to BigInt because B value is reducing by B / 2 in every call.
+
+1 % Number(C) => Here 1 is Number and C is BigInt. Cannot perform direct operation, so converted C to number first.
+
+let p1 = BigInt(p) * BigInt(p); => powerFun finally returning a number so here need to convert again result into BigInt value.
+
+Once all done, then return result as Number.
+
+*/
+
+
+console.log(mainPowerFun(0, 0, 1)) // 0
+console.log(mainPowerFun(2, 3, 3)) //2
+console.log(mainPowerFun(-1, 1, 20)) // 19
+// console.log(mainPowerFun(2, 1000, 100))
+console.log(mainPowerFun(71045970, 41535484, 64735492)) // 20805472
+console.log(mainPowerFun(67790475, 13522204, 98794224)) // 38615985

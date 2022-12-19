@@ -171,6 +171,42 @@ longestSubarrayZeroSum1([1, -2, 2])
 longestSubarrayZeroSum1(arr);
 
 
+//@ Longest subarray that have sum 0 (Optimized way)- TC & SC - O(n)
+//? Done with prefix sum and hashmap.
+
+function longestSubarrayZeroSumOptimized(A) {
+    console.log('longestSubarrayZeroSumOptimized :', A);
+    let pf = [];
+    pf[0] = A[0];
+    for (let i = 1; i < A.length; i++) { // prefix sum
+        pf[i] = pf[i - 1] + A[i];
+    }
+    //console.log(pf)
+    let maxLength = 0;
+    let hm = new Map();
+    for (let i = 0; i < pf.length; i++) {
+        let len = 0;
+        if (pf[i] == 0) { // pf 0 means from index 0 to i - sum will be 0.
+            len = i + 1;
+        }
+        else if (hm.has(pf[i])) { // sum already in hashmap
+            len = i - hm.get(pf[i]);
+        } else {
+            hm.set(pf[i], i); // store sum as key and index as value
+        }
+        if (len > maxLength) {
+            maxLength = len;
+        }
+    }
+    console.log(maxLength)
+    return maxLength;
+}
+
+longestSubarrayZeroSumOptimized([1, -2, 1, 2, 3, -6, 1])
+longestSubarrayZeroSumOptimized([1, -2, 2])
+longestSubarrayZeroSumOptimized(arr)
+
+
 //! Count distinct elements
 
 /*

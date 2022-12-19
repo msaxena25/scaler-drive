@@ -337,4 +337,5 @@ console.log(powerWithModules2(2, 3, 5));
 console.log(powerWithModules2(9, 0, 7));
 console.log(powerWithModules2(211111111, 31111, 51111)); //18793
 console.log(powerWithModules2(637759701, 48998, 296839866)); //36291
+console.log(powerWithModules2(71045970, 41535484, 64735492)) //20805472
 //console.log(powerWithModules2((Math.pow(10, 9)), Math.pow(10, 5), Math.pow(10, 9)));
