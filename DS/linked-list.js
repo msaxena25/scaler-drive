@@ -37,6 +37,9 @@ console.log(head) // Node {value: 1, next: Node}
 
 
 console.log('Insertion at start')
+
+// TC = O(1)
+
 function insertionAtStart(head, value) {
     let newNode = new Node(value);
     newNode.next = head;
@@ -66,6 +69,8 @@ console.log(list2)
 
 
 console.log('Insertion at end')
+
+// TC = O(n)
 function insertionAtEnd(head, value) {
     let current = head;
     while (current.next != null) { // finding last element
@@ -126,6 +131,7 @@ insert(null, 1);
 
 //! Complete program of insertion at end
 
+// TC = O(n)
 function insertAtEnd(head, value) {
     if (!head) {
         head = new Node(value);
@@ -144,6 +150,7 @@ function insertAtEnd(head, value) {
 
 console.log('Insert at Kth position: k >= 0')
 
+// TC = O(n)
 function insertAtK(head, value, k) {
 
     if (k == 0) {
@@ -165,6 +172,7 @@ function insertAtK(head, value, k) {
     }
     console.log(head); // head means list
 }
+
 
 insertAtK(head, 'elephant', 3); // insert at 3rd position
 /* {
@@ -199,6 +207,8 @@ insertAtK(new Node('tiger'), 'lion', 0); // insert at 0th index
 
 console.log('Print Linked List items')
 
+// TC = O(n)
+
 // head here represents first item of list.
 function printList(head) {
     let items = '';
@@ -214,3 +224,53 @@ function printList(head) {
 }
 printList(head); // apple banana cat elephant
 printList(new Node('pen')) // pen
+
+
+//! Search in Linked List
+
+/*
+You are given the head of a linked list A and an integer B, check if there is any node which contains this value B.
+Return 1 if such a node is present else return 0.
+
+*/
+
+console.log('Search item in List')
+
+// TC = O(n)
+function searchItemInList(head, value) {
+    if (head == null) { // empty linked list
+        return 0;
+    }
+    if (head.next == null) { // only head exists in list
+        if (head.value == value) {
+            return 1;
+        }
+    }
+    let curr = head;
+    while (curr.next != null) {
+        if (curr.value == value) {
+            return 1;
+        }
+        curr = curr.next;
+    }
+    return 0;
+}
+console.log(searchItemInList(head, 'rose'));
+console.log(searchItemInList(head, 'elephant'));
+console.log(searchItemInList(new Node('4'), '4'));
+console.log(searchItemInList(new Node('4'), 5));
+
+
+
+
+//! What is diff in array and linkedlist in case of insertion at kth position while both take O(n) time complexity?
+
+/*
+Insertion at kth position in Array takes O(n)
+Insertion at Kth position in Linked list takes O(n)
+
+But still Linked list is preferred.
+Because In array when we add an item at kth index then we shift all items after kth index to its next location and thats why all items memory location has been changed which is time taking process in memory.
+While in Linked list, everything is connection, means two nodes are joined with only a connection. SO when we add new item, we just update connections of before and next items. All items are still in same locations where they was. That is pretty clear.
+
+*/
