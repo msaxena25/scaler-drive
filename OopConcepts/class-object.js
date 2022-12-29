@@ -122,9 +122,10 @@ class Employee {
     name;
     empNumber;
 
-    constructor(name) {
-        this.name = name;
-    }
+    /* Uncomment this to check error
+      constructor(name) {
+          this.name = name;
+      } */
 
     constructor(name, empNumber) {
         this.name = name;
@@ -132,7 +133,91 @@ class Employee {
     }
 }
 
-let obj3 = new Employee('mohit'); // ERROR: A class may only have one constructor
-console.log(obj3);
+//let obj3 = new Employee('mohit'); // ERROR: A class may only have one constructor
+//console.log(obj3);
 
 
+//! Complex number class
+
+/*
+Construct a class called ComplexNumber which stores two properties
+
+real - The real part
+imaginary - The imaginary part
+
+The name of the properties should be strictly real and imaginary
+
+
+Implement the following functionalities inside this class :-
+
+add(ComplexNumber) -> Returns an object of ComplexNumber having sum of the two complex numbers.
+
+subtract(ComplexNumber) -> Returns an object of ComplexNumber having difference of the two complex numbers.
+
+multiply(ComplexNumber) -> Returns an object of ComplexNumber having multiplication of the two complex numbers.
+
+divide(ComplexNumber) -> Returns an object of ComplexNumber having division of the two complex numbers. */
+
+
+
+//@ Lets understand first Complex Number-
+
+// * https://www.mathsisfun.com/numbers/complex-numbers.html
+
+/*
+
+A Complex Number is a combination of a Real Number and an Imaginary Number.
+
+* example = 7 + 3i
+
+The "unit" imaginary number (like 1 for Real Numbers) is i, which is the square root of −1
+
+i = √-1
+i^2 = −1
+
+Examples of Imaginary Numbers:
+3i	1.04i	−2.8i	3i/4	(√2)i	1998i
+
+3 + 2i => real number = 3 and imaginary number = 2i
+5 => real number = 5 and imaginary number = 0   (Purely Real Number)
+-6i => real number = 0 and imaginary number = -6   (Purely Imaginary Number)
+
+*/
+
+
+
+class ComplexNumber {
+    real; imaginary;
+    // Define constructor here
+    constructor(real, imaginary) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+    add(x) {
+        console.log(this)
+        console.log(x)
+        return new ComplexNumber(this.real + x.real, this.imaginary + x.imaginary);
+    }
+
+    subtract(x) {
+        // Complete the function
+        return new ComplexNumber(this.real - x.real, this.imaginary - x.imaginary);
+    }
+
+    multiply(x) {
+        // Complete the function
+        return new ComplexNumber(this.real * x.real, this.imaginary * x.imaginary);
+    }
+
+    divide(x) {
+        // Complete the function
+        return new ComplexNumber(this.real / x.real, this.imaginary / x.imaginary);
+    }
+
+}
+
+let a = new ComplexNumber(10, 5)
+let b = new ComplexNumber(2, 3)
+
+let res = a.add(b)
+console.log('res :', res);

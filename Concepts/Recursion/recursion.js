@@ -334,13 +334,16 @@ f(n) = 1 + logn  = logn
 
 //! Understanding of Space Complexity of recursion
 
+//@ Nice example of Space complexity by diagrams
+//https://jarednielsen.com/big-o-recursive-space-complexity/
+
 
 console.log('Space complexity')
 function sum(n) {
-    if(n == 1) {
+    if (n == 1) {
         return 1;
     }
-    return sum(n-1) + n;
+    return sum(n - 1) + n;
 }
 console.log(sum(5)); // 15
 console.log(sum(10)); // 55
@@ -426,3 +429,94 @@ console.log(mainPowerFun(-1, 1, 20)) // 19
 // console.log(mainPowerFun(2, 1000, 100))
 console.log(mainPowerFun(71045970, 41535484, 64735492)) // 20805472
 console.log(mainPowerFun(67790475, 13522204, 98794224)) // 38615985
+
+
+//! Reverse an array using recursion with SC - O(1)
+
+function reverseArray(A) {
+
+    function reverse(A, s, e) {
+        if (s >= e) {
+            return A;
+        }
+        [A[s], A[e]] = [A[e], A[s]]; // swap
+        return reverse(A, s + 1, e - 1);
+
+    }
+    console.log(reverse(A, 0, A.length - 1))
+
+}
+reverseArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+
+
+//! Print reverse string using recursion
+
+/*
+Write a recursive function that, given a string S, prints the characters of S in reverse order.
+
+Input:
+ scaleracademy
+
+Output: ymedacarelacs
+
+*/
+
+//! TLE Error - need to optimize this
+function reverseString(A) {
+    let ans = '';
+    function reverse(A, e) {
+        if (e < 0) {
+            console.log(ans);
+            return;
+        }
+        ans = ans + A.charAt(e);
+        return reverse(A, e - 1);
+    }
+    reverse(A, A.length - 1);
+}
+reverseString('scaleracademy') // ymedacarelacs
+
+
+//!  Sum of Digits!
+
+/*
+Given a number A, we need to find the sum of its digits using recursion.
+
+Input: A = 46 output: 10
+*/
+console.log('sum of digits.');
+function mainSumDigit(A) {
+    A = (A).toString();
+    let sum = 0;
+    function sumDigit(A, s, e) {
+        if (s > e) {
+            return sum;
+        }
+        if (s == e) {
+            sum += Number(A[s]);
+            return sum;
+        }
+        sum += Number(A[s]) + Number(A[e]);
+        return sumDigit(A, s + 1, e - 1);
+    }
+    console.log(sumDigit(A, 0, (A).length - 1))
+
+}
+mainSumDigit(1234567);
+mainSumDigit(46);
+mainSumDigit(4);
+
+
+//! Output of below program?
+
+function output(x, n) {
+    if (n == 0) {
+        return 1;
+    }
+    else if (n % 2 == 0) {
+        return output(x * x, n / 2);
+    } else {
+        return x * output(x * x, (n - 1) / 2);
+    }
+}
+console.log(output(2, 10)) //1024

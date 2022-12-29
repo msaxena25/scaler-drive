@@ -149,7 +149,7 @@ A % B = C
 
 */
 
-//! Modular Arithmatic
+//! Modular Airthmatic
 
 /*
 @ (a + b) % c =  (a % c + b % c) % c
