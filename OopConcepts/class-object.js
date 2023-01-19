@@ -194,24 +194,38 @@ class ComplexNumber {
         this.imaginary = imaginary;
     }
     add(x) {
-        console.log(this)
-        console.log(x)
+        // (a+bi) + (c+di) = (a+c) + (b+d)i
         return new ComplexNumber(this.real + x.real, this.imaginary + x.imaginary);
     }
 
     subtract(x) {
-        // Complete the function
         return new ComplexNumber(this.real - x.real, this.imaginary - x.imaginary);
     }
 
     multiply(x) {
         // Complete the function
-        return new ComplexNumber(this.real * x.real, this.imaginary * x.imaginary);
+        // (a+bi)(c+di) = ac + adi + bci + bdi^2  (i^2 is equal to -1)
+
+        let real = (this.real * x.real) + (this.imaginary * x.imaginary * -1);
+        let i = (this.real * x.imaginary) + (this.imaginary * x.real);
+        return new ComplexNumber(real, i);
     }
 
     divide(x) {
-        // Complete the function
-        return new ComplexNumber(this.real / x.real, this.imaginary / x.imaginary);
+        /*
+            (this.real + this.imaginary) / (x.real + x.imaginary)
+
+            (this.real  + this.imaginary)        (x.real  - x.imaginary)
+            _____________________________ *  _____________________________
+            (x.real + x.imaginary)               (x.real  -  x.imaginary)
+        */
+
+        //  a + ib is divided by c + id then in numerator ac + bd will be the real part and bc - ad
+        // will be the imaginary part and everything will get divided by c ^2 + d ^ 2
+        let numeratorReal = (this.real * x.real) + (this.imaginary * x.imaginary);
+        let numeratorImaginary = (this.imaginary * x.real) - (this.real * x.imaginary);
+        let divided = (x.real * x.real) + (x.imaginary * x.imaginary);
+        return new ComplexNumber(numeratorReal / divided, numeratorImaginary / divided);
     }
 
 }
@@ -220,4 +234,13 @@ let a = new ComplexNumber(10, 5)
 let b = new ComplexNumber(2, 3)
 
 let res = a.add(b)
-console.log('res :', res);
+console.log('add :', res);
+
+let res3 = a.subtract(b);
+console.log('subtract', res3);
+
+let res1 = a.multiply(b);
+console.log('multiply', res1);
+
+let res2 = a.divide(b);
+console.log('divide', res2);

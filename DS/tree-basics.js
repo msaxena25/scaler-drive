@@ -1,4 +1,7 @@
 
+//! Binary Tree Visual diagrams with algo
+// https://visualgo.net/en/bst
+
 /*
 
 @ What is Tree?
@@ -99,24 +102,64 @@ and the right child is at index (2*i + 2) in the array.
  */
 
 
+//! Create a Binary tree from a given array
+
 function createTree(arr, i) {
-    if(i > arr.length) {
+    let node = null;
+    if (i < arr.length) {
+        node = new Node(arr[i]);
+
+        node.left = createTree(arr, 2 * i + 1);
+        node.right = createTree(arr, 2 * i + 2);
+    }
+    return node;
+}
+const tree = createTree([1, 2, 3, 4, 5, 6, 7], 0);
+console.log(tree)
+
+
+//! Preorder traversal
+
+const preOrderArr = [];
+function preorder(node) {
+    if (node == null) {
         return;
     }
-
-    let node = new Node(arr[i]);
-
-    node.left = createTree(arr, 2 * i + 1);
-    node.right = createTree(arr, 2 * i + 2);
-    return node;
-
+    preOrderArr.push(node.data);
+    preorder(node.left);
+    preorder(node.right);
 
 }
-console.log(createTree([1, 2, 3, 4, 5, 6, 7]))
+preorder(tree);
+console.log('Pre ', preOrderArr)
 
-function insertNodeInTree(root, data) {
 
+//! In Order traversal
+
+const inOrderArr = [];
+function inOrder(node) {
+    if (node == null) {
+        return;
+    }
+    inOrder(node.left);
+    inOrderArr.push(node.data);
+    inOrder(node.right);
 
 }
-let rootNode = insertNodeInTree(1)
-insertNodeInTree(rootNode, 2);
+inOrder(tree);
+console.log('In ', inOrderArr)
+
+
+//! Post Order Traversal
+
+const postOrderArr = [];
+function postOrder(node) {
+    if (node == null) {
+        return;
+    }
+    postOrder(node.left);
+    postOrder(node.right);
+    postOrderArr.push(node.data);
+}
+postOrder(tree);
+console.log('Post ', postOrderArr)

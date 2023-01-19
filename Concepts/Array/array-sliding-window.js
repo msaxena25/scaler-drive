@@ -107,7 +107,7 @@ Step1: s = 0, e = 4 (k-1) => (1,2,3,4,5) => sum -> 15
 Step2: s = 1, e = 5 => (2,3,4,5,6) => sum = 15 - 1 + 6 = 20 => sum = 15 - A[0] + A[5] => sum = sum - A[s-1] + A[e]
 Step3: s = 2, e = 6 => (3,4,5,6,7) => sum = 20 - 2 + 7 = 25 => sum = sum - A[s-1] + A[e]
 
-*? So in Step 1 , result is 15 and window is (1,2,3,4,5,6)
+*? So in Step 1 , result is 15 and window is (1,2,3,4,5)
 *? In Step 2, we use result and window first element to compute next result. Now new result is 20 and new window is (2,3,4,5,6) & so on...
  */
 
@@ -578,7 +578,7 @@ spiral(arr5); //  [1, 2, 3, 6, 9, 8, 7, 4, 5]
 
 //! Return Spiral matrix -
 
-/* Given an integer A, generate a square matrix filled with elements from 1 to A2 in spiral order and 
+/* Given an integer A, generate a square matrix filled with elements from 1 to A2 in spiral order and
 return the generated square matrix.
 
 Input > 5

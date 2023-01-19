@@ -447,7 +447,9 @@ Constraints-
 1 <= A[i] >= 10^6
 */
 
-//! create an Array Of Size 10^5 With each value 10^6 as per constraints
+//! create an Array Of Size 10^5, With each value 10^6 as per constraints
+
+
 function createArrayWithMaxConstraintsValues() {
     console.log('createArrayOfSize32WithMaxElements :');
     let arr = [];
@@ -519,6 +521,7 @@ Input - A = [1, 2, 2, 3, 1]
 Output- 3
 */
 
+//@ NOTE: this solution will work if all elements are given in Even times except one element.
 function findUnique(A) {
     console.log('findUnique :', A);
     let ans = 0;

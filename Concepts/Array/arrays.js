@@ -243,7 +243,7 @@ run1(); // 98 because array works with call by references.
 //!in the array or report that no such element exists with -1.
 
 
-//@ TLE Error for large set of data. 
+//@ TLE Error for large set of data.
 function secondLargestElement(arr) {
     arr = [...new Set(arr)]; // first remove duplicate by using Set data structure.
     if (arr.length < 2) {

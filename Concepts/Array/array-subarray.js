@@ -191,8 +191,9 @@ subArrayWithLength3([1, 2, 3, 4, 5, 6, 7])
 
 
 // TC - O(n^2)
-//@ done with a temp variable.
+//@ done with a temp variable.  carry forward way
 function sumOfAllSubarrays(A) {
+    console.log('sumOfAllSubarrays :', A);
     let total = 0;
     for (let i = 0; i < A.length; i++) {
         total += A[i];
@@ -214,6 +215,7 @@ sumOfAllSubarrays([1, 2, 3])
 // TC - O(n^3)
 //@ done with three nested for loop
 function sumAllSubarraysElements(A) {
+    console.log('sumAllSubarraysElements :', A);
     let total = 0;
     //const out = [];
     for (let i = 0; i < A.length; i++) {
@@ -236,6 +238,7 @@ sumAllSubarraysElements([0, 1, 2, 3, 4, 5]);
 
 //@ Done with Prefix sum technique
 function sumOfAllSubarraysUsingPF(A) {
+    console.log('sumOfAllSubarraysUsingPF :', A);
     const pf = [];
     pf[0] = A[0];
     for (let i = 1; i < A.length; i++) {
@@ -277,6 +280,7 @@ output > 12
  */
 
 function maxSumOfSubarray(B, C) {
+    console.log('maxSumOfSubarray :', B, C);
     let total = 0;
     for (let i = 0; i < C.length; i++) {
         let temp = C[i]; // single element also a subarray
@@ -309,6 +313,7 @@ maxSumOfSubarray(11, [7, 10, 3, 1])
 //! Return sum of individual subarray
 
 function sumOfIndividualSubarray(A) {
+    console.log('sumOfIndividualSubarray :', A);
     const pf = [];
     pf[0] = A[0];
     for (let i = 1; i < A.length; i++) {
@@ -355,6 +360,7 @@ Odd length good subarrays = {1, 2, 3}, {1, 2, 3, 4, 5}, {2, 3, 4}, {3, 4, 5}, {5
 //6
  */
 function goodSubarray(A, B) {
+    console.log('goodSubarray :', A, B);
     const pf = [];
     pf[0] = A[0];
     for (let i = 1; i < A.length; i++) {
@@ -404,7 +410,8 @@ output > 4
 The subarrays with sum less than B are {1}, {2}, {3} and {2, 3}
  */
 
-function sumOfSubarrayLessThenB(A, B) {
+function countSubarrayHaveSumLessThenB(A, B) {
+    console.log('countSubarrayHaveSumLessThenB :', A, B);
     const pf = [];
     pf[0] = A[0];
     for (let i = 1; i < A.length; i++) {
@@ -420,18 +427,17 @@ function sumOfSubarrayLessThenB(A, B) {
             } else {
                 sum = pf[j] - pf[i - 1];
             }
-            log(sum);
             if (sum < B) {
                 ans++;
             }
             j++;
         }
     }
-    log('count Subarray that have sum Less Then B ', ans);
+    // log('count Subarray that have sum Less Then B ', ans);
     return ans;
 }
-sumOfSubarrayLessThenB([1, 11, 2, 3, 15], 10)
-sumOfSubarrayLessThenB([2, 5, 6], 10)
+console.log(countSubarrayHaveSumLessThenB([1, 11, 2, 3, 15], 10))
+console.log(countSubarrayHaveSumLessThenB([2, 5, 6], 10))
 
 /********************************************* */
 
@@ -478,3 +484,50 @@ alternatingSubarrays([1], 1) //[]
 alternatingSubarrays([1, 2, 3], 1) //[1]
 alternatingSubarrays([1, 2], 1) //[]
 alternatingSubarrays([0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1], 1) //3 7 8
+
+
+
+//! Contribution technique
+
+/*
+arr = [1, 2, 3]
+
+Subarrays-
+[1] [1,2] [1,2,3] [2] [2,3] [3]
+
+total sum of all subarrays elements = 20.
+
+@ Observations-
+
+? Contribution of Individual element in subarray-
+1 came 3 times.
+2 came 4 times.
+3 came 3 times.
+
+* => 1 * 3 + 2 * 4 + 3 * 3 = 3 + 8 + 9 = 20
+
+Formula-
+* Every elements comes exactly (i+1)*(n-i) times.
+
+array   =     [1, 2, 3]
+i       =      0  1  2
+i+1     =      1  2  3
+n-i     =      3  2  1
+
+*/
+
+// Find total sum of all subarrays.
+
+// TC - O(n)
+function sumOfAllSubarraysWithContributionTech(A) {
+    console.log('sumOfAllSubarraysWithContributionTech :', A);
+    let sum = 0;
+    for (let i = 0; i < A.length; i++) {
+        let freq = (i + 1) * (A.length - i);
+        sum += freq * A[i];
+    }
+    return sum;
+}
+
+console.log(sumOfAllSubarraysWithContributionTech([1, 2, 3])) //20
+console.log(sumOfAllSubarraysWithContributionTech([0, 1, 2, 3, 4, 5])) //140
