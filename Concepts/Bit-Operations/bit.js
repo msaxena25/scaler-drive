@@ -620,33 +620,23 @@ output 2:-
 13
 
 Example Explanation
-Expanation 1:-
+Explanation 1:-
 X ^ A + X ^ B = 10 when X = 8
 Explanation 2:-
 X ^ A + X ^ B = 13 when X = 1
 */
 
 
-//@ Giving TLE error for large set of data..............
-//!TODO
 function xorSum(A, B) {
-    console.log('xorSum :', B - A);
-    let ans = Number.MAX_SAFE_INTEGER;
-    let start = A < B ? A : B;
-    let limit = A > B ? A : B;
-    for (let i = start; i <= limit; i++) {
-        let xor = (A ^ i) + (B ^ i);
-        if (xor < ans) {
-            ans = xor;
-            console.log(ans, i)
-        }
-    }
-    return ans;
+    console.log('xorSum :', A, B);
+    if (A == B) return 0;
+    let andAB = A & B;
+    return (A ^ andAB) + (B ^ andAB);
 }
 console.log(xorSum(6, 12))
 console.log(xorSum(4, 9))
-// console.log(xorSum(967654297, 437680754)) //599474667
-// console.log(xorSum(77136780, 840287549)) //915195569
+console.log(xorSum(967654297, 437680754)) //599474667
+console.log(xorSum(77136780, 840287549)) //915195569
 
 
 //! Subarrays with Bitwise OR 1

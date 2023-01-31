@@ -521,12 +521,14 @@ n-i     =      3  2  1
 // TC - O(n)
 function sumOfAllSubarraysWithContributionTech(A) {
     console.log('sumOfAllSubarraysWithContributionTech :', A);
-    let sum = 0;
-    for (let i = 0; i < A.length; i++) {
-        let freq = (i + 1) * (A.length - i);
-        sum += freq * A[i];
+    let sum = BigInt(0);
+    let n = A.length;
+    for (let i = 0; i < n; i++) {
+        // contribution rule : (i + 1)*(n-i)
+        let freq = BigInt((i + 1) * (n - i));
+        sum = (freq * BigInt(A[i])) + sum;
     }
-    return sum;
+    return Number(sum);
 }
 
 console.log(sumOfAllSubarraysWithContributionTech([1, 2, 3])) //20

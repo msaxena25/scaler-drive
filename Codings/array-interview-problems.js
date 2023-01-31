@@ -25,6 +25,7 @@ Output- [1,6],[8,10],[15,18]
 2. Take first item and keep in a variable named 'prev'
 3. Now loop over from index 1
 4. If interval overlapped then update prev element with newly values. (in every iteration compare prev to current item)
+   * If current item start is less then or equal to previous item end, it means interval are overlapped. 
     - Example:
         Prev = [2, 6], Current = [3, 8]
         Now Prev will be = [2, 8]
@@ -73,7 +74,7 @@ Output - [ [1, 5], [6, 9] ]
 
 */
 
-
+//! TODO not working right now
 function mergeNewInterval(intervals, new_interval) {
     console.log('mergeNewInterval :', new_interval);
     let res = [];
@@ -262,11 +263,11 @@ function missingInteger3(A) {
     console.log('missingInteger3 :', A);
     for (let i = 0; i < A.length; i++) {
         let el = A[i];
-        if (el > 0 && el <= A.length) {
+        if (el > 0 && el <= A.length) { // can be - min value 1 and max value n + 1
             let position = el - 1;
             if (A[position] == el) continue; // means element placed at right position.
             [A[i], A[position]] = [A[position], A[i]]; // swap
-            i--; // if doing swap, also do i--
+            i--; // after swapping , recheck ith value again so did i--.
         }
     }
     console.log(A)

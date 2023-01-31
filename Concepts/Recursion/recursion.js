@@ -1,3 +1,28 @@
+//! Recurrsion is ->
+
+// @ Function call itself.
+//@ Solve a problem by solving subproblems.
+
+// ! Steps to solve Recursion problems.
+
+/*
+1. Determine what the function should do.
+2. Build the logic on how to use subproblems to solve current problem
+3. Base case - smallest subproblem for which we know answer.
+
+
+*/
+
+//! Sum of First n natural numbers
+
+// TC - O(n) & SC - O(n)
+function sumOfNaturalNumbers(n) {
+    if (n == 1) {
+        return 1; // base case
+    }
+    return n + sum(n - 1);
+}
+
 
 //! Find Factorial!
 
@@ -98,12 +123,27 @@ f(9) = f(8) + f(7) = 21 + 13  = 34
  */
 console.log('Ath Fibonacci Number')
 function fab(A) {
-    if (A <= 1) {
+    if (A < 2) {
         return A;
     }
     return fab(A - 1) + fab(A - 2);
 }
 console.log(fab(1));
+
+//* Time complexity of Fibonacci series. - O(2^n)
+
+/*
+@ Explanation-
+
+
+                  fib(n)                    ----------  1 = 2^0
+        fib(n-1)           fib(n-2)         ----------  2 = 2^1
+fib(n-2) + fib(n-3)     fib(n-3) + fin(n-4) ----------  4 = 2^2
+
+
+* Space Complexity - O(n) Because only n stack is required to execute function.
+
+*/
 
 
 
@@ -338,6 +378,8 @@ f(n) = 1 + logn  = logn
 //https://jarednielsen.com/big-o-recursive-space-complexity/
 
 
+//? Find sum of First n natual numbers
+
 console.log('Space complexity')
 function sum(n) {
     if (n == 1) {
@@ -352,6 +394,10 @@ console.log(sum(10)); // 55
 @ Lets check the SC for sum(5)
 
 ? Iteration flow: sum(5) => sum(4) => sum(3) => sum(2) => sum(1) => 1
+
+* Sum(n) = n + (n-1) + (n-2) + (n-3) + ...... + 1
+
+* Sum(n) = n + Sum(n-1) ------ // Sum(n-1) is one of the subproblem.
 
 * How to store in RAM?
 
@@ -520,3 +566,26 @@ function output(x, n) {
     }
 }
 console.log(output(2, 10)) //1024
+
+
+//! print n to 1
+
+function solve(n) {
+    if (n == 0) {
+        return;
+    }
+    console.log(n);
+    solve(n - 1);
+}
+solve(10); // 10 9 8....1
+
+//! print 1 to n
+
+function solve(n) {
+    if (n == 0) {
+        return;
+    }
+    solve(n - 1);
+    console.log(n);
+}
+solve(10); // 1 2 3 4...10

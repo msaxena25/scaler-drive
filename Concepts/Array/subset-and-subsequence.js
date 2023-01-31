@@ -336,6 +336,7 @@ ________________________
                                     = 40
 
 ? Now our target is to count 1 at each bit position from given array numbers.
+* Why counting 1 => Because OR will give result 1, if any bit is 1. => 1|1 = 1, 1|0 = 1, 0|1=1
 
 1 =  0 0 1
 2 =  0 1 0
