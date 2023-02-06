@@ -69,9 +69,9 @@ function towerOfHanoi(N, S, D, H) {
     if (N == 0) {
         return;
     }
-    towerOfHanoi(N - 1, S, H, D);
+    towerOfHanoi(N - 1, S, H, D); // source to helper
     console.log('Moved disk ', N, 'From ', S, 'TO ', D);
-    towerOfHanoi(N - 1, H, D, S);
+    towerOfHanoi(N - 1, H, D, S); // helper to destination
 }
 towerOfHanoi(3, 'S', 'D', 'H');
 
@@ -93,3 +93,69 @@ function solve(N, S, D, H) {
 }
 console.log(solve(2, 1, 3, 2)); // [1 1 2 ] [2 1 3 ] [1 2 3 ]
 console.log(solve(3, 1, 3, 2)); // [1 1 3 ] [2 1 2 ] [1 3 2 ] [3 1 3 ] [1 2 1 ] [2 2 3 ] [1 1 3 ]
+
+
+//! Understand time complexity
+
+/*
+* No. Of Disks    Steps       Explanation
+N = 1             1       toh(1 - 1) + 1 + toh(1 - 1) = 0 + 1 + 0 = 1  (Direct will move from S to D)
+N = 2             3       toh(n-1) + 1 + toh(n-1) => toh(1) + 1 + toh(1) = 1 + 1 + 1 = 3
+N = 3             7       toh(2) + 1 + toh(2) = 3 + 1 + 3 = 7 => as per previos call we know toh(2) = 3
+N = 4             15      toh(3) + 1 + toh(3) = 7 + 1 + 7 = 15
+..
+..
+..
+
+* Based on above calculation , lets see number of execution
+
+Disks Steps Number of executions
+1       1       2^1 - 1
+2       3       2^2 - 1
+3       7       2^3 - 1
+4       15      2^4 - 1
+..
+..
+n               2^n - 1
+
+@ So TC is => O(2^n)
+
+@ Space complexity: O(N)
+    - Auxiliary stack space used during recursion for the Tower of Hanoi problem.
+
+*/
+/*
+*  DRY RUN OF ALGORITHM
+
+    towerOfHanoi(3, S, D, H)
+        towerOfHanoi(2, S, H, D)
+            towerOfHanoi(1, S, D, H)
+                towerOfHanoi(0, S, D, H)
+                    RETURN
+            print(1, S, D)
+            towerOfHanoi(0, H, D, S)
+                RETURN
+        print(2, S, H);
+        towerOfHanoi(1, D, H, S)
+            towerOfHanoi(0, D, S, H)
+                RETURN
+        print(1, D, H);
+        towerOfHanoi(0, S, H, D)
+                RETURN
+    print(3, S, D)
+    towerOfHanoi(2, H, D, S)
+        towerOfHanoi(1, H, S, D)
+            towerOfHanoi(0, H, D, S)
+                RETURN
+        print(1, H, S);
+        towerOfHanoi(0, D, S, H)
+                RETURN
+    print(2, H, D);
+    towerOfHanoi(1, S, D, H)
+        towerOfHanoi(0, S, D, H)
+            RETURN
+    print(1, S, D);
+    towerOfHanoi(0, H, D, S)
+        RETURN
+
+*/

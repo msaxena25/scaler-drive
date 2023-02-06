@@ -589,3 +589,101 @@ function solve(n) {
     console.log(n);
 }
 solve(10); // 1 2 3 4...10
+
+
+
+//! Recurison relationship
+
+//@ Lets generate Time complexity recursion formula for Sum of n natural number based on TC of subproblems
+
+function sum(n) {
+    if (n == 1) {
+        return 1;
+    }
+    return n + sum(n - 1);
+}
+
+// T(n) = T(n - 1) + O(1)
+
+// @ Write TC recursive formula of below program
+
+function program1(n) {
+    if (n <= 1) {
+        return;
+    }
+    program1(n / 2);
+    for (let i = 0; i < n; i++) {
+        console.log(i);
+    }
+    program1(n / 2);
+}
+
+// T(n) = 2 * T(n/2) + O(n)  -- we have two subproblems so multiplied by 2 and one for loop.
+
+
+//! Master theorem
+
+// https://www.scaler.com/topics/data-structures/masters-theorem/
+
+/*
+Master's Theorem is the best method to quickly find the algorithm's time complexity from its
+recurrence relation.
+
+We can apply Master's Theorem for:
+
+@ Dividing functions
+@ Decreasing Functions
+
+
+! Master's Method for Dividing Functions
+
+* T(n) = a * T(n / b) + O(n^d)
+
+where
+
+n = input size (or the size of the problem)
+a = number of subprobems
+n/b = size of each subproblem (Assuming size of each subproblem is same)
+O(n^d) = cost of breaking down origional problem
+
+? Examples-
+
+T(n) = 2 T(n / 2) + n^2
+
+T(n) = T(n / 4) + nlogn
+
+? where the constants a, b, and k are constants and follow the following conditions:
+
+a >= 1
+b > 1
+d >= 0
+
+? Master's Theorem states that:
+
+* Case 1 : a > b^d  => TC = O(n log a base b)
+
+* Case 2 : a = b^d  => TC = O( n^d log n base b )
+
+* Case 3 : a < b^d  => TC = O(n^d)
+
+! Master's Theorem for Decreasing Functions
+
+T(n) = a * T(n - b) + O(n^d)
+
+? Examples-
+
+T(n) = T(n - 2) + 1;
+T(n) = 2 * T(n - 1) + n^2;
+
+Here a, b, and d are constants that satisfy the following conditions:
+
+a > 0, b > 0, d >= 0
+
+* Case 1 : a > 1  => TC = O(n^(n/b) * f(n))
+
+* Case 2 : a = 1  => TC = O( n^d log n base b )
+
+* Case 3 : a < 1  => TC = O(n^d)
+
+ */
+
