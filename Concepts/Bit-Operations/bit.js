@@ -75,7 +75,7 @@ _____________
 /*
  * PROPERTIES
 
-*  A & 1
+*  A & 1 (Mostly Used to Check number is even or odd)
 
 0 -  If last bit of A is 0.
 1 -  If last bit of A is 1.

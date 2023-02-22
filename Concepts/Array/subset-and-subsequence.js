@@ -73,7 +73,7 @@ Subset => [1, 3] & [3, 1] are same.
 
 Subset => [1, 2, 3] & [3, 2, 1] are same.
 
-? Some of subsets from above array-
+? Some subsets from above array-
 
 [1, 2, 3]
 [1, 3, 2]
@@ -112,9 +112,8 @@ Here n = 3 , so 2^3 = 8.
 
 */
 
-
 /*
-Type            Continuity  Order   Count
+*Type            Continuity  Order   Count
 
 Subarray            Yes     Yes     n*(n+1) / 2
 Subsequence         Yes     No      2^n
