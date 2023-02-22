@@ -1,9 +1,9 @@
-/**
+/*
 What are Factors of any number?
 Factors of a number (n) will be those numbers that exactly divide it and give a remainder as 0.
 This means that the two whole numbers whose product is given number (n) are the factors of that number.
 
-Composite numbers ?
+! Composite numbers ?
 
 In Mathematics, composite numbers are numbers that have more than two factors.These numbers are also called composites.
 Composite numbers are just the opposite of prime numbers which have only two factors, i.e. 1 and the number itself.
@@ -13,16 +13,16 @@ The smallest composite number is 4.
 1 only have one factor that is 1, 2 have two factors that is 1 & 2, 3 also have two factors that is 1 & 3.
 4 have three factors that is 1, 2 and 4. So 4 is smallest composite number.
 
-Prime numbers ?
+! Prime numbers ?
 
 Prime numbers are natural numbers that are divisible by only 1 and the number itself.
 In other words, prime numbers are positive integers greater than 1 with exactly two factors, 1 and the number itself.
 The first ten primes are 2, 3, 5, 7, 11, 13, 17, 19, 23, 29.
 2 is the smallest prime number and is the only even prime number.
 
-NOTE : Always remember that 1 is neither prime nor composite.
+* NOTE : Always remember that 1 is neither prime nor composite.
 
-Perfect Numbers?
+! Perfect Numbers?
 
 A Perfect Number “n”, is a positive integer which is equal to the sum of its factors, excluding “n” itself.
 A Perfect Number N is defined as any positive integer where the sum of its divisors minus the number itself equals the number.
@@ -31,7 +31,7 @@ How ? Lets find out factors of 6. These are 1 + 2 + 3 and its sum is 6. This is 
 All the perfect numbers are even numbers.
 
 Formula -
-if 2^n - 1 is a prime number, then 2^(n-1)(2^n - 1) is a perfect number.
+* if 2^n - 1 is a prime number, then 2^(n-1)(2^n - 1) is a perfect number.
 
  */
 
@@ -62,7 +62,7 @@ printPrimeOrComposite(Math.pow(2, 82))
 // printPrimeOrComposite(6)
 printPrimeOrComposite(67)
 
-// Count Factors unoptimized way
+//! Count Factors unoptimized way
 
 function countFactors(n) {
     let count = 0;
@@ -138,7 +138,7 @@ function printFactorsOptimized(n) {
 //printFactorsOptimized(999);
 
 
-// Optimized way without SQRT of given number.
+//! Optimized way without SQRT of given number.
 // So we will terminate our iteration when i * i > n
 // if n is 100 & i is 11 then 11 * 11 = 121 (> 100 , means there is no any factors above i > 10)
 
@@ -162,7 +162,7 @@ function printFactorsOptimized2(n) {
 //printFactorsOptimized2(100);
 //printFactorsOptimized2(68);
 
-// Count number of factors with optimized way
+//! Count number of factors with optimized way
 // Time comp -  SQRT(n)
 
 function countFactorsOptimized(n) {
@@ -186,7 +186,7 @@ countFactorsOptimized(97)
 countFactorsOptimized(11)
 
 
-// Find all prime number till given input
+//! Find all prime number till given input
 
 // With two for loop
 
@@ -218,7 +218,7 @@ function findPrimeNumbers(n) {
 findPrimeNumbers(100);
 
 
-// prime number with Sieve of Eratosthenes technique
+//! prime number with Sieve of Eratosthenes technique
 
 // The solution you have made is enough , the technique Sieve is used in hard problems where you have to use quickly find the prime numbers in certain range whcih is very large.
 
@@ -247,7 +247,7 @@ function printPrimeNumbersWithSieves(n) {
 // printPrimeNumbersWithSieves(50);
 
 
-// find prime number my own way to write logic.
+//! find prime number my own way to write logic.
 // loop from 2 to given input number.
 // find sqrt of given number.
 // As we know prime number is a number which only devided by 1 and itself.
@@ -276,7 +276,7 @@ function printPrimeNumbersWithThirdWay(n) {
 printPrimeNumbersWithThirdWay(47)
 
 
-// Perfect Number program
+//! Perfect Number program
 
 function isPerfectNumber(number) {
     //const factors = []; // commented this because we dont need to save factors here.
@@ -296,7 +296,7 @@ function isPerfectNumber(number) {
     return;
 }
 
-// print perfect numbers list till given number.
+//! print perfect numbers list till given number.
 // A Perfect Number N is defined as any positive integer where the sum of its divisors minus the number itself equals the number.
 
 function printPerfectNumbersList(n) {
@@ -327,7 +327,7 @@ printPerfectNumbersList(500);
 // isPerfectNumber(282);
 // isPerfectNumber(8128);
 
-// Print all perfect number till given number (n)
+//! Print all perfect number till given number (n)
 
 /* Will Use formula here -
 
@@ -376,8 +376,9 @@ printPerfectNumbers(5); // []
 printPerfectNumbers(1); // []
 
 
-// Perfect Square number program
-// A number is a perfect square if it is obtained by squaring a whole number or an integer.
+//! Perfect Square number program
+
+//@ A number is a perfect square if it is obtained by squaring a whole number or an integer.
 
 function isPerfectSquareNumber(number) {
     for (let i = 0; i < number; i++) {
@@ -398,7 +399,7 @@ isPerfectSquareNumber(1);
 
 
 
-// Different ways to write for loop
+//! Different ways to write for loop
 
 function someForLoop() {
     for (let i = 0; i < 10;) {

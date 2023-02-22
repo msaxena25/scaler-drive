@@ -459,3 +459,135 @@ console.log(findMax([1, 5, 8, 10, 7, 6]))
 console.log(findMax([7, 6]))
 console.log(findMax([6]))
 console.log(findMax([1, 5, 8]))
+
+
+
+//! Find Square Root Of given element in O(log(n)).
+
+//@ Solution 1 In Linear Time
+
+function sqrt(n) {
+    console.log('sqrt :', n);
+    for (let i = 1; i < n; i++) {
+        if (i * i == n) {
+            return i;
+        } else if (i * i > n) {
+            return i - 1;
+        }
+    }
+}
+console.log(sqrt(49)) // 7
+console.log(sqrt(50)) // 7
+
+//@ Solution 2 with Binary search = O(logn)
+
+//* NOTE: To Solve a problem with binary search, you should know the Return statement in Linear search. That return statement and binary seawrch return statement is same.
+/*
+    SQRT in Linear search - Return statement => i * i == n
+    Binary search - Return statement =>         mid * mid == n
+*/
+
+
+function sqrtWihBinarySearch(num) {
+    console.log('sqrtWihBinarySearch :', num);
+    let l = 1;
+    let r = num;
+    while (l <= r) {
+        let mid = Math.floor((l + r) / 2);
+        if (mid * mid == num) {
+            return mid;
+        }
+        // Move Left or Right now
+        // mid == 0 means If mid is first element then we also have to move to the right side.
+        if (mid == 0 || mid * mid < num) {
+            l = mid + 1;
+        } else {
+            r = mid - 1;
+        }
+    }
+}
+console.log(sqrtWihBinarySearch(49))
+console.log(sqrtWihBinarySearch(50));
+
+
+//! TODO
+function findAthSmallest(A, B, C) {
+    let out = [];
+    for (let i = 1; i <= A; i++) {
+        out.push(B * i);
+        out.push(C * i);
+    }
+    out.sort((a, b) => a - b);
+    console.log(out);
+    let ans = 0;
+    let k = 0;
+    for (let i = 0; i <= A; i++) {
+        if (k == A) {
+            return ans;
+        }
+        if (out[i] != ans) {
+            ans = out[i];
+            k++;
+        }
+    }
+    return ans;
+}
+
+console.log(findAthSmallest(19, 11, 13))
+console.log(findAthSmallest(14, 10, 12))
+//findAthSmallest(17, 5, 16)
+
+
+
+//! Median of Array
+// https://www.scaler.com/academy/mentee-dashboard/class/47673/assignment/problems/198/?navref=cl_pb_nv_tb
+
+/*
+There are two sorted arrays A and B of sizes N and M respectively.
+
+Find the median of the two sorted arrays ( The median of the array formed by merging both the arrays ). */
+
+// TC - O(A + B)
+function findMedian(A, B) {
+    console.log('findMedian :', A, B);
+    let len = A.length + B.length; // length of final merged array
+    let i = 0; // initial pointer value
+    let j = 0;
+    let first, second;
+    let median = Math.floor(len / 2);
+    for (let k = 0; k <= median; k++) { // we dont need element more then median
+        let el;
+        if (i == A.length) {
+            el = B[j];
+            j++;
+        }
+        else if (j == B.length) {
+            el = A[i]
+            i++;
+
+        }
+        else if (A[i] <= B[j]) {
+            el = A[i]
+            i++;
+
+        } else if (A[i] >= B[j]) {
+            el = B[j];
+            j++;
+        }
+        if (k == median) { // exact middle element
+            first = el;
+        }
+        if (k == median - 1) { // middle - 1 element (for even  length)
+            second = el;
+        }
+    }
+    //console.log(first, second)
+    if (len % 2 == 0) {
+        return ((first + second) / 2).toFixed(1);
+    } else {
+        return first.toFixed(1);
+    }
+}
+
+console.log(findMedian([], [-10])) // -10.0
+console.log(findMedian([-50, -41, -40, -19, 5, 21, 28], [-50, -21, -10])) // -20.0
