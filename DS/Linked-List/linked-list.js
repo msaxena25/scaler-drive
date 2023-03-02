@@ -61,9 +61,9 @@ console.log('Insertion at start')
 // TC = O(1)
 
 function insertionAtStart(head, value) {
-    let newNode = new Node(value);
-    newNode.next = head;
-    head = newNode;
+        let newNode = new Node(value);
+        newNode.next = head;
+        head = newNode;
     return head;
 }
 
@@ -382,4 +382,4 @@ function reverseList(head) {
     console.log(result)
     return result;
 }
-reverseList(head); // dog elephant cat banana apple 
+reverseList(head); // dog elephant cat banana apple

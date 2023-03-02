@@ -390,3 +390,13 @@ console.log(findInversionPairs([4, 5, 1, 2, 6, 3]))
 [2, 5, 7, 1, 3, 4, 6]
 
 //@ So how to maintain stability in array -> If element have same value or same preference then Compare Index.
+
+
+
+
+//! JavaScript By Default sorting : insertion sort
+
+/* JavaScript by default uses insertion sort for the sort() method. This means that it is not appropriate when sorting
+ large data sets. When dealing with large data sets, one should consider other sorting algorithms such as merge sort.
+
+ */

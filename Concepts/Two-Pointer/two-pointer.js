@@ -8,37 +8,57 @@ Given a sorted array of integers (not necessarily distinct) A and an integer B, 
 Since the number of such pairs can be very large, return number of such pairs modulo (109 + 7).
  */
 
+//@ Pair Sum have two different Use cases.
+//@ One is When Array have distinct elements and Second When array have Duplicate elements as well.
+
+
+//* This Code will work for both usecases when array have duplicate elements or unique elements.
+//* In Case If we have an array of only unique elements then no need of set and map into below code.
+
+//? SC - O(n) & TC - O(n)
 function pairSum(A, B) {
-    let count = 0;
-    let i = 0;
-    let j = A.length - 1;
-    while (i < j) { // i and j are different so dont need to check  i<=j
-        if (A[i] + A[j] == B) {
-            count = count + 1;
-            if (A[j] == A[j - 1] && A[i] == A[i + 1]) {
-                count += 3;
-                i += 2;
-                j -= 2;
-            }
-            else if (A[j] == A[j - 1]) {
-                j--;
-            } else {
-                i++;
-            }
+    console.log('pairSum :', A, B);
+    let count = BigInt(0);
+    let frequencyMap = {};
+    // count frequency of each elements (will help this once element are duplicate)
+    for (let i = 0; i < A.length; i++) {
+        A[i] = BigInt(A[i]);
+        if (frequencyMap[A[i]]) {
+            frequencyMap[A[i]] = frequencyMap[A[i]] + 1;
+        } else {
+            frequencyMap[A[i]] = 1;
         }
-        else if (A[i] + A[j] > B) {
+    }
+    let set = [...new Set(A)]; // Now use Set and process only unique elements.
+    let i = 0;
+    let j = set.length - 1;
+    console.log(frequencyMap)
+    while (i < j) { // i and j are different so dont need to check  i<=j
+        set[i] = BigInt(set[i]);
+        set[j] = BigInt(set[j]);
+        if (set[i] + set[j] == B) {
+            count = count + (BigInt(frequencyMap[set[i]]) * BigInt(frequencyMap[set[j]])); //get frequency from map
+        }
+        if (set[i] + set[j] > B) {
             j--;
         } else {
             i++;
         }
-
     }
-    return count % Math.pow(10, 7);
+    if (i == j) {
+        if (frequencyMap[set[i]] > 1 && set[i] + set[j] == B) {
+            count = count + (BigInt(frequencyMap[set[i]]) * BigInt(frequencyMap[set[i]] - 1)) / BigInt(2);
+        }
+    }
+    return Number(count) % Math.pow(10, 7);
 }
 
 // console.log(pairSum([1, 2, 6, 6, 7, 9, 9], 13)) //2
 // console.log(pairSum([1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 9, 10], 5)) //6
-console.log(pairSum([1, 1, 3, 3, 5, 5, 6, 6, 6, 9, 10], 9)) //6
+// console.log(pairSum([1, 1, 3, 3, 5, 5, 6, 6, 6, 9, 10], 9)) //6
+console.log(pairSum([2, 2, 3, 4, 4, 4, 4, 5, 6, 7, 10], 8)); //9
+console.log(pairSum([2, 2, 2, 2], 4)); //6
+
 
 
 //! Container With Most Water
@@ -57,6 +77,7 @@ output: 6
 */
 
 function findArea(A) {
+    console.log('findArea :', A);
     let n = A.length;
     let i = 0;
     let j = n - 1;
@@ -96,7 +117,76 @@ console.log(findArea(inputArr))
 //6962572
 
 
-//! Pairs with Given Difference
+
+//! Given a sorted array A, Find pair count that have absolute difference is B. | A[i] - A[j] | = B
+
+/*
+    [1, 2, 3, 5, 7] , B = 2
+    Output: count is 3 and pairs are (1, 3), (3, 5), (5, 7)
+*/
+
+/*
+@ Approach
+
+Two pointer technique we can use here two ways-
+
+? 1. Start i as first element & j as second element
+    - If A[i] - A[j] == B, increase count and then move j
+    - If A[i] - A[j] < B, then increase j++;
+    - If A[i] - A[j] > B then increase i++;
+
+? 2. Start i as last element & j as second last element
+    - If A[i] - A[j] == B, increase count and then move j by j--
+    - If A[i] - A[j] < B, then decrease j--;
+    - If A[i] - A[j] > B then decrease i--;
+
+*/
+
+// Note: array is sorted array
+function pairDifference1(A, B) {
+    console.log('pairDifference in Sorted array, start i and j from left:', A, B);
+    let n = A.length;
+    let i = 0;
+    let j = i + 1; // two pointer technique. (Will not work if took j as last element)
+    let count = 0;
+    while (j < n) {
+        if (Math.abs(A[i] - A[j]) == B) {
+            count++;
+        }
+        if (Math.abs(A[i] - A[j]) < B) {
+            j++;
+        } else {
+            i++;
+        }
+    }
+    return count;
+}
+
+console.log(pairDifference1([1, 2, 3, 5, 7], 2))
+
+// Note: array is sorted array
+function pairDifference2(A, B) {
+    console.log('pairDifference 2 in Sorted array, start i and j from right:', A, B);
+    let n = A.length;
+    let i = n - 1;
+    let j = i - 1; // two pointer technique. (Will not work if took j as last element)
+    let count = 0;
+    while (j >= 0) {
+        if (Math.abs(A[i] - A[j]) == B) {
+            count++;
+        }
+        if (Math.abs(A[i] - A[j]) > B) {
+            i--;
+        } else {
+            j--;
+        }
+    }
+    return count;
+}
+
+console.log(pairDifference2([1, 2, 3, 5, 7], 2))
+
+//! Pairs with Given Difference in Unsorted array
 
 /*
 Given an one-dimensional integer array A of size N and an integer B.
@@ -208,8 +298,8 @@ First sub-array means the sub-array for which starting index in minimum.
 //? TC - O(n)
 function subarrayWithGivenSum(A, B) {
     console.log('subarrayWithGivenSum :', A);
-        let i = 0; // start i from 0
-        let j = 0; // start j from 0
+    let i = 0; // start i from 0
+    let j = 0; // start j from 0
     let sum = BigInt(A[0]); // single element is also a subarray so take first item as initial sum
     while (j < A.length) {
         if (Number(sum) == B) { // break the loop
