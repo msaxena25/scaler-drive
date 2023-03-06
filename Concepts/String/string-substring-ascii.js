@@ -417,6 +417,15 @@ Longest substring length = 5
 3. Continue step 2 until left and right are not equal or reach to start or end.
 */
 
+/*
+@ Palidrome string could be even lengh or Odd length.
+
+abba = this is palidrome of even length.
+abcba = this ia palindrome of odd length.
+
+* Feature of even length palindrome- Two middle chars will be always same.
+
+*/
 
 function longestPalindromeLength(str) {
     console.log('longestPalindromeLength :', str);

@@ -204,8 +204,36 @@ return head;
 var list1 = new LinkedList();
 list1.insert_node(1, 1);
 list1.insert_node(2, 2)
+list1.insert_node(3, 3);
+list1.insert_node(4, 4)
 console.log(reverseList(list1.head));
 
+
+//! Create another list by reversing Origional list (Dont update origional list)
+
+// SC = O(n)
+function reverseList2(head) {
+    console.log('reverseList without updating origional:', head);
+    if (head == null || head.next == null) { // Either List is empty or only have head.
+        return head;
+    }
+    let curr = head;
+    let head2 = new Node(head.data); // create new head of new list
+    while (curr.next != null) {
+        let curr2 = new Node(curr.next.data); // create new node with next data and make it current of another list
+        curr2.next = head2; // current element next => current head
+        head2 = curr2; // update head
+        curr = curr.next; // move next
+    }
+    return head2;
+}
+
+var list1 = new LinkedList();
+list1.insert_node(1, 1);
+list1.insert_node(2, 2)
+list1.insert_node(3, 3);
+list1.insert_node(4, 4)
+console.log(reverseList2(list1.head));
 
 //! Shallow copy and Deep Copy
 
@@ -437,3 +465,266 @@ function copyRandomList2(head) {
     return primeHead;
 }
 console.log(copyRandomList2(list2.head));
+
+
+//! Check number of nodes are even or odd by using slow pointer and fast pointer.
+
+function checkEvenOrOdd(head) {
+    console.log('checkEvenOrOdd :', head);
+    let slow = head;
+    let fast = head;
+    while (fast != null && fast.next != null) {
+        fast = fast.next.next; // move two steps
+        slow = slow.next; // move one step
+    }
+    // after travering complete list, if fast pointer goes to null, means list have Even number of Nodes.
+    if (fast == null) {
+        return 'list is even';
+    } else {
+        return 'list is odd';
+    }
+}
+var list5 = new LinkedList();
+list5.insert_node(1, 1);
+list5.insert_node(2, 2);
+//list5.insert_node(3, 3);
+console.log(checkEvenOrOdd(list5.head))
+
+
+
+
+
+//! Palindrome List
+
+/*
+Given a singly linked list A, determine if it's a palindrome. Return 1 or 0, denoting if it's a palindrome or not,
+respectively.
+
+1 -> 2 -> 2 -> 1  = this is Palindrome.
+ */
+
+//@ Solution 1 :: Reverse entire list and match one by one element => TC and SC = O(n)
+
+function checkPalindromeList(head) {
+    console.log('checkPalindromeList :', head);
+    if (head == null || head.next == null) { // Either List is empty or only have head.
+        return true;
+    }
+    // Step 1 :: First reverse entire list and create new list
+    let curr = head;
+    let head2 = new Node(head.data); // reverse list of origional list
+    while (curr.next != null) {
+        let curr2 = new Node(curr.next.data);
+        curr2.next = head2;
+        head2 = curr2;
+        curr = curr.next;
+    }
+    // Step 2 :: Compare both list (Origional vs Reverse) and check each node
+    curr = head;
+    let curr2 = head2;
+    while (curr != null && curr2 != null) {
+        if (curr.data != curr2.data) {
+            return false;
+        }
+        curr = curr.next;
+        curr2 = curr2.next;
+    }
+    return true;
+}
+var list4 = new LinkedList();
+list4.insert_node(1, '1');
+list4.insert_node(2, '2');
+list4.insert_node(3, '2');
+list4.insert_node(4, '1');
+//list4.insert_node(5, '1');
+
+console.log(checkPalindromeList(list4.head));
+
+
+
+//@ Solution 2 :: Without Using any extra memory => TC = O(n) and SC = O(1)
+
+function checkPalindromeList1(head) {
+    console.log('checkPalindromeList1 by finding middle element and reverse half list :', head);
+    if (head == null || head.next == null) { // Either List is empty or only have head.
+        return 1;
+    }
+    // Step 1 :: Finding middle element of the list
+    let slow = head; // last position of slow will be middle.
+    let fast = head;
+    let previousOfSlow = null; // this will hold previous node of slow pointer (Will use for even length)
+    while (fast != null && fast.next != null) {
+        previousOfSlow = slow;
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    // Step 2 :: Reverse second half of the list
+    let curr = fast == null ? slow : slow.next; // For even list, take slow as current and for Odd list take next of it.
+    let prev = null;
+    while (curr != null) {
+        let next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+    if (fast == null) {
+        previousOfSlow.next = prev; // for even length, add reversed list into next of previousOfSlow
+    } else {
+        slow.next = prev; // for odd length, add reversed list into next of slow pointer.
+    }
+
+    //Step 3 :: Now Compare element before middle and after middle and if they are same means list is palindrome.
+    curr = head;
+    let curr2 = fast == null ? previousOfSlow.next : slow.next;
+    while (curr2 != null) {
+        if (curr.data != curr2.data) {
+            return 0;
+        }
+        curr = curr.next;
+        curr2 = curr2.next;
+
+    }
+    return 1;
+}
+console.log(checkPalindromeList1(list4.head));
+
+
+//! Longest Palidrome Odd Length in given list
+
+//? Take every node as mid and traverse left and right. Compare left node to right node.
+
+function longestPalindromicOddLength(head) {
+    console.log('longest Palindromic Odd Length :', head);
+    let curr = head; // curr will represent as mid for each iteraraion
+    let prev = null; // initially previous is null
+    let ans = 0;
+    while (curr != null) {
+        let count = 0;
+        let next = curr.next;
+
+        let left = prev; // left list
+        let right = curr.next; // right list
+        while (left != null && right != null) {
+            if (left.data == right.data) {
+                count++; // counting length of one side only, in final answer, we will multiply by 2.
+            } else {
+                break;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        ans = Math.max(ans, count * 2 + 1); // total length will be count * 2 + 1
+        curr.next = prev; // Change next pointer of prev elements. (Because of this we are able to do left.next in comparison)
+        prev = curr;
+        curr = next;
+    }
+    head = prev;
+    console.log(head) // Here head will be completly reversed format.
+    return ans;
+}
+
+var list5 = new LinkedList();
+
+//@ Odd palindrome example - max length here is 5
+list5.insert_node(1, 5);
+list5.insert_node(2, 4);
+list5.insert_node(3, 5);
+list5.insert_node(4, 8);
+list5.insert_node(5, 5);
+list5.insert_node(6, 4);
+list5.insert_node(7, 3);
+list5.insert_node(8, 4);
+
+
+
+console.log(longestPalindromicOddLength(list5.head));
+
+
+//! Longest Palindromic Length (Odd or Even) - List may contain odd or even any length of palindrome.
+
+function longestPalindromeLength(head) {
+    console.log('longestPalindrome Odd or Even Length :', head);
+    function compareLeftRight(left, right) {
+        let count = 0;
+        while (left != null && right != null) {
+            if (left.data == right.data) {
+                count++; // counting length of one side only, in final answer, we will multiply by 2.
+            } else {
+                break;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return count;
+    }
+    let curr = head; // curr will represent as mid for each iteraraion
+    let prev = null; // initially previous is null
+    let ans = 0;
+
+    //? Step 1 :: Check for Odd length palindrome. Here we take single node as middle and compare left and right.
+    while (curr != null) {
+        let next = curr.next;
+        let count = compareLeftRight(prev, next);
+        ans = Math.max(ans, count * 2 + 1); // total length will be count * 2 + 1
+        curr.next = prev; // Change next pointer of prev elements. (Because of this we are able to do left.next in comparison)
+        prev = curr;
+        curr = next;
+    }
+    //? Step 2 :: Reverse list after first traversing because after first traversing, list has been reversed so tranform again to original form.
+    head = reverseList(prev);
+
+    //? Step 3 :: List may contain even length of palindrome, so check for even length as well. We know If palindromic is Even length means middle two nodes will be same. So here we will consider two nodes as middle and then compare left and right. If one node is ith then another node will be taken as (i-1)th node.
+
+    prev = null;
+    curr = head;
+    while (curr != null) {
+        let next = curr.next;
+        if (prev && prev.data == curr.data) { // check two nearest node, they should be same for further matching
+            let count = compareLeftRight(prev.next, curr.next);
+            ans = Math.max(ans, count * 2 + 2); // total length will be count * 2 + 2 (add 2 because two nodes are mid)
+        }
+        curr.next = prev; // Change next pointer of prev elements. (Because of this we are able to do left.next in comparison)
+        prev = curr;
+        curr = next;
+    }
+    //console.log(prev) // Here head will be completely reversed format.
+    return ans;
+}
+
+var list6 = new LinkedList();
+
+/* //@ Odd palindrome example - max length here is 5
+list6.insert_node(1, 5);
+list6.insert_node(2, 4);
+list6.insert_node(3, 5);
+list6.insert_node(4, 8);
+list6.insert_node(5, 5);
+list6.insert_node(6, 4);
+list6.insert_node(7, 3);
+list6.insert_node(8, 4); */
+
+// @ even palindrome exists of length 4
+list6.insert_node(1, 5);
+list6.insert_node(2, 4);
+list6.insert_node(3, 5);
+list6.insert_node(4, 5);
+list6.insert_node(5, 4);
+list6.insert_node(6, 8);
+
+console.log(longestPalindromeLength(list6.head));
+
+
+
+//! Longest Palindromic List
+
+/*
+Given a linked list of integers. Find and return the length of the longest palindrome list that exists in that linked list.
+A palindrome list is a list that reads the same backward and forward.
+
+Expected memory complexity : O(1)
+
+2 -> 1 -> 2 -> 1 ->  2 -> 2 -> 1 -> 3 -> 2 -> 2
+=  2 -> 1 -> 2 -> 1 -> 2 is largest palindromic sublist.
+
+*/
