@@ -13,7 +13,7 @@
         },
         {
             "tag": "?",
-            "color": "#3498DB",
+            "color": "#FF33F0",
             "strikethrough": false,
             "underline": false,
             "backgroundColor": "transparent",
@@ -31,7 +31,7 @@
         },
         {
             "tag": "@",
-            "color": "#5BE6E9",
+            "color": "#3393FF",
             "strikethrough": false,
             "underline": false,
             "backgroundColor": "transparent",
@@ -40,7 +40,7 @@
         },
         {
             "tag": "*",
-            "color": "#FFAA2E",
+            "color": "#FF5733",
             "strikethrough": false,
             "underline": false,
             "backgroundColor": "transparent",

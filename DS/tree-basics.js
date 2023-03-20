@@ -6,7 +6,7 @@
 
 @ What is Tree?
 
-The tree is a hierarchical data structure that is defined as a collection of nodes.
+The tree is a hierarchical non-linear data structure that is used to organize, store, and manipulated the data efficiently.
 
 @ What is Binary tree?
 
@@ -34,7 +34,7 @@ The top-most node is known as the root node, while the nodes with no children ar
 
 6. Internal Node - A node that has at least one child node is known as an internal node.
 
-7. Depth of a Binary Tree - The number of edges from a node in the tree to the root node. (Top to bottom)
+7. Depth of a Binary Tree (Is also called Level) - The number of edges from a node in the tree to the root node. (Top to bottom)
 
 8. Height of a Binary Tree - The number of edges from the deepest node in the tree to the root node. (Bottom to top)
 
@@ -49,24 +49,41 @@ class Node {
 
     constructor(data) {
         this.data = data;
-        this.left = null;
-        this.right = null;
+        this.left = null; // left contains address of Left tree.
+        this.right = null; // Right contains address of Right tree.
     }
 
 }
 
-//@ left contains address of Left tree. Right contains address of Right tree.
+//! There are many types of tree data structures. Some of them are:
+
+/*
+Binary Trees
+Binary Search Trees
+B Trees
+B+ Trees
+AVL Trees
+Red-Black Trees
+N-ary Trees
+Splay Trees, etc.
+
+*/
 
 
 //! Tree Traversal
+
+//? https://www.scaler.com/topics/tree-traversal-in-data-structures/
 
 /*
 Traversal of a tree means visiting and outputting the value of each node in a particular order.
 Trees are organized through relationships or hierarchies. This allows us to traverse them in multiple ways.
 
-*inorder traversal of binary tree
-*preorder traversal of binary tree
-*post order traversal of binary tree
+* inorder traversal of binary tree
+* preorder traversal of binary tree
+* post order traversal of binary tree
+* level order traversal
+* bfs
+* dfs
 
 */
 
@@ -163,3 +180,120 @@ function postOrder(node) {
 }
 postOrder(tree);
 console.log('Post ', postOrderArr)
+
+
+//! Level Order traversal
+
+/*
+In the level order tree traversal, the level of the root node is considered to be level-0 and next levels are 1 2 etc.
+Generally the level order traversal is done using a queue data structure.
+Firstly we insert the root into the queue and iterate over the queue until the queue is empty. In every iteration, we will pop the front element of the queue and print its value. Then, we add its left child and right child to the end of the queue.
+*/
+
+//@ Print elements one by one in same line like 1, 2, 3, 4...
+
+/*
+                          [1]
+                     /          \
+                [2]               [3]
+               /   \             /     \
+              [5]   [8]       [10]      [13]
+            /                 /  \      /
+           [6]             [9]    [7]   [4]
+                                  /
+                                [12]
+*/
+
+// TC and Sc -  O(n)
+function levelOrderTraversal1(root) {
+    console.log('levelOrderTraversal  : print items in same line');
+    if (root == null) {
+        return;
+    }
+    let queue = [];
+    queue.push(root); // that is called enqueue process in Queue data structure
+    while (queue.length != 0) { // that is queue.empty method of Queue
+        let curr = queue.shift(); // same as queue.dequeue method (pop from front side)
+        console.log(curr.data);
+        if (curr.left) {
+            queue.push(curr.left);
+        }
+        if (curr.right) {
+            queue.push(curr.right);
+        }
+    }
+}
+
+//@ Print elements of same level in one line and then break line for another level elements.
+
+/*
+1
+2 3
+5 8 10 13
+...
+...
+*/
+
+/*
+To print in new line, we have to track last element of each level.
+At 0 level, there is always one element and that is root. So at level 0 last will be root element.
+Now remove element from start and push its children into queue.
+If currently removed item is same as last element, means we are at end of level-i, so update last element as rear element of queue.
+and print a new line.
+
+
+*/
+
+// TC and Sc -  O(n)
+function levelOrderTraversalWithNewLine(root) {
+    console.log('levelOrderTraversal With New Line');
+    if (root == null) {
+        return;
+    }
+    let Q = [];
+    let last = root; // initially root element will be last element
+    Q.push(root); // enqueue root element
+    while (Q.length != 0) { // empty method of queue
+        let curr = Q.shift(); // dequque method of queue
+        console.log(curr.data);
+        if (curr.left) {
+            queue.push(curr.left);
+        }
+        if (curr.right) {
+            queue.push(curr.right);
+        }
+        if (curr == last) {
+            console.log('\n');
+            last = Q[Q.length - 1]; // rear() method of queue
+        }
+    }
+
+}
+
+//! Right view of Tree - print all right most elements
+
+// TC and Sc -  O(n)
+function printRightView(root) {
+    console.log('printRightView of tree');
+    if (root == null) {
+        return;
+    }
+    let Q = [];
+    let last = root; // initially root element will be last element
+    Q.push(root); // enqueue root element
+    while (Q.length != 0) { // empty method of queue
+        let curr = Q.shift(); // dequque method of queue
+        if (curr.left) {
+            queue.push(curr.left);
+        }
+        if (curr.right) {
+            queue.push(curr.right);
+        }
+        if (curr == last) {
+            console.log(curr.data) // only print last element
+            last = Q[Q.length - 1]; // rear() method of queue
+        }
+    }
+
+}
+

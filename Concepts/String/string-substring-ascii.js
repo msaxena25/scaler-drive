@@ -131,7 +131,7 @@ function toggleStringUsingAsciiRange(str) {
         let code = str[i].charCodeAt();
 
         // If char in range of Captial Letter's ascii values.
-        if (code >= 65 && code <= 90) { // A = 65 & Z = 90
+        if (code >= 65 && code <= 90) { // A = 65 & Z = 90 => 65 + 25 = 90 (code of Z)
             code += 32; // convert to small
         } else {
             code -= 32; // convert to capital
@@ -170,8 +170,8 @@ Z = 90 = 0 1 0 1 1 0 1 0   z = 122 = 0 1 1 1 1 0 1 0
 
 * Toggle we can easily obtain by XOR opeartion with 1.
 
-1 ^ 1 = 0       0 ^ 1 = 0
-11 ^ 11 = 00    00 ^ 11 = 00
+1 ^ 1 = 0       0 ^ 1 = 1
+11 ^ 11 = 00    00 ^ 11 = 11
 
 * And we have to toggle 2^5 bit position so we will do XOR with 10000
 
