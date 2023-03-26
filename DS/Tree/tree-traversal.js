@@ -137,49 +137,49 @@ console.log(tree)
 
 //! Preorder traversal
 
-const preOrderArr = [];
+const preOrderMap = [];
 function preorder(node) {
     if (node == null) {
         return;
     }
-    preOrderArr.push(node.data);
+    preOrderMap.push(node.data);
     preorder(node.left);
     preorder(node.right);
 
 }
 preorder(tree);
-console.log('Pre ', preOrderArr)
+console.log('Pre ', preOrderMap)
 
 
 //! In Order traversal
 
-const inOrderArr = [];
+const inOrderMap = [];
 function inOrder(node) {
     if (node == null) {
         return;
     }
     inOrder(node.left);
-    inOrderArr.push(node.data);
+    inOrderMap.push(node.data);
     inOrder(node.right);
 
 }
 inOrder(tree);
-console.log('In ', inOrderArr)
+console.log('In ', inOrderMap)
 
 
 //! Post Order Traversal
 
-const postOrderArr = [];
+const postOrderMap = [];
 function postOrder(node) {
     if (node == null) {
         return;
     }
     postOrder(node.left);
     postOrder(node.right);
-    postOrderArr.push(node.data);
+    postOrderMap.push(node.data);
 }
 postOrder(tree);
-console.log('Post ', postOrderArr)
+console.log('Post ', postOrderMap)
 
 
 //! Level Order traversal
@@ -211,10 +211,11 @@ function levelOrderTraversal1(root) {
         return;
     }
     let queue = [];
+    let ans = [];
     queue.push(root); // that is called enqueue process in Queue data structure
     while (queue.length != 0) { // that is queue.empty method of Queue
         let curr = queue.shift(); // same as queue.dequeue method (pop from front side)
-        console.log(curr.data);
+        ans.push(curr.data);
         if (curr.left) {
             queue.push(curr.left);
         }
@@ -222,7 +223,10 @@ function levelOrderTraversal1(root) {
             queue.push(curr.right);
         }
     }
+    return ans;
 }
+
+console.log(levelOrderTraversal1(tree))
 
 //@ Print elements of same level in one line and then break line for another level elements.
 
@@ -246,29 +250,37 @@ and print a new line.
 
 // TC and Sc -  O(n)
 function levelOrderTraversalWithNewLine(root) {
-    console.log('levelOrderTraversal With New Line');
+    console.log('levelOrderTraversal With New Line', root);
     if (root == null) {
         return;
     }
+    let ans = [];
     let Q = [];
     let last = root; // initially root element will be last element
     Q.push(root); // enqueue root element
+    let temp = [];
     while (Q.length != 0) { // empty method of queue
         let curr = Q.shift(); // dequque method of queue
-        console.log(curr.data);
+        temp.push(curr.data);
         if (curr.left) {
-            queue.push(curr.left);
+            Q.push(curr.left);
         }
         if (curr.right) {
-            queue.push(curr.right);
+            Q.push(curr.right);
         }
         if (curr == last) {
-            console.log('\n');
+            ans.push(temp);
+            temp = [];
             last = Q[Q.length - 1]; // rear() method of queue
         }
     }
+    return ans;
 
 }
+
+console.log(levelOrderTraversalWithNewLine(tree))
+
+
 
 //! Right view of Tree - print all right most elements
 
@@ -297,3 +309,215 @@ function printRightView(root) {
 
 }
 
+
+//! Vertical Order traversal, Left to Right and Top to Bottom
+
+//? ProblemImagesView\vertical-order-traversal.png
+
+/*
+Input:
+      6
+    /   \
+   3     7
+  / \     \
+ 2   5     9
+
+Output:
+[
+    [2],
+    [3],
+    [6, 5],
+    [7],
+    [9]
+ ]
+
+*/
+
+
+/*
+@ Approach
+
+? To read nodes from left to right, we need some column wise order information from first left to last right.
+    Assign Root node as Order 0. All Left edge will cost -1 and right edge will cost +1.
+    6 is 0. So 3 have -1 (because it is on left) & 7 have 1 (because it is on right).
+    3 have Ordering -1, 2 is its left child so -1 - 1 = -2, 5 is its right child so -1 + 1 = 0.
+? Create a Queue with node and its distance (distance from root node)
+? Create a map to contain nodes distance wise.
+
+      6 (0)
+     /     \
+(-1) 3     7 (1)
+  /   \     \
+ 2     5     9 (2)
+(-2)   (0)
+
+*/
+
+// SC and TC - O(n)
+function verticalTraversal(root) {
+    console.log('verticalTraversal :');
+    if (root == null) {
+        return;
+    }
+    let orderMap = {}; // map to contains nodes with its order (distance from root node)
+    let Q = []; // queue for level order traversal
+    // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
+    // Why do Level order - because we have to traverse from top to bottom as per question requirement
+
+    Q.push([root, 0]); // initial node is root and it has distance 0
+    orderMap[0] = [root.data];
+
+    let minDistance = 0; // track min left distance
+    let maxDistance = 0; // track max right distance
+
+    while (Q.length != 0) {
+        let [currNode, currDistance] = Q.shift();
+        if (currDistance < minDistance) {
+            minDistance = currDistance;
+        }
+        if (currDistance > maxDistance) {
+            maxDistance = currDistance;
+        }
+        if (currNode.left) {
+            Q.push([currNode.left, currDistance - 1]); // moving left side so did -1 here.
+            if (orderMap[currDistance - 1]) {
+                orderMap[currDistance - 1].push(currNode.left.data);
+            } else {
+                orderMap[currDistance - 1] = [currNode.left.data];
+            }
+
+        }
+        if (currNode.right) {
+            Q.push([currNode.right, currDistance + 1]); // moving right side so did +1 here.
+            if (orderMap[currDistance + 1]) {
+                orderMap[currDistance + 1].push(currNode.right.data);
+            } else {
+                orderMap[currDistance + 1] = [currNode.right.data];
+            }
+
+        }
+    }
+    console.log(orderMap, minDistance, maxDistance);
+    let ans = [];
+    for (let i = minDistance; i <= maxDistance; i++) {
+        ans.push(orderMap[i])
+    }
+    return ans;
+
+}
+console.log(verticalTraversal(tree));
+
+
+
+//! Top View of Binary Tree
+
+//? This is completely same as Vertical traversal, Just we have to pick first element of each distance
+
+/*
+            1
+          /   \
+         2    3
+        / \  / \
+       4   5 6  7
+      /
+     8
+
+Output: [1, 2, 4, 8, 3, 7]
+*/
+
+//@ I have used here array to store node, but actually we have to store data in Queque.
+function topViewofBT(root) {
+    console.log('topViewofBT :', root);
+    if (root == null) {
+        return;
+    }
+    let orderMap = {}; // map to contains nodes with its order (distance from root node)
+    let Q = []; // queue for level order traversal
+    // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
+    // Why do Level order - because we have to traverse from top to bottom as per question requirement
+
+    Q.push([root, 0]); // initial node is root and it has distance 0
+    orderMap[0] = [root.data];
+
+    let minDistance = 0; // track min left distance
+    let maxDistance = 0; // track max right distance
+
+    while (Q.length != 0) {
+        let [currNode, currDistance] = Q.shift(); // use Queue data structure
+        if (currDistance < minDistance) {
+            minDistance = currDistance;
+        }
+        if (currDistance > maxDistance) {
+            maxDistance = currDistance;
+        }
+        if (currNode.left) {
+            Q.push([currNode.left, currDistance - 1]); // moving left side so did -1 here.
+            if (orderMap[currDistance - 1]) {
+                orderMap[currDistance - 1].push(currNode.left.data);
+            } else {
+                orderMap[currDistance - 1] = [currNode.left.data];
+            }
+
+        }
+        if (currNode.right) {
+            Q.push([currNode.right, currDistance + 1]); // moving right side so did +1 here.
+            if (orderMap[currDistance + 1]) {
+                orderMap[currDistance + 1].push(currNode.right.data);
+            } else {
+                orderMap[currDistance + 1] = [currNode.right.data];
+            }
+
+        }
+    }
+    //console.log(orderMap);
+    let ans = [];
+    for (let i = minDistance; i <= maxDistance; i++) {
+        ans.push(orderMap[i][0]) //* This is only change here in top view case compare to vertical traversal code
+    }
+    return ans;
+
+}
+console.log(topViewofBT(tree));
+
+
+
+//! Height balanced tree
+// ProblemImagesView\height-balanced-tree.jpg
+
+/*
+A Binary Search Tree is considered to be balanced if any two sibling subtrees have height diff <= 1.
+The difference between the height of the left and the height of the right subtree for all the nodes of the tree should not exceed 1.
+
+* For all node => | height(LT) - height(RT) | <= 1
+
+* height = max(LT, RT) + 1
+
+* Leaf Node have height 0 because it does not have any children.
+
+? Calculate Leaf node height-
+    Leaf node have left and right null. In case of null just return -1. So max of -1 and -1 is -1 and when we add 1 it become 0.
+*/
+
+// SC and TC = O(n)
+function heightBalancedTree(root) {
+    let isBalanced = true; // initially assumed that tree is balaced
+    function balanced(root) {
+        if (root == null) {
+            return -1; // if node is null , means return -1
+        }
+        let left = balanced(root.left); // traverse left sub tree
+        let right = balanced(root.right); // traverse right sub tree
+        if (Math.abs(left - right) > 1) { // In case diff > 1 means tree is not balaced
+            isBalanced = false; // tree is not balanced
+        }
+        return Math.max(left, right) + 1; // calculate height
+
+    }
+    balanced(root);
+    if (isBalanced) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+console.log(heightBalancedTree(tree))
