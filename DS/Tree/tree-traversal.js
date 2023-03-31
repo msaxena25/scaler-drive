@@ -190,7 +190,7 @@ Generally the level order traversal is done using a queue data structure.
 Firstly we insert the root into the queue and iterate over the queue until the queue is empty. In every iteration, we will pop the front element of the queue and print its value. Then, we add its left child and right child to the end of the queue.
 */
 
-//@ Print elements one by one in same line like 1, 2, 3, 4...
+//@ Print elements one by one in same line like 1, 2, 3, 5 8 10...
 
 /*
                           [1]
@@ -258,7 +258,7 @@ function levelOrderTraversalWithNewLine(root) {
     let Q = [];
     let last = root; // initially root element will be last element
     Q.push(root); // enqueue root element
-    let temp = [];
+    let temp = []; // to save same level elements
     while (Q.length != 0) { // empty method of queue
         let curr = Q.shift(); // dequque method of queue
         temp.push(curr.data);
@@ -269,8 +269,8 @@ function levelOrderTraversalWithNewLine(root) {
             Q.push(curr.right);
         }
         if (curr == last) {
-            ans.push(temp);
-            temp = [];
+            ans.push(temp); // push same level all elements into final array
+            temp = []; // empty temp arr
             last = Q[Q.length - 1]; // rear() method of queue
         }
     }
@@ -282,7 +282,7 @@ console.log(levelOrderTraversalWithNewLine(tree))
 
 
 
-//! Right view of Tree - print all right most elements
+//! Right view of Tree - print all right most elements || Almost same as above solution with one change
 
 // TC and Sc -  O(n)
 function printRightView(root) {
@@ -482,6 +482,7 @@ console.log(topViewofBT(tree));
 
 
 //! Height balanced tree
+
 // ProblemImagesView\height-balanced-tree.jpg
 
 /*
@@ -521,3 +522,114 @@ function heightBalancedTree(root) {
     }
 }
 console.log(heightBalancedTree(tree))
+
+
+
+
+//! Create Binary tree by given In-Order and Post Order array.
+
+/*
+
+ A = [6, 1, 3, 2]
+ B = [6, 3, 2, 1]
+
+  1
+  / \
+ 6   2
+    /
+   3
+
+*/
+
+
+/*
+ * Approach
+
+? Is it possible to create Binary tree with only one traversal given?
+
+@ Assume Only In order given- [1, 2, 3]
+
+   2     1          1
+  / \      \         \
+ 1   3      2          3
+             \        /
+              3      2
+
+
+So we can see that with single Inorder there are many possible tree and we can get Unique binary tree. thats why we need two orders.
+
+@ In Order is required to create binary tree with One another order Pre or Post. We can not construct with Pre and Post.
+
+
+ In - Order      A = [6, 1, 3, 2]       L N R
+ Post Order      B = [6, 3, 2, 1]       L R N
+
+
+In Post Order, Node comes at last. So Last element of Post order will be Root node surely.
+1 Will be root node.
+Now check In-Order and we know Node comes in middle, so just find 1 into pre order traversal and all elements left to 1 will be part of left sub tree and all right elements will become part of right sub tree.
+Left element is only 6 that will be part of left sub tree.
+3 and 2 are right elements in In-Order so that will be part of right sub tree.
+In-Order    =>  [6] [1] [3, 2]
+Post-Order  =>  [6] [3, 2]  [1]
+
+Now follow same algo in recursive manner.
+6 is only element so no further process.
+In sub tree [3, 2] Check Post order and as per that 2 wil be node. And If 2 is node then as per In-order 3 will be Left child.
+
+? ProblemImagesView\binary-tree-construct.jpg
+
+*/
+
+/**
+ *
+ * @param {*} inOrderArr - In order traversal array
+ * @param {*} postOrderArr Post order traversal array
+ * @param {*} startIn - start index of In order
+ * @param {*} endIn  - end index of In order
+ * @param {*} startPost - start index of post order
+ * @param {*} endPost  - end index of post order
+ */
+
+//* Linear way => TC -> O(n) , SC -> O(h) = O(h) in worst case it will be O(n)
+//* HashMap => If we use hashMap then SC => O(n) + O(h) = O(n)
+function constructBinaryTree(inOrderArr, postOrderArr, startIn, endIn, startPost, endPost) {
+
+    if (startIn > endIn) {
+        return null;
+    }
+
+    // Step 1 :: Last element of Post order is always Node.
+    let node = new Node(postOrderArr[endPost]); // create a new node based on end Index
+
+    // Step 2 :: Find above node Index from In Order array
+    let nodeIndex;
+    for (let startIn = 0; startIn <= endIn; startIn++) {
+        const element = inOrderArr[startIn];
+        if (element == postOrderArr[endPost]) { // we can also do (element == node.data)
+            nodeIndex = startIn;
+            break;
+        }
+    }
+    /*  Step 3 :: Now elements before nodeIndex will become part of Left sub tree.
+        Left sub tree indices ->
+             Inorder array indices    => start will be startIn and end index will be nodeIndex - 1
+             Postorder array indices  => count number of elements left side in In-Order and based on that we will find index in post order
+                 => nodeIndex = 1;
+                 => countLeft = nodeIndex - startIn
+                 => startPost = startPost, endPost = startPost + countLeft - 1;
+        Right sub tree indices ->
+             Inorder array indices    => start will be nodeIndex + 1 and end index will be endIn
+             Postorder array indices  => count number of elements right side in In-Order and based on that we will find index in post order
+                 => nodeIndex = 1;
+                 => countRight = endIn - nodeIndex
+                 => startPost = startPost + countLeft, endPost = endPost - 1;
+     */
+    let countLeft = nodeIndex - startIn;
+    let countRight = endIn - nodeIndex; // this is not in use.
+    node.left = constructBinaryTree(inOrderArr, postOrderArr, startIn, nodeIndex - 1, startPost, startPost + countLeft - 1);
+    node.right = constructBinaryTree(inOrderArr, postOrderArr, nodeIndex + 1, endIn, startPost + countLeft, endPost - 1);
+    return node;
+}
+console.log('constructBinaryTree from Inorder and PostOrder');
+console.log(constructBinaryTree([2, 1, 3], [2, 3, 1], 0, 2, 0, 2));
