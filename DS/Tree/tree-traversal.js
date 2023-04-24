@@ -481,6 +481,36 @@ console.log(topViewofBT(tree));
 
 
 
+//! Max depth of binary tree :: can solve with level order traversal
+
+function maxDepth(A) {
+    if (A == null) {
+        return null;
+    }
+    let last = A;
+    let Q = []; // queue
+    Q.push(A);
+    let depth = 0;
+    while (Q.length != 0) {
+        let curr = Q.shift(); // remove first element
+        if (curr.left) {
+            Q.push(curr.left);
+        }
+        if (curr.right) {
+            Q.push(curr.right);
+        }
+        if (curr == last) {
+            depth++;
+            last = Q[Q.length - 1];
+        }
+
+    }
+    return depth;
+}
+
+
+
+
 //! Height balanced tree
 
 // ProblemImagesView\height-balanced-tree.jpg
