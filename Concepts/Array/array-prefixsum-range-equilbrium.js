@@ -1,3 +1,5 @@
+//! Doc link - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+
 /**
  *? Prefix array is a very vital tool in competitive programming. This helps to minimize the repeated calculation done in an array and thus reduces the time complexity of your program.
 
@@ -90,7 +92,7 @@ function calculateRangeSum1(arr, queries) {
 // SC - O(Q)
 calculateRangeSum1([1, 2, 3, 4, 5, 6, 7, 8], [[1, 5], [2, 6], [6, 7]]); //[20, 25, 15]
 
-//! Lets solve above problem with Prefix sum algorithm.
+//! Lets solve above problem with Prefix sum technique.
 
 function calculateRangeSumWithPf(arr, queries) {
     const rangeSum = [];
@@ -184,14 +186,14 @@ calculateRangeSumWithPf1([7, 3, 1, 5, 5, 5, 1, 2, 4, 5], [[7, 10], [3, 10], [3, 
 
 //* The equilibrium index can be defined as the index in the array such that the sum of elements of lower indices is equal to the sum of elements of higher indices.
 
-//? If ith index is equilbrium index of an array then -
+//? If ith index is equilibrium index of an array then -
 //? leftSum = [0,i-1] & rightSum = [i+1, n-1] & leftSum === rightSum.
 
 
 //! Brute Force approach
 
-// Return first ith index that is equilbrium index.
-function equilbriumIndex(arr) {
+// Return first ith index that is equilibrium index.
+function equilibriumIndex(arr) {
     for (let i = 0; i < arr.length; i++) {
         let leftSum = 0;
         let rightSum = 0;
@@ -210,16 +212,16 @@ function equilbriumIndex(arr) {
 }
 // TC - O(N^2)
 // SC - O(1)
-console.log(equilbriumIndex([-7, 1, 5, 2, -4, 3, 0])) //3
-console.log(equilbriumIndex([1, 2, 3])) //-1
+console.log(equilibriumIndex([-7, 1, 5, 2, -4, 3, 0])) //3
+console.log(equilibriumIndex([1, 2, 3])) //-1
 
 //! O(n) approach
 
-//@ This below program will count total number of equilbrium indices & return that.
-//@ You can also return first ith index that is equilbrium index.
+//@ This below program will count total number of equilibrium indices & return that.
+//@ You can also return first ith index that is equilibrium index.
 
-function equilbriumIndexWithPF(arr) {
-    let countEquilBriumIndices = 0;
+function equilibriumIndexWithPF(arr) {
+    let countEquiliBriumIndices = 0;
     let pf = [];
     pf[0] = arr[0];
     const n = arr.length;
@@ -232,15 +234,15 @@ function equilbriumIndexWithPF(arr) {
         const rightSum = pf[n - 1] - pf[(i + 1) - 1]; // [i+1, n-1]
         console.log('index- ', i, 'leftsum = ', leftSum, 'rightsum = ', rightSum)
         if (leftSum === rightSum) {
-            countEquilBriumIndices++;
+            countEquiliBriumIndices++;
         }
     }
-    return countEquilBriumIndices;
+    return countEquiliBriumIndices;
 }
-console.log(equilbriumIndexWithPF([-7, 1, 5, 2, -4, 3, 0]))
-console.log(equilbriumIndexWithPF([1, 2, 1]))
-console.log(equilbriumIndexWithPF([1]))
-console.log(equilbriumIndexWithPF([1]))
+console.log(equilibriumIndexWithPF([-7, 1, 5, 2, -4, 3, 0]))
+console.log(equilibriumIndexWithPF([1, 2, 1]))
+console.log(equilibriumIndexWithPF([1]))
+console.log(equilibriumIndexWithPF([1]))
 
 /*********************************************** */
 
@@ -355,7 +357,7 @@ evenNumberInRangeRefactor([1, 2, 3, 4, 5], [[0, 2], [2, 4]])
 //! Array prefix sum with Space C -  O(1)
 // https://leetcode.com/problems/running-sum-of-1d-array/description/
 
-// Updating origional array
+// Updating original array
 var runningSum = function (nums) {
     for (let i = 1; i < nums.length; i++) {
         nums[i] = nums[i - 1] + nums[i];

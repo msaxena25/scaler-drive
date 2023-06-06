@@ -6,7 +6,7 @@ function run1(n) {
     }
 }
 
-//? Outer For loop will always run 5o times only.
+//? Outer For loop will always run fixed times only.
 
 // O(n^2)
 // O(n) ✔️
@@ -100,10 +100,10 @@ Exponential examples: 2^n, 3^n, 100^n, 5^(7n), etc….
 /**
 O(1) - constant time - When time complexity is constant (notated as “O(1)”), the size of the input (n) doesn’t matter.
 O(log(n)) - logarithmic time - if time execution is proportional to the logarithm of the input size. When the input size grows, the number of operations grows very slowly.
-O((log(n))c) - polylogarithmic time
+O((log(n))c) - poly algorithmic time
 O(n) - linear time - When time complexity grows in direct proportion to the size of the input,
 O(n^2) - quadratic time - the time it takes to run grows directly proportional to the square of the size of the input
-O(n^c) - polynomial time - same as quadtraic time but here we have taken constant value as c.
+O(n^c) - polynomial time - same as quadratic time but here we have taken constant value as c.
 O(c^n) - exponential time - the growth rate doubles with each addition to the input (n),
 O(n!) - factorial time
  */
@@ -111,7 +111,7 @@ O(n!) - factorial time
 /* If for an algorithm time complexity is given by O((3/2)^n) then complexity will:
 
 constant
-quardratic
+quadratic
 exponential
 none of the mentioned */
 
@@ -126,7 +126,7 @@ function run6(n) {
     return s;
 }
 // O(n^(1/4))
-// O(n^(1/3)) ✔️
+// O(n^(1/3)) ✔️ it is similar as cute root of n
 // O(n^(1/2))
 // O(n)
 
@@ -151,7 +151,6 @@ function solve(n) {
         let x = i;
         while (x--) {
             console.count('while')
-            //O(1) operation
         }
         i++;
     }

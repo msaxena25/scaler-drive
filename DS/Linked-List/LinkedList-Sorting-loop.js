@@ -396,7 +396,7 @@ console.log(detectCycleWithTwoPointer(list3.head)); // false
 console.log(detectCycle(list3.head)); // false
 
 
-//! Find start of cycle in cicular linked list.
+//! Find start of cycle in circular linked list.
 
 /*
 Input:
@@ -410,7 +410,7 @@ Output: 4 (4 is start of cycle)
 */
 
 /*
-@ Lets understand Start of cycle solution Approach with below Cicucular list.
+@ Lets understand Start of cycle solution Approach with below circular list.
 
 A -> B -> C -> D -> E -> F
           ^              |
@@ -420,7 +420,7 @@ A -> B -> C -> D -> E -> F
 1. If we find meeting point in above list using slow and fast pointer technique, that will be 'E'.
 2. E is meeting point but not start of cycle. We can see that 'C' is start of cycle.
 
-? Lets compute travelled distance by slow and fast pointer
+? Lets compute traveled distance by slow and fast pointer
 
      Suppose X = distance from Head (A) to start of Cycle (C)
              Y = distance from Start of Cycle (C) to Meeting Point (E)
@@ -428,7 +428,7 @@ A -> B -> C -> D -> E -> F
 
 As per slow and fast algo, we know that fast pointer runs twice of slow.
 
-?   distance travelled by Slow * 2 = distance travelled by Fast
+?   distance traveled by Slow * 2 = distance traveled by Fast
 
     (X + Y) * 2 = X + (Y + Z) + Y           -- (Y + Z) is cycle distance
     X + Y + X + Y = X + Y + Z + Y
@@ -452,7 +452,7 @@ Same If Fast cover K cycle then X will be
 ? Distance of Head to start of Cycle = Distance of Meeting point to Start of Cycle.
 
 If Two Other Pointers (P1, P2) start their journey on same pace (First 'P1' start from Head and Second 'P2' start from Meeting point)
-So we know that distance travelled by P1 from head to node C and by P2 from 'E' to 'C' will be same. Or we can say that P1 and P2 where they meet , will be the start of cycle.
+So we know that distance traveled by P1 from head to node C and by P2 from 'E' to 'C' will be same. Or we can say that P1 and P2 where they meet , will be the start of cycle.
 
 
 

@@ -1,3 +1,5 @@
+//! Doc link https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+
 //! Leaders in an array
 
 /**
@@ -131,9 +133,8 @@ occurrence of the maximum value of the array and at least one occurrence of the 
 1 <= |A| <= 2000
 
 Return the length of the smallest subarray which has at least one occurrence of minimum and maximum element of the array
-
-A = [1, 3]
-2
+.1
+.
 */
 
 /**
@@ -143,7 +144,7 @@ A = [1, 3]
 3. In worst case - answer could be array.length (means first element and last element are only min or max value)
 4. Take two variables minIndex and maxIndex. Initially they are -1.
 5. Loop over the items from last to first. (n-1 to 0)
-6. If ith element are min or maxvalue then only calculate minIndex & maxIndex, Dont do anything for rest items.
+6. If ith element are min or max value then only calculate minIndex & maxIndex, Don't do anything for rest items.
 7. If arr[i] is maxValue then maxI = i;
 8. If arr[i] is minValue then minI  = i;
 9. For ith item max or min - calculate subarray length based on min & max Index. And If it is less then answer then assign this
@@ -152,7 +153,7 @@ length into answer.
  */
 
 
-//@ right to left travering
+//@ right to left traversing
 
 function closestMinMax(arr) {
     const minValue = Math.min(...arr);
@@ -170,14 +171,16 @@ function closestMinMax(arr) {
         if (arr[i] === maxValue) {
             maxI = i;
             if (minI > -1) {
-                const len = minI - (maxI - 1); // minIndex will be higher because travering is right to left
+                // Did here minI - maxI because we already have minI value thats why If condition become true & maxI we just got.
+                const len = minI - (maxI - 1);
                 ans = Math.min(ans, len);
             }
         }
         if (arr[i] === minValue) {
             minI = i;
             if (maxI > -1) {
-                const len = maxI - (minI - 1); // maxIndex will be higher because travering is right to left
+                // Did here maxI - minI because if condition become true once we have maxI value. It means maxI is greater than minI.
+                const len = maxI - (minI - 1);
                 ans = Math.min(ans, len);
             }
         }
@@ -238,11 +241,11 @@ closestMinMax1([4, 4, 4])
 
 /****************************** */
 
-//!  Even Subarrays
+//!  Even Sub arrays
 
 /* You are given an integer array A.
 
-Decide whether it is possible to divide the array into one or more subarrays of even length such that the first and last element of all subarrays will be even.
+Decide whether it is possible to divide the array into one or more subarrays of even length such that the first and last element of all element of sub array will be even.
 
 Return "YES" if it is possible; otherwise, return "NO" (without quotes).
 
@@ -323,7 +326,51 @@ Explanation 2:
 Pick element 2 from end as this is the maximum we can get
  */
 
+/*
+@ Approach-
 
+1. As per question requirement, we have to find out sum of array elements so prefix sum is nice way to do that.
+2. We have to pick some elements from left and some from right. OR pick all B elements from left or all from right.
+3. So we created two prefix sum array first is left to right and second is right to left.
+
+*/
+
+// TC & SC - O(n)
+function maxSumWhenPickFromBothSides(A, B) {
+    console.log('maxSumWhenPickFromBothSides :', A, B);
+    let pfFromLToR = [];
+    pfFromLToR.push(A[0]);
+    let pfFromRToL = [];
+    let len = A.length;
+    pfFromRToL.push(A[len - 1]);
+
+    // Prefix sum from left to right
+    for (let i = 1; i < len; i++) {
+        pfFromLToR[i] = pfFromLToR[i - 1] + A[i];
+    }
+
+    // Prefix sum from right to left :: A[len - 1 - i] => pick element from last.
+    for (let i = 1; i < len; i++) {
+        pfFromRToL[i] = pfFromRToL[i - 1] + A[len - 1 - i];
+    }
+    console.log(pfFromLToR, pfFromRToL);
+    let maxAns = Number.MIN_SAFE_INTEGER;
+
+    /*
+        We have to choose only B values so loop over till B.
+        When i is 0 means we will pick all B values from right. And when i reaches to B, means we will
+        pick all B values from left.
+    */
+    for (let i = 0; i <= B; i++) {
+        let sum = pfFromLToR[i - 1] || 0; // when i is < 0 then take 0
+        sum += pfFromRToL[B - i - 1] || 0; // when i is < 0 then take 0
+        maxAns = Math.max(sum, maxAns);
+    }
+    return maxAns;
+
+}
+
+console.log(maxSumWhenPickFromBothSides([2, 3, -1, 4, 2, 1], 4)) //9
 
 
 
@@ -343,6 +390,25 @@ Output
     6
 */
 
+/*
+ @ approach
+
+Given string is = ABECEU
+
+Lets indexing each char =>  A B E C E U
+                        =>  0 1 2 3 4 5
+Index 0 have vowel, so substring with index 0 are A, AB, ABE, ABEC, ABECE, ABECEU
+Same check for other indexing as well.
+
+Short way to count number of substrings from any index is => String.length - i
+So from index 0 , substring are = 6 - 0 = 6
+Substrings from index 2 = 6 - 2 = 4
+Substrings from index 4 = 6 - 4 = 2
+Substrings from index 5 = 6 - 5 = 1
+*/
+
+// TC  - O(n^2) because we have to use array includes method here.
+// Compare directly using if condition to reduce it to O(n)
 function countSubStringStartFromVowels(str) {
     console.log('countSubStringStartFromVowels :', str);
     let count = 0;
@@ -355,4 +421,60 @@ function countSubStringStartFromVowels(str) {
     console.log(count);
     return count;
 }
+
 countSubStringStartFromVowels('ABECEU'); //13
+
+
+//! Best Time to Buy and Sell Stocks I
+
+/*
+Say you have an array, A, for which the ith element is the price of a given stock on day i.
+If you were only permitted to complete at most one transaction (ie, buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+Return the maximum possible profit.
+
+Problem Constraints
+0 <= A.size() <= 700000
+1 <= A[i] <= 10^7
+
+Input = A = [1, 4, 5, 2, 4]
+Output = 4 :: Buy the stock on day 0, and sell it on day 2.
+*/
+
+// TC - O(n^2 ) Brute Force way
+function maxProfitInStock(A) {
+    console.log('maxProfitInStock :', A);
+    let maxProfit = 0;
+    for (let i = 0; i < A.length; i++) {
+        for (let j = i + 1; j < A.length; j++) {
+            if (A[j] > A[i]) {
+                maxProfit = Math.max(A[j] - A[i], maxProfit);
+            }
+        }
+    }
+    return maxProfit;
+}
+console.log(maxProfitInStock([1, 4, 5, 2, 4])) // 4
+console.log(maxProfitInStock([1, 9, 2, 15, 3])) // 14
+
+// TC  = O(n) & SC = O(n)
+function maxProfitInStockOptimized(A) {
+    console.log('maxProfitInStockOptimized :', A);
+    let maxProfit = 0;
+    let maxElementArr = []; // For every element, find max element in right side and store here.
+    let len = A.length;
+    let tempMax = 0;
+    for (let i = len - 1; i >= 0; i--) {
+        tempMax = Math.max(A[i], tempMax);
+        maxElementArr[i] = tempMax; // maxElementArr will fill from last index to first index.
+    }
+    //console.log(maxElementArr)
+
+    // Now we have max element array of each element in right side of that element. So simply do maxElement[i] - A[i]
+    for (let i = 0; i < A.length; i++) {
+        maxProfit = Math.max(maxElementArr[i] - A[i], maxProfit);
+    }
+    return maxProfit;
+}
+console.log(maxProfitInStockOptimized([1, 4, 5, 2, 4])) // 4
+console.log(maxProfitInStockOptimized([1, 9, 2, 15, 3])) // 14

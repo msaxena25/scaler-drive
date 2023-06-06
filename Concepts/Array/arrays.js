@@ -1,3 +1,5 @@
+//! Doc link - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+
 /**
  *! why array start with 0?
  *
@@ -12,11 +14,14 @@
 function countElements(arr) {
     // find max element
     let max = arr[0];
+    //Step 1 :: First find max element of array
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] > max) {
             max = arr[i];
         }
     }
+
+    // Step 2 :: Find number of occurrences of max element in array
     let maxCount = 0;
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] === max) {
@@ -24,7 +29,7 @@ function countElements(arr) {
         }
     }
 
-    console.log('max element of given array & its occurance - ', max, maxCount);
+    console.log('max element of given array & its occurrence - ', max, maxCount);
     console.log('Answer is', arr.length - maxCount)
     return arr.length - maxCount;
 }
@@ -198,30 +203,64 @@ reverseArrayWithRange([1, 2, 3, 4, 5, 6, 7, 8], 6, 7)
 ? 1 <= A[i] <=10^9
 ? 1 <= B <= 10^9
  */
+
+/*
+arr     =               [3, 2, 1, 4, 6, 9, 8]
+Rotate by 1 time =      [8, 3, 2, 1, 4, 6, 9]
+Rotate by 2 times =     [9, 8, 3, 2, 1, 4, 6]
+Rotate by 3 times =     [6, 9, 8, 3, 2, 1, 4]
+Rotate by 4 times =     [4, 6, 9, 8, 3, 2, 1]
+Rotate by 5 times =     [1, 4, 6, 9, 8, 3, 2]
+Rotate by 6 times =     [2, 1, 4, 6, 9, 8, 3]
+Rotate by 7 times =     [3, 2, 1, 4, 6, 9, 8]
+
+@ If K = array.length, Means If we rotate an array to array length times than we will get original array again.
+
+If K = 7 then it will be same as original array.
+If k = 8 than it will be same as K = 1
+If k = 9 than it will be same as K = 2
+
+So we have to take Modular of rotation value if rotation value is greater then array.length.
+
+* If we have to find 10th rotation of array and length is 7 than 10 % 7 = 3 (3rd rotation is same as 10th one)
+
+@ Step =>
+    1. First reverse entire array (0, n - 1)
+    2. Reverse first k elements   (0, k - 1)
+    3. Reverse last N - K elements. (k, n - 1)
+*/
+
 function rotate(A, B) {
-    reverseArrayWithRange(A, 0, A.length - 1); // reverse origional array.
+    reverseArrayWithRange(A, 0, A.length - 1); // reverse original array.
     reverseArrayWithRange(A, 0, B - 1);
     reverseArrayWithRange(A, B, A.length - 1);
     console.log('rotated array ', A);
 }
 rotate([1, 2, 3, 4, 5], 1); //   [5, 1, 2, 3, 4]
-rotate([1, 2, 3, 4, 5], 5); //  [1, 2, 3, 4, 5]
+rotate([1, 2, 3, 4, 5], 5); //  [1, 2, 3, 4, 5] Here B is same as array.length thats we get original array.
 
 rotate([1, 2, 3, 4, 5], 6); //  [undefined, 1, 2, 3, 4, 5]
 
-/* If B is greater than array.length then above program gives wrong result.
+/*
+
+* If B is greater than array.length then above program gives wrong result.
 rotate([1, 2, 3, 4, 5], 5);  gives result ->  [1, 2, 3, 4, 5], So Now rotate one more time means 6th times
 >  [5, 1, 2, 3, 4] & this result is same as first rotation.
-Means we have to use modular technique here Like B = B % Array.length */
+Means we have to use modular technique here Like B = B % Array.length
+
+*/
 
 function rotate1(A, B) {
     B = B % A.length;
-    reverseArrayWithRange(A, 0, A.length - 1); // reverse origional array.
+    reverseArrayWithRange(A, 0, A.length - 1); // reverse original array.
     reverseArrayWithRange(A, 0, B - 1); // reverse 0 to B-1
     reverseArrayWithRange(A, B, A.length - 1); // reverse B to n-1
     console.log('rotated array ', A);
 }
 rotate1([1, 2, 3, 4, 5], 6); //[5, 1, 2, 3, 4]
+
+
+
 
 /********************* */
 
@@ -268,7 +307,7 @@ secondLargestElement([13, 7, 16, 18, 14, 17, 18, 8, 10])
 ) */
 
 
-//@ Solved with two parellel for loop, First find largest number and then find second largest number.
+//@ Solved with two parallel for loop, First find largest number and then find second largest number.
 //@ Incase of kth largest number we need to use heap data structure, that will do in future class.
 function secondLargestElement1(arr) {
     let max = -1;
@@ -342,7 +381,7 @@ function run3() {
     a[i] = 1;
     a[++i] = 2; // i will increase first. i = 1;
     a[++i] = 3; // i will increase first. i = 2;
-    a[i++] = 4; // First assignment will work on i = 2, then i will increse to 3 .
+    a[i++] = 4; // First assignment will work on i = 2, then i will increase to 3 .
     console.log(a);
     return a;
 }
@@ -374,7 +413,7 @@ function sumOfQueriesElements(A, B) {
         let temp = 0;
         let [l, r] = B[i];
         while (l <= r) {
-            temp += A[l - 1];
+            temp += A[l - 1]; // did l-1 because of 1 based indexing
             l++;
         }
         sum.push(temp);
@@ -399,7 +438,7 @@ function sumOfQueriesElementsUsingPF(A, B) {
         if (l === 1) {
             sum.push(pf[r - 1])
         } else {
-            sum.push(pf[r - 1] - pf[l - 1 - 1]) // formula is > pf[r] - pf[l-1], this is 1-indexed problem so did -1 aswell.
+            sum.push(pf[r - 1] - pf[l - 1 - 1]) // formula is > pf[r] - pf[l-1], this is 1-indexed problem so did -1 as well.
         }
     }
     console.log(sum);
@@ -447,13 +486,13 @@ timeToEquality([2, -2]) // 4
 
 /**************************************************** */
 
-//! Linear Search - Multiple Occurences
+//! Linear Search - Multiple Occurrences
 
 // Given an array A and an integer B, find the number of occurrences of B in A.
 //  A = [1, 2, 2], B = 2 output > 2
 
 
-function checkOccurences(A, B) {
+function checkOccurrences(A, B) {
     let count = 0;
     for (let i = 0; i < A.length; i++) {
         if (A[i] == B) {
@@ -462,6 +501,6 @@ function checkOccurences(A, B) {
     }
     console.log(A, B, count)
 }
-checkOccurences([1, 2, 2], 2)
-checkOccurences([2, 2], 2)
-checkOccurences([3, 2, 4, 5, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 1, 3, 6], 6)
+checkOccurrences([1, 2, 2], 2)
+checkOccurrences([2, 2], 2)
+checkOccurrences([3, 2, 4, 5, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 1, 3, 6], 6)
