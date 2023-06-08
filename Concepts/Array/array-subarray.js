@@ -1,3 +1,5 @@
+//! Doc Link - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+
 
 //! Generate all subarrays
 
@@ -42,6 +44,7 @@ printAllSubarrays1([1, 2, 3, 4, 5]);
 // TC - O(n^3)
 //! print elements of all subarrays. done with using three nested for loop.
 function printAllSubarraysElements(a) {
+    console.log('printAllSubarraysElements :', a);
     const out = [];
     for (let i = 0; i < a.length; i++) {
         for (let j = i; j < a.length; j++) {
@@ -54,7 +57,7 @@ function printAllSubarraysElements(a) {
     }
     console.log(out)
 }
-//printAllSubarraysElements([1, 2, 3]);
+printAllSubarraysElements([1, 2, 3]);
 
 
 //! Check impact on variable len after pushing more elements into array
@@ -68,7 +71,7 @@ function run1() {
 }
 run1();
 
-//! What is compelxity of spread syntex of ES6?
+//! What is complexity of spread syntax of ES6?
 
 /**
  Spread calls the [Symbol.iterator] property on the object. For arrays, this will iterate through every item in the array, calling the array iterator's .next() until the iterator is exhausted, resulting in complexity of O(N).
@@ -83,7 +86,7 @@ for (const item of arr) {
 
 //! Run below code and check time taken by spread operator.
 
-// It takes some time to print result. Means spread opeartor complexity is not O(1). It is O(n).
+// It takes some time to print result. Means spread operator complexity is not O(1). It is O(n).
 function run2() {
     const arr = new Array(Math.pow(10, 7)).fill(null);
     const t0 = performance.now();
@@ -147,7 +150,7 @@ function totalNumberOfSubarrays(size) {
 
 // *It is completely clear that total number of subarrays is sum of first n natural number.
 // *Like > 1 + 2 + 3 + 4 + ..........
-// *And that is > n(n + 1) / 2
+// *And that is => n(n + 1) / 2
 
 // * If size is 21 then 21 * 22 / 2 = 231.
 
@@ -281,22 +284,24 @@ output > 12
 
 function maxSumOfSubarray(B, C) {
     console.log('maxSumOfSubarray :', B, C);
-    let total = 0;
+    let maxSum = 0;
     for (let i = 0; i < C.length; i++) {
-        let temp = C[i]; // single element also a subarray
-        if (temp > total && temp <= B) {
-            total = temp;
+        let singleSubarraySum = C[i]; // single element also a subarray
+        // Check If single element is <= B and might be maximum value compare to current maxSum
+        if (singleSubarraySum <= B && singleSubarraySum > maxSum) {
+            maxSum = singleSubarraySum;
         }
         for (let j = i + 1; j < C.length; j++) {
-            temp += C[j];
-            if (temp > total && temp <= B) {
-                total = temp;
+            singleSubarraySum += C[j];
+            // Check single subarray sum is <= B and have sum maximum to maxSUm of previous subarrays
+            if (singleSubarraySum <= B && singleSubarraySum > maxSum) {
+                maxSum = singleSubarraySum;
             }
         }
 
     }
-    console.log(total)
-    return total;
+    console.log(maxSum)
+    return maxSum;
 }
 maxSumOfSubarray(1, [2, 2, 2]);
 maxSumOfSubarray(14, [1, 2, 4, 4, 5, 5, 5, 7, 5]);
@@ -321,13 +326,13 @@ function sumOfIndividualSubarray(A) {
     }
     const sums = [];
     for (let i = 0; i < A.length; i++) {
-        sums.push(A[i]);
+        sums.push(A[i]); // single element is also a subarray
         for (let j = i + 1; j < A.length; j++) {
             let total = 0;
-            if (i != 0) {
-                total += pf[j] - pf[i - 1];
-            } else {
+            if (i == 0) {
                 total += pf[j];
+            } else {
+                total += pf[j] - pf[i - 1];
             }
             sums.push(total);
         }
@@ -366,10 +371,10 @@ function goodSubarray(A, B) {
     for (let i = 1; i < A.length; i++) {
         pf[i] = pf[i - 1] + A[i];
     }
-    let ans = 0;
+    let count = 0;
     for (let i = 0; i < A.length; i++) {
-        if (A[i] > B) {
-            ans++;
+        if (A[i] > B) { // single element is Odd length so simply check value > B
+            count++;
         }
         for (let j = i + 1; j < A.length; j++) {
             let total = 0;
@@ -378,20 +383,22 @@ function goodSubarray(A, B) {
             } else {
                 total += pf[j];
             }
+            // Now we have total and next is to find length of current sub array.
+            // So if i = 1 and j = 4 then length will be j - i + 1 = 4 - 1 + 1 = 4 & than check length is even or odd.
             if ((j - i + 1) % 2 === 0) { // (j - i + 1)  is number of elements in a subarray
                 if (total < B) {
-                    ans++;
+                    count++;
                 }
             } else {
                 if (total > B) {
-                    ans++;
+                    count++;
                 }
             }
         }
 
     }
-    console.log(ans)
-    return ans;
+    console.log(count)
+    return count;
 
 }
 goodSubarray([1, 2, 3, 4, 5], 4)
@@ -451,29 +458,48 @@ A 0-1 alternating array is an array containing only 0's & 1's, and having no adj
 
 Return an integer array containing indices(0-based) in sorted order. If no such index exists, return an empty integer array.
 
+Problem Constraints
+1 <= N <= 10^3
+A[i] equals to 0 or 1.
+0 <= B <= (N - 1) / 2
+
+
  A = [1, 0, 1, 0, 1]
  B = 1
  output >  [1, 2, 3] // these are indices.
  */
 
+ // TC - n * B  because inner loop only be run for 2 * B + 1 times and SC = O(1) 
 function alternatingSubarrays(A, B) {
-    log('alternatingSubarrays')
-    const subArrayLength = 2 * B + 1;
-    const indices = [];
-    let subarray; // will save only last subarray
-    for (let i = 0; i < A.length; i++) {
-        for (let j = i; j < A.length; j++) {
-            if (i == j) { // single element
-                subarray = [A[j]];
-            } else {
-                subarray = [...subarray, A[j]];
+    log('alternatingSubarrays', A, B)
+    const subArrayLength = 2 * B + 1; //we have to look only this length subarray & can skip rest all subarrays.
+    const mid = Math.floor(subArrayLength / 2); // we have to find middle index of each subarray
+    const indices = []; //output array
+    const lastIndexToTraverse = A.length - subArrayLength;
+
+    /*   A.length - subArrayLength => No need to traverse last remaining elements if they are not in given subarray length
+      Eg. array len = 9, i = 7, subarrayLength = 3 => it will only read 7th and 8th index which is not useful for us. */
+
+    for (let i = 0; i <= lastIndexToTraverse; i++) { // traverse only valid elements
+        let prev = A[i]; // make current ith element as prev element by default for further process
+        let centerIndex = i + mid; // for every subarray find center index
+        let isValid01Subarray = true;
+
+        /* i + subArrayLength => we have to look only next subArrayLength elements.
+            Eg. i = 4 and subArrayLength = 3, than we have to read only 4th, 5th and 6th index
+        */
+        for (let j = i + 1; j < i + subArrayLength; j++) {
+            if (prev == A[j]) { // We need only 0 - 1 sequences, so two same elements cannot be there.
+                isValid01Subarray = false;
+                break;
             }
-            if (subarray.length == 5) {
-                console.log('subarray :', subarray);
-                const centerIndex = Math.floor(subarray.length / 2); // for length 5, centerIndex 2, for length 3, centerIndex 1
-                indices.push(j - centerIndex); // find exact index of center element of current subarray
-            }
+            prev = A[j];
         }
+        // If subarray is valid 0-1 sequencing then only push centerIndex to final indices array
+        if (isValid01Subarray) {
+            indices.push(centerIndex);
+        }
+
     }
     log(indices);
     return indices;
@@ -481,8 +507,7 @@ function alternatingSubarrays(A, B) {
 alternatingSubarrays([1, 0, 1, 0, 1], 1) //[1, 2, 3]
 alternatingSubarrays([0, 0, 0, 1, 1, 0, 1], 0) //[0, 1, 2, 3, 4, 5, 6]
 alternatingSubarrays([1], 1) //[]
-alternatingSubarrays([1, 2, 3], 1) //[1]
-alternatingSubarrays([1, 2], 1) //[]
+alternatingSubarrays([1, 2], 1) // this is not valid input as per question Constraints
 alternatingSubarrays([0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1], 1) //3 7 8
 
 
