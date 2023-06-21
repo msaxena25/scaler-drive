@@ -1,12 +1,14 @@
-/*
-* 2 D array declearation -
+//! Doc LInk - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
 
-!matrix[4][5]
+/*
+* 2 D array declaration -
+
+@ matrix[4][5]
 4 is number of rows.
 5 is number of columns. */
 
 /*
-! Travering elements -
+! Traversing elements -
 
 Very first element of matrix - [0][0]
 For any element [i][j]
@@ -17,7 +19,10 @@ For any element [i][j]
     - First element of that row - [i][0]
     - Last element of that row - [i][m-1]
     - Last element of that column - [n-1][j]
-Very Last element of matrix - [n-1][m-1]
+    - Very Last element of matrix - [n-1][m-1]
+    - n-1 is last row
+    - m-1 is last column
+
     */
 
 
@@ -28,7 +33,7 @@ Very Last element of matrix - [n-1][m-1]
 /**
 You are given a 2D integer matrix A, return a 1D integer array containing row-wise sums of original matrix.
 
-Return an array conatining row-wise sums of original matrix.
+Return an array containing row-wise sums of original matrix.
 
 [
     [1,2,3,4]
@@ -69,7 +74,7 @@ rowWiseSum([[1, 2], [1, 2]])
 /**
  * You are given a 2D integer matrix A, return a 1D integer array containing column-wise sums of original matrix.
  *
- * Return an array conatining column-wise sums of original matrix.
+ * Return an array containing column-wise sums of original matrix.
  *
 [1,2,3,4]
 [5,6,7,8]
@@ -104,8 +109,8 @@ columnWiseSum(arr1) // [15,10,13,16]
 /**
 *! Diagonals elements
 
-Left to right travering
-Right to Left travering
+Left to right traversing
+Right to Left traversing
 
 If matrix is -> [3][3]
 [
@@ -113,13 +118,13 @@ If matrix is -> [3][3]
     [4,5,6],
     [7,8,9]
 ]
-*@Left to right travering
+*@Left to right traversing
 
 First element - [0][0]
 Next Diagonal element - [1][1]
 Next Diagonal element - [2][2]
 
-** Left to right diagonal pattern is > each step i and j are equal.
+** Left to right diagonal pattern is => each step i and j are equal.
 
 *@ Right to left traversing.
 
@@ -127,7 +132,7 @@ First element where we have to start - [0][2]
 Next Diagonal element - [1][1]
 Next Diagonal element - [2][0]
 
-** Right to left diagonal pattern is > each step i is increasing by 1 and j is decreasing by 1.
+** Right to left diagonal pattern is => each step i is increasing by 1 and j is decreasing by 1.
 
  */
 
@@ -135,7 +140,7 @@ Next Diagonal element - [2][0]
 
 function printLeftToRightDiagonalElements(A) {
     for (let i = 0; i < A[0].length; i++) {
-        console.log(A[i][i]) // here we know i and j are equal, thats why no need to declear j variable.
+        console.log(A[i][i]) // here we know i and j are equal, thats why no need to declare j variable.
     }
 }
 const arr2 = [
@@ -180,7 +185,7 @@ function printRightToLeftDiagonalElements(A) {
 printRightToLeftDiagonalElements(arr2);
 printRightToLeftDiagonalElements(arr3);
 
-//? Below solution is not readble thats why better to keep two variable i and j.
+//? Below solution is not readable thats why better to keep two variable i and j.
 function printRightToLeftDiagonalElements1(A) {
     const n = A[0].length;
     for (let i = 0; i < n; i++) {
@@ -206,7 +211,7 @@ printRightToLeftDiagonalElements1(arr3);
 function mainDiagonalSum(A) {
     console.log('mainDiagonalSum program')
     let sum = 0;
-    for (let i = 0; i < A[0].length; i++) {
+    for (let i = 0; i < A[0].length; i++) { // we have to traverse column wise
         console.log(A[i][i])
         sum += A[i][i];
     }
@@ -258,7 +263,7 @@ function allDiagonalsFromRToL(A) {
         let j = c;
         while (i < n && j >= 0) {
             ans.push(A[i][j])
-            i++; // increasing row
+            i++; // increasing row as we know that in R to L i increases and j decreases.
             j--; // decreasing column
         }
         c--;
@@ -300,7 +305,7 @@ allDiagonalsFromRToL(arr4) // [5, 9, 13, 17, 4, 8, 12, 16, 3, 7, 11, 2, 6, 1, 10
     [13, 14, 15, 16]
 ]
 
-* Transpose of matrix - row becomes column and column becomes row
+@ Transpose of matrix - row becomes column and column becomes row
 row[0] <=> column[0]
 row[1] <=> column[1]
 row[2] <=> column[2]
@@ -333,10 +338,10 @@ row[i] <=> column[i]
 
 */
 
-//@ Check this program output in console. Here we are swaping each & every elements of matrix that's why, at last we get
-//@ the same origional matrix (which is not transpose).
+//@ Check this program output in console. Here we are swapping each & every elements of matrix that's why, at last we get
+//@ the same original matrix (which is not transpose).
 function transposeSquareMatrix(A) {
-    console.log('swaping each & every elements (This is not transpose)');
+    console.log('swapping each & every elements (This is not transpose)');
     const n = A.length;
     const m = A[0].length;
     for (let i = 0; i < n; i++) { // row
@@ -363,7 +368,7 @@ function transposeSquareMatrixFinal(A) {
     const n = A.length;
     const m = A[0].length;
     for (let i = 0; i < n; i++) { // row
-        for (let j = i; j < m; j++) { // j will start from i because we dont need to swap which already swapped.
+        for (let j = i; j < m; j++) { // j will start from i because we don't need to swap which already swapped.
             [A[i][j], A[j][i]] = [A[j][i], A[i][j]]; // swap
         }
     }
@@ -376,21 +381,21 @@ transposeSquareMatrixFinal(arr5)
 
 //! Transpose Rectangle matrix (Not Square) Means n and m are not same.
 
-//* We can transpose a Square matrix with SC O(1) by using same origional matrix space. But We can not do same with Rectangle matrix.
+//* We can transpose a Square matrix with SC O(1) by using same original matrix space. But We can not do same with Rectangle matrix.
 //* Square matrix -> mat[n][n] Here number of rows and columns are same. So after transposing these will be same.
 //* But Rectangle matrix -> mat[n][m] Example mat[3][5], Here number of rows and columns are different.
-//* So after transposing, we need 5 rows and 3 columns that is not same as origional. Thats why we can not do this with SC - O(1)
-//* In this case, We need seperate space for transpose matrix.
+//* So after transposing, we need 5 rows and 3 columns that is not same as original. Thats why we can not do this with SC - O(1)
+//* In this case, We need separate space for transpose matrix.
 
 function transposeMatrix(A) {
     console.log('transpose rectangle matrix');
     const ans = [];
     const n = A.length;
     const m = A[0].length;
-    for (let i = 0; i < m; i++) { // row
+    for (let i = 0; i < m; i++) { // column will become rows, so outer loop will be run on column size.
         ans.push([]);
         for (let j = 0; j < n; j++) { // column, Here j starts from 0 because here is no swap concept.
-            ans[i].push(A[j][i]);
+            ans[i].push(A[j][i]); // Be clear on this, [j][i] => j is row and i is column.
         }
     }
     log(ans);
@@ -455,16 +460,16 @@ row[1] => column[2]
 row[2] => column[1]
 row[3] => column[0]
 
-* Lets transpose of given input matrix and then obserb final output matrix and transposed matrix - 
+* Lets transpose of given input matrix and then observe final output matrix and transposed matrix -
 
-@Origional input matrix -
+@Original input matrix -
 [
     [1,   2,  3,  4],
     [5,   6,  7,  8],
     [9,  10, 11, 12],
     [13, 14, 15, 16]
 ]
-@ tranposed matrix -
+@ transposed matrix -
 [
    [1, 5,   9,  13],
    [2, 6,  10,  14],
@@ -479,7 +484,7 @@ row[3] => column[0]
    [16, 12,  8,  4]
 ]
 
-*Observation of transosed matrix and rotated matrix -
+*Observation of transposed matrix and rotated matrix If we see row wise data -
 - elements of each row are in reverse order.
 
 */
@@ -489,17 +494,18 @@ function rotate90(A) {
     const ans = [];
     const n = A.length;
     const m = A[0].length;
+    // This for loop will create transpose matrix
     for (let i = 0; i < m; i++) { // row becomes column in transpose
         ans.push([]);
         for (let j = 0; j < n; j++) { // column becomes rows
             ans[i][j] = A[j][i];
         }
     }
-
-    for (let i = 0; i < ans.length; i++) {
+    //This for loop will swap row elements
+    for (let i = 0; i < ans.length; i++) { // This for loop will traverse all rows
         let j = 0;
         let k = ans[0].length - 1;
-        while (j < k) {
+        while (j < k) { // This while loop will traverse all items of a row
             [ans[i][j], ans[i][k]] = [ans[i][k], ans[i][j]];
             j++;
             k--;
@@ -539,8 +545,9 @@ output >  -5
  */
 
 //? we have to take care of 1-indexed as per the problem statement
+// TC = O(n^2)
 function minorDiagonals(A) {
-    console.log('minorDiagonals');
+    console.log('minorDiagonals', A);
     let sum = 0;
     const m = A.length;
     for (let i = 0; i < A.length; i++) {
@@ -563,7 +570,30 @@ const arr12 = [[3, 2],
 [2, 3]];
 minorDiagonals(arr12)
 
+/*
+    @ Approach of Optimized solution.
 
+    > We have given diagonal rule and that is  i + j = M + 1.
+    > So if m = 3 then rule is m + 1 = 4
+    > Means we have to take only those indices whose sum is 4.
+    > Those indices are = 1 + 3, 2 + 2, 3 + 1.
+    > So we only pick these values and sum those.
+*/
+
+
+// TC  = O(n)
+function minorDiagonalsOptimized(A) {
+    console.log('minorDiagonalsOptimized', A);
+    let sum = 0;
+    const m = A.length;
+    const diagonalRule = m + 1;
+    for (let i = 1; i < diagonalRule; i++) {
+        sum += A[i - 1][diagonalRule - i - 1];
+    }
+    console.log(sum)
+    return sum;
+}
+minorDiagonalsOptimized(arr11)
 
 /******************************************* */
 //! Anti Diagonals  (problem based on right to left diagonal matrix)
@@ -571,7 +601,7 @@ minorDiagonals(arr12)
 /**
  * Give a N * N square matrix A, return an array of its anti-diagonals.
  *
- * Return a 2D integer array of size (2 * N-1) * N, representing the anti-diagonals of input array A.
+ * Return a 2D integer array of size (2*N - 1) * N, representing the anti-diagonals of input array A.
 The vacant spaces in the grid should be assigned to 0.
 
 1 2 3
@@ -589,30 +619,30 @@ output is >
 //* Explanation  -
 
 /*
-1. As given in problem statement, anti diagonal matrix is of size (2 * n - 1) * n.
+1. As given in problem statement, anti diagonal matrix is of size (2*n - 1) * n.
 2. So if matrix is [3][3] then anti diagonal matrix will be [5][3]
 3. When we traverse Diagonals from Right to Left then row increases by 1 and column will decrease by 1 at each step.
-4. Each diagonals of origional matrix will become a row of antidiagonal matrix.
+4. Each diagonals of original matrix will become a row of anti-diagonal matrix.
     For example -
         start from first row -
-            1 is diagonal then first row of antidiagonal matrix will be 1 0 0
-            2 and 4 are diagonals then next row of antidiagonal matrix will 2 4 0
-            3 5 7 are diagonals then next (third)  row of antidiagonal matrix will 3 5 7
+            1 is diagonal then first row of anti-diagonal matrix will be 1 0 0
+            2 and 4 are diagonals then next row of anti-diagonal matrix will 2 4 0
+            3 5 7 are diagonals then next (third)  row of anti-diagonal matrix will 3 5 7
         start from last columns -
             3 5 7 already added in previous operation
-            6 8 are diagonals then next  row of antidiagonal matrix will 6 8  0
-            9 is diagonal then next  row of antidiagonal matrix will 9 0 0
+            6 8 are diagonals then next  row of anti-diagonal matrix will 6 8  0
+            9 is diagonal then next  row of anti-diagonal matrix will 9 0 0
 */
 
 // Here A is square matrix
-function antidiagonal(A) {
-    console.log('antidiagonal :');
+function antiDiagonal(A) {
+    console.log('antiDiagonal :');
     const ans = [];
-    const n = A.length;
+    const n = A.length; // number of rows
     for (let i = 0; i < n; i++) {
         let r = 0; // first row
         let c = i;
-        ans.push([]);
+        ans.push([]); // n rows will be inserted into output array by this for loop
         // row will increase by 1 and column will decrease by 1 to move next step
         while (r < n && c >= 0) {
             ans.at(-1).push(A[r][c]); // ans.at(-1) pick last item
@@ -625,7 +655,7 @@ function antidiagonal(A) {
     for (let i = 1; i < n; i++) {
         let c = A[0].length - 1; // last column
         let r = i;
-        ans.push([]);
+        ans.push([]); // n-1 will be inserted into output array by this for loop
         while (r < n && c >= 0) {
             ans.at(-1).push(A[r][c]); // check
             r++;
@@ -638,7 +668,7 @@ function antidiagonal(A) {
         let m = ans[i].length;
         let j = m;
         while (j < n) {
-            ans[i].push(0);
+            ans[i].push(0); // If ith element have
             j++;
         }
     }
@@ -651,13 +681,54 @@ const arr13 = [
     [4, 5, 6],
     [7, 8, 9]
 ]
-antidiagonal(arr13)
+antiDiagonal(arr13)
 
 const arr14 = [
     [1, 2],
     [3, 4]
 ]
-antidiagonal(arr14)
+antiDiagonal(arr14)
+
+
+// This is another way but out array element indexing is different. check by running
+function antiDiagonalSecondWay(A) {
+    console.log('antiDiagonalSecondWay :', A);
+    let out = [];
+    let n = A.length; // number of rows
+    let outArrayRows = 2 * n - 1; // new output array size will be  (2*n - 1) * n.
+    for (let i = 0; i < outArrayRows; i++) {
+        out.push([]);
+        for (let j = 0; j < n; j++) { // push n items and initialize with 0
+            out[i].push(0);
+        }
+    }
+
+    let m = A[0].length; // number of columns
+    // Fill first m rows of out array
+    for (let k = 0; k < m; k++) {
+        let i = 0;
+        let j = k;
+        while (i < n && j >= 0) {
+            out[k][j] = A[i][j];
+            j--;
+            i++;
+        }
+    }
+    // Fill next rows of out array.
+    for (let k = 1; k < n; k++) {
+        let i = k;
+        let j = m - 1;
+        while (i < n && j >= 0) {
+            out[k + m - 1][j] = A[i][j];
+            j--;
+            i++;
+        }
+    }
+    console.log(out);
+
+}
+
+console.log(antiDiagonalSecondWay(arr13))
 
 
 

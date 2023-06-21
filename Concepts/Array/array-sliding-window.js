@@ -93,13 +93,13 @@ maxSumOfSubArrayOfLengthKUsingPF([1, 1, 2, 3, 1, 4, 5, 1, 5, 6], 5);
 
 //? It is combination of carry forward and shift window size.
 
-//! In Carry forward we hold one result and pass that for further element processing. Here only result is required for next opertions to get new result.
+//! In Carry forward we hold one result and pass that for further element processing. Here only result is required for next operations to get new result.
 
 //! In Sliding window - we carry result and window as well for next operations. (Result can be sum of that window elements.) With result , one or more element of that window will be required for next calculation.
 
 
 /**
- *@ EXAMPLE -
+ *@ EXAMPLE -=
 
  A = [1, 2, 3, 4, 5, 6, 7, 8], K = 5;
 
@@ -210,7 +210,7 @@ function minSwap(A, B) {
     //console.log(count);
     let s = 0;
     let e = count - 1; // end index
-    let minSwap = A.length;
+    let minSwap = A.length; // possible max swap
     while (e < A.length) {
         let swap = 0;
         for (let i = s; i <= e; i++) {
@@ -248,7 +248,7 @@ minSwap(C, 18);
 Step 1: Count numbers  < B => 3
 Logic: In each subarray of length 3, element which are greater then 8 (B) needs to swap out to make all numbers of that subarray < B.
 Step 2: Find no. of max elements in first 3 elements starts from 0 index => max elements = 3 from (10, 12, 11)
-        So now atleast minswap are 3 and current window is (10, 12, 11)
+        So now at least min swap are 3 and current window is (10, 12, 11)
 Step 3: Now check in next window (12, 11, 2) that starts from index 1.
         s =  1 and e = 3, First check A[s-1] > B then ans--;; and then check A[e] > B then ans = ans + 1;
 
@@ -319,7 +319,7 @@ So if 5 > 3 (B) => ans--; means there is only 1 element greater then B from rema
 
 /****************************************** */
 
-//! print boundries element of 2d array (order does not matter).
+//! print boundaries element of 2d array (order does not matter).
 
 /*
 ? Input-
@@ -333,14 +333,14 @@ So if 5 > 3 (B) => ans--; means there is only 1 element greater then B from rema
 Output > [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
 */
 
-//? Hint -  In (n * m) matrix, A[i][j] is Boundry element if-
+//? Hint -  In (n * m) matrix, A[i][j] is Boundary element if-
 //? i == 0 OR i == n-1 OR j == 0 OR j == m-1
 
 
-function printBoundries(A) {
-    console.log('printBoundries :', A);
+function printBoundaries(A) {
+    console.log('printBoundaries :', A);
     const ans = [];
-    for (let i = 0; i < A.length; i++) { // there are 4 boundries
+    for (let i = 0; i < A.length; i++) { // there are 4 boundaries
         for (let j = 0; j < A[0].length; j++) {
             if (i == 0 || j == 0 || j == A[0].length - 1 || i == A.length - 1) {
                 ans.push(A[i][j])
@@ -355,11 +355,11 @@ const arr1 = [
     [9, 10, 11, 12],
     [13, 14, 15, 16]
 ]
-printBoundries(arr1) // [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
+printBoundaries(arr1) // [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
 
 /*************************************** */
 
-//! Print boundries elements of 2 d array (n*n) clockwise.
+//! Print boundaries elements of 2 d array (n*n) clockwise.
 
 /*
 ? Input -
@@ -376,7 +376,7 @@ printBoundries(arr1) // [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
 
 /*
 * Solution -
-- We have to print boundries elements top row, right column, bottom row and left column.
+- We have to print boundaries elements top row, right column, bottom row and left column.
 - For this we will use 4 for or while loop.
 - In each loop, we will read n-1 elements, so that in next loop, we could start from corner element.
 - In first while loop - we read  1 2 3
@@ -387,8 +387,8 @@ printBoundries(arr1) // [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16]
 */
 
 //* Best approach-
-function printBoundriesClockWise(A) {
-    console.log('printBoundriesClockWise :', A);
+function printBoundariesClockWise(A) {
+    console.log('printBoundariesClockWise :', A);
     let n = A.length;
     const ans = [];
 
@@ -416,10 +416,10 @@ function printBoundriesClockWise(A) {
 }
 
 
-//@ Solution with while loop if we dont use another variable k - we have used i and j updated values every time.
+//@ Solution with while loop if we don't use another variable k - we have used i and j updated values every time.
 
-function printBoundriesClockWiseWhileLoop(A) {
-    console.log('printBoundriesClockWiseWhileLoop :', A);
+function printBoundariesClockWiseWhileLoop(A) {
+    console.log('printBoundariesClockWiseWhileLoop :', A);
     const n = A.length;
     const ans = [];
 
@@ -448,7 +448,7 @@ function printBoundriesClockWiseWhileLoop(A) {
     console.log(ans);
     return ans;
 }
-printBoundriesClockWiseWhileLoop(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1]
+printBoundariesClockWiseWhileLoop(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1]
 
 
 
@@ -461,8 +461,8 @@ printBoundriesClockWiseWhileLoop(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9
 
 
 /* // TC  = O(n)
-function printBoundriesClockWise1(A) {
-    console.log('printBoundriesClockWise1 :', A);
+function printBoundariesClockWise1(A) {
+    console.log('printBoundariesClockWise1 :', A);
     const n = A.length;
     const m = A[0].length;
     const ans = [];
@@ -494,7 +494,7 @@ function printBoundriesClockWise1(A) {
     console.log(ans)
 
 }
-printBoundriesClockWise1(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1] */
+printBoundariesClockWise1(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1] */
 
 
 
@@ -503,7 +503,7 @@ printBoundriesClockWise1(arr1); // [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 1] 
 
 //! Array Spiral printing of elements in Clockwise direction -
 
-//* Using boundries program approach and run that approach for each elements using while loop.
+//* Using boundaries program approach and run that approach for each elements using while loop.
 
 function spiral(A) {
     console.log('spiral :', A);

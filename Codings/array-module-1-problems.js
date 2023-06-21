@@ -1,4 +1,7 @@
 
+//! Doc link - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+//! Doc link - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+
 //! return true if all elements of array are 1 or 0.
 
 const arr1 = [1, 1, 1, 1, 1, 1, 1, 1] // true
@@ -6,6 +9,9 @@ const arr2 = [0, 0, 0, 0, 0, 0, 0] // true
 const arr3 = [1, 1, 1, 0, 0, 0, 1] // false,
 const arr4 = [1, 2, 0, 3, 4] // false
 
+
+// TC - O(n)
+// @Approach - If sum of all items are 0 then return true OR sum of all items are equal to length of array than return true.
 
 function checkOnesOrZero(A) {
     console.log('checkOnesOrZero :', A);
@@ -27,6 +33,9 @@ console.log(checkOnesOrZero(arr1))
 // console.log(checkOnesOrZero(arr4));
 
 
+//@ Approach 2 - Check first value if it is 1 then all value should be 1 or If it is 0 then all remaining values should be 0. If that is not the case return false.
+
+
 /****************************************** */
 
 //! Length of longest consecutive 1's by only one replacement
@@ -35,16 +44,19 @@ console.log(checkOnesOrZero(arr1))
 we can get in that array a. */
 
 
-const arr5 = [1, 1, 0, 1, 1, 0, 1, 1]; // ans = 5
+const arr5 = [1, 1, 0, 1, 1, 0, 0, 1]; // ans = 5
 
 function consecutive1(A) {
     let sum = 0; //
     for (let i = 0; i < A.length; i++) {
         sum += A[i];
     }
+
+    // If sum is equal to array.length means all values are 1.
     if (sum == A.length) {
         return A.length;
     }
+    // If some is 0 then return 1 because we can only replace one 0 to 1.
     if (sum == 0) {
         return 1;
     }
@@ -143,7 +155,7 @@ function consecutiveSwap(A) {
                 k++;
             }
             let count1 = left1 + right1;
-            if (count1 < totalCount1) { // this condition true means we have extra 1 avaiable with which we can swap.
+            if (count1 < totalCount1) { // this condition true means we have extra 1 available with which we can swap.
                 count1 += 1;
             }
             if (count1 > ans) {
@@ -386,6 +398,61 @@ console.log(majorityElementsWithSort([1, 1, 2]))
 // https://www.programming9.com/tutorials/competitive-programming/428-moore-s-voting-algorithm
 
 
+/*
+
+> For this, we use two variables majority_element and count.
+> majority_element stores the majority element upto that instance and count stores its frequency upto that instance.
+> Initially, majority_element = input_array[0] and count = 1. Because input_array[0] has occurred once till this instance.
+> Now we traverse through the remaining elements. While traversing, if the array element is the same as the majority_element, we increment count by 1. If not, we decrement count by 1.
+> If count becomes 0 at any instance, we change the majority_element to the input_array element accessed at that instance and change count to 1.
+> The majority_element which we obtain after traversing all the input_array elements is expected to be the majority element of the complete array.s
+
+*/
+
+/*
+    @approach-
+
+    arr  =      [4, 4, 3, 2, 5, 6, 4, 4, 4, 4]
+
+    active elements -   4
+    frequency -         1
+    2nd element     =   4 (same as previous one)
+    frequency    -      2
+    3rd element     =   3
+    frequency       =   2 (3rd element is not same as previous one so freq decreases)
+    4th element     =   2
+    frequency       =   1 (not same as previous one so freq decreases)
+    5th element     =   5
+    frequency       =   0 (not same as previous one so freq decreases)
+    6th element     =   6
+    activeElement   =   6 (At this step, frequency was 0 then update active element -)
+    frequency       =   1 (last frequency was 0)
+    7th element     =   4
+    frequency       =   0 (7th element is not same as previous one so freq decreases)
+    8th element     =   4
+    activeElement   =   4 (At this step, frequency was 0 then update active element -)
+    frequency       =   1 (last frequency was 0)
+    9th element     =   4
+    frequency       =   2 (increases)
+    10th element    =   4
+    frequency       =   3 (increases)
+
+    So now last active element is 4. Check in array for element 4 and count number of occurrences.
+    4 has been appeared 6 times in array & that more than n / 2.
+    It does not mean that last active element will be a majority element.
+
+    arr  = [2, 1, 2, 3]
+    active element  = 2, freq   = 1
+    element         = 1, freq   = 0
+    element         = 2, freq   = 1
+    active element  = 2
+    element         = 3
+    active element  = 2
+
+    Now last active element is yours
+*/
+
+
 //@ Majority problem with TC -  O(n) & SC - O(1)
 function majorityFinal(A) {
     console.log('majorityFinal :', A);
@@ -465,7 +532,7 @@ function specialIndex(A) {
         let evenSum = 0; let oddSum = 0;
         for (let j = 0; j < A.length; j++) {
             let index = -1;
-            if (j < i) { // dont need to run for j == i
+            if (j < i) { // don't need to run for j == i
                 index = j;
             } else if (j > i) { // as we have to remove jth index thats why did -1 from j and assign into index.
                 index = j - 1;
@@ -493,7 +560,7 @@ console.log(specialIndex([4, 3, 2, 7, 6, -2]))
 
 /*
 
-Origional array arr = [3, 2, 6, 8, 2, 9, 7, 6, 4, 12]
+Original array arr = [3, 2, 6, 8, 2, 9, 7, 6, 4, 12]
 ? Indices are          0  1  2  3  4  5  6  7  8   9
 
     > Lets remove index 4.
@@ -510,17 +577,17 @@ Before 6 was on index 7 and now it is on 6th.
 ? Lets use prefix sum and find sum of elements-
 
 From new TEMP ARRAYS, Sum of all elements = pf[0, 3] + pf[4, 8]
-From Origional arrys, We will get same sum with = pf[0, 3] + pf[5, 9] // ignored index 4
+From Original arrays, We will get same sum with = pf[0, 3] + pf[5, 9] // ignored index 4
 
 From temp arrays >
 @ Sum of even indices = evenPf[0, 3] + evenPf[4, 8]
 @ Sum of odd indices = oddPf[0, 3] + oddPf[4, 8]
 
-Rewrite the above same formula with Origional array ->
+Rewrite the above same formula with Original array ->
 
 @ Sum of even indices = evenPf[0, 3] + oddPf[5, 9]
 -- In resulting temp array - values on even indices 4 to 8 are 9, 6, 12.
--- In Origional array -      values on odd indices 5 to 9 are  9, 6, 12. That's why we did  + oddPf[5, 9]
+-- In Original array -      values on odd indices 5 to 9 are  9, 6, 12. That's why we did  + oddPf[5, 9]
 
 @ Sum of odd indices = oddPf[0, 3] + evenpf[5, 9]
 
@@ -645,7 +712,7 @@ console.log(sumOfEvenIndicesElements([1, 2, 3, 4, 5], [[0, 2], [1, 4]]))
 //! Josephus Problem - 2 (Knife problem)
 
 /*
-There are A people standing in a circle. Person 1 kills their immediate clockwise neighbour and pass the knife to the next person standing in circle. This process continues till there is only 1 person remaining. Find the last person standing in the circle. 
+There are A people standing in a circle. Person 1 kills their immediate clockwise neighbor and pass the knife to the next person standing in circle. This process continues till there is only 1 person remaining. Find the last person standing in the circle.
 
 Example Input
 Input 1:
@@ -684,12 +751,12 @@ n = 16 (1,2,3,4,5,6,7,8,9,... 16)  => 1 will win.
 @ OBSERVATIONS-
 
 * 1. If 1 starts the game then Odd number will always win, because all even numbers will be killed in the first round.
-* When n = 2 (2^1) or 4 (2^2) or 8 (2^3) or 16 (2^4) or (2^5)..... in this case, who has knife, he is winner.
+* When n = 2 (2^1) or 4 (2^2) or 8 (2^3) or 16 (2^4) or (2^5)..... in this case, who start the game, will win.
 * If 1 starts the game-
     - After 1 kill who have knife - 3
     - After 2 kills who have knife - 5
     - After 3 kill who have knife - 7
-    - After 4 kill who have knife - 9
+    - After 4 kill who have knife - 92
     - After 5 kill who have knife - 11
     ..
     ..
@@ -698,8 +765,8 @@ n = 16 (1,2,3,4,5,6,7,8,9,... 16)  => 1 will win.
     - After 36 kill who have knife - 1 + 2 * 36 = 73.
 
 * If n = 5, 3 is winner.
-    - We know that if n is 4 & if 1 have knife then 1 wins.
-    - So If there are 5 person and lets kill 1 then remaining are 4 and currently 3 has knife, so 3 will win.
+    - We know that if n is 4 & if 1 starts game then 1 wins.
+    - So If there are 5 person and We kill 1 then remaining are 4 and currently 3 has knife, so 3 will win.
 * If n is 7, 7 is winner.
     - Nearest 7, 4 comes in 2 to the power. (2^2)
     - To reach 4, we need to kills 3 persons (7 - 3 = 4).
@@ -762,8 +829,8 @@ Output 2:
  */
 
 //@ Brute Force Solution - O(n^2)
-function swithOnAllBulbs(A) {
-    console.log('swithOnAllBulbs :', A);
+function switchOnAllBulbs(A) {
+    console.log('switchOnAllBulbs :', A);
     if (A.length == 0) {
         return 0;
     }
@@ -790,10 +857,10 @@ function swithOnAllBulbs(A) {
     }
     return count;
 }
-console.log(swithOnAllBulbs([0, 1, 0, 1]))
-console.log(swithOnAllBulbs([0, 0, 0, 0]))
-console.log(swithOnAllBulbs([1, 1, 1]))
-console.log(swithOnAllBulbs([]))
+console.log(switchOnAllBulbs([0, 1, 0, 1]))
+console.log(switchOnAllBulbs([0, 0, 0, 0]))
+console.log(switchOnAllBulbs([1, 1, 1]))
+console.log(switchOnAllBulbs([]))
 
 
 
@@ -810,9 +877,9 @@ Initially switch Count will be 0.
 > Index 0 - Here Switch count is 0 (means we did not perform any switch operation till now) & Value is 1 means at this position bulb is already ON so no need to make any change.
 > Index 1 - Same as Index 0.
 > Index 2 - Switch Count is still 0, it means no any switch operation has been done before. Here Bulb is OFF means 0, so we have to switch ON this and changed to 1. Now switch Count is increased by 1.
-> Index 3 - At this point now switch count is 1 means one operation has been done before. The initial value was 0 which must have been changed to 1 by previos 1 operation. Means current value is 1 (Bulb ON). so no need to make any further change here.
+> Index 3 - At this point now switch count is 1 means one operation has been done before. The initial value was 0 which must have been changed to 1 by previous 1 operation. Means current value is 1 (Bulb ON). so no need to make any further change here.
 > Index 4 - Switch count is 1 & Here Initial value was 1 and till now one operation has been done that means its value must be changed to 1 to 0 that means Currently Bulb is Off and We have to turn it ON (make it 1). So Now Switch count will be 2.
-> Index 5 -  Initial value is 1 & Switch opeartion count is 2. So state changes from 1 to 0 and 0 to 1. Current value is 1 means bulb is ON, So any further action here.
+> Index 5 -  Initial value is 1 & Switch operation count is 2. So state changes from 1 to 0 and 0 to 1. Current value is 1 means bulb is ON, So no any further action here.
 > Index 6 - Initial Value is 0 and switch count is 2, means 0 to 1 then 1 to 0. Current value is 0 so changed it to 1, So now switch Count will go to 3.
 > Index 7 - Initial Value is 0 and switch count is 3. 0 > 1 > 0 > 1. So currently bulb is ON  so no change.
 > Index 8 - Initial Value is 1 and switch count is 3. 1 > 0 > 1 > 0. So currently bulb is OFF so make it ON (1). So now switch count is 4.
@@ -836,8 +903,8 @@ Initially switch Count will be 0.
 
 
  */
-function swithOnAllBulbsOptimized(A) {
-    console.log('swithOnAllBulbsOptimized :', A);
+function switchOnAllBulbsOptimized(A) {
+    console.log('switchOnAllBulbsOptimized :', A);
     let switchOperation = 0;
     for (let i = 0; i < A.length; i++) {
         if (A[i] == 0 && switchOperation % 2 == 0) {
@@ -849,7 +916,7 @@ function swithOnAllBulbsOptimized(A) {
     }
     return switchOperation;
 }
-console.log(swithOnAllBulbsOptimized([0, 1, 0, 1]))
-console.log(swithOnAllBulbsOptimized([0, 0, 0, 0]))
-console.log(swithOnAllBulbsOptimized([1, 1, 0, 0, 1, 1, 0, 0, 1]))
-console.log(swithOnAllBulbsOptimized([]))
+console.log(switchOnAllBulbsOptimized([0, 1, 0, 1]))
+console.log(switchOnAllBulbsOptimized([0, 0, 0, 0]))
+console.log(switchOnAllBulbsOptimized([1, 1, 0, 0, 1, 1, 0, 0, 1]))
+console.log(switchOnAllBulbsOptimized([]))

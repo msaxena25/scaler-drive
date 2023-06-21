@@ -1,3 +1,6 @@
+//! Doc link - https://drive.google.com/drive/u/0/folders/1nJoEq-b_aVbYjZ_eds4TvaAzZRWvhRka
+
+
 //! Merge Overlapping Intervals
 
 // Given a collection of intervals, merge all overlapping intervals.
@@ -25,7 +28,7 @@ Output- [1,6],[8,10],[15,18]
 2. Take first item and keep in a variable named 'prev'
 3. Now loop over from index 1
 4. If interval overlapped then update prev element with newly values. (in every iteration compare prev to current item)
-   * If current item start is less then or equal to previous item end, it means interval are overlapped. 
+   * If current item start is less then or equal to previous item end, it means interval are overlapped.
     - Example:
         Prev = [2, 6], Current = [3, 8]
         Now Prev will be = [2, 8]
@@ -40,15 +43,15 @@ function mergeOverlappingInterval(A) {
     let res = [];
     let prev = A[0]; // take first item
     for (let i = 1; i < A.length; i++) {
-        if (A[i][0] <= prev[1]) {
-            prev = [Math.min(prev[0], A[i][0]), Math.max(prev[1], A[i][1])];
+        if (A[i][0] <= prev[1]) { // compare current item start value with previous item end value
+            prev = [Math.min(prev[0], A[i][0]), Math.max(prev[1], A[i][1])]; // Update previous
         }
         else {
-            res.push(prev);
-            prev = A[i];
+            res.push(prev); // If current item is valid interval than push previous one into result array
+            prev = A[i];  // and mark current item as previous item.
         }
     }
-    res.push(prev);
+    res.push(prev); // push last previous item into result array
     console.log(res)
     return res;
 }
@@ -74,29 +77,41 @@ Output - [ [1, 5], [6, 9] ]
 
 */
 
-//! TODO not working right now
-function mergeNewInterval(intervals, new_interval) {
-    console.log('mergeNewInterval :', new_interval);
-    let res = [];
-    let intervalChanged = false;
-    for (let i = 0; i < intervals.length; i++) {
-        if (new_interval[0] <= intervals[i][1] && new_interval[1] >= intervals[i][0]) {
-            new_interval = [Math.min(new_interval[0], intervals[i][0]), Math.max(new_interval[1], intervals[i][1])];
-            intervalChanged = true;
+function mergeNewInterval(interval, new_interval) {
+    console.log('mergeNewInterval :', interval, new_interval);
+    let result = [];
+    let intervalMerged = [];
+    let isMerged = false;
+
+    // First merge new interval based on start value
+    for (let i = 0; i < interval.length; i++) {
+        if (!isMerged && new_interval[0] < interval[i][0]) {
+            intervalMerged.push(new_interval);
+            isMerged = true;
+        }
+        intervalMerged.push(interval[i]);
+
+    }
+    // If isMerged boolean is false means new interval is not added in array so add it into last.
+    if (!isMerged) {
+        intervalMerged.push(new_interval);
+    }
+    // Now we have to check overlapping.
+    let prev = intervalMerged[0];
+    for (let i = 1; i < intervalMerged.length; i++) {
+        if (intervalMerged[i][0] <= prev[1]) { // prev ends if > then current interval
+            prev = [Math.min(prev[0], intervalMerged[i][0]), Math.max(prev[1], intervalMerged[i][1])];
         } else {
-            if (intervalChanged) {
-                res.push(new_interval);
-                intervalChanged = false;
-            }
-            res.push(intervals[i]);
+            result.push(prev);
+            prev = intervalMerged[i];
         }
     }
-    if (!intervalChanged) {
-        res.push(new_interval);
-    }
-    console.log(res)
-    return res;
+    result.push(prev);
+    console.log(result)
+    return result;
+
 }
+
 mergeNewInterval([[1, 3], [6, 9]], [2, 5]) // [ [1, 5], [6, 9] ]
 mergeNewInterval([[1, 3], [6, 9]], [0, 2]) // [ [0, 3], [6, 9] ]
 mergeNewInterval([[1, 3], [6, 9]], [2, 6]) // [1, 9]
@@ -289,3 +304,80 @@ const arr = [699, 2, 690, 936, 319, 784, 562, 35, 151, 698, 126, 730, 587, 157, 
 
 
 console.log(missingInteger3(arr))
+
+
+//! Rain water
+//@ ProblemImagesView\rain-water.jpg
+
+/*
+Given a vector A of non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+Input
+A = [0, 1, 0, 2]
+OUtput
+1
+
+*/
+
+/*
+ * Approach
+
+ |
+ |          ___
+2|   __    |   |
+1|__|__|___|___|___
+   0  1  0   2
+
+1. Side walls of axis are not including.
+2. Width of every wall is 1.
+3. 0 Means no wall at that place.
+4. Keep in mind that both side should be wall higher then current wall height to store water.
+4. Lets see all walls one by one-
+    1. First wall height is 0, if water falls here that will flow outside because left side no wall. Means water contains is 0.
+    2. Second wall height is 1, But left side there is no wall so water contains will be 0.
+    3. Third wall height is 0, there is wall left side of height 1 and also have right side wall of height 2, So Here till height 1, water can be stored.
+    4. Forth wall height is 2 and no left or right side wall is here higher then this wall, so water cannot store on the top of this wall.
+5. Total water contains is 1.
+
+
+* Calculation-
+    For each array value, first find max left side and max right side.
+    Now we have to consider min height wall between left and right. Why min height ? Because water storage is not dependent on higher wall, it depends in min height wall.
+    Now difference between min wall and current wall height will be water storage amount.
+
+   Water[i] = Min(MaxLeft[i], MaxRight[i]) - H[i];
+    */
+
+function rainWater(A) {
+    console.log('rainWater :', A);
+    const maxRight = [];
+    let n = A.length;
+
+    // Starting loop from right side to find maxRight Because for last element we have maxRight value initially
+    // Same to find maxLeft, loop will start from left side Because for 0th element, we have maxLeft value initially
+
+    let currentMaxRight = A[n - 1]; // Initially we are taking last index value is current max right.
+    let i = n - 1; // started from last index.
+    while (i >= 0) {
+        maxRight[i] = Math.max(currentMaxRight, A[i]);
+        currentMaxRight = Math.max(currentMaxRight, A[i]);
+        i--;
+    }
+    //   console.log(maxRight);
+    let maxLeft = [];
+    let currentMaxLeft = A[0];
+    let totalWaterContains = 0;
+    for (let i = 0; i < A.length; i++) {
+        maxLeft[i] = Math.max(currentMaxLeft, A[i]);
+        currentMaxLeft = Math.max(currentMaxLeft, A[i]);
+
+        // In this same loop we are calculating water because we already have maxRight value.
+        totalWaterContains += Math.min(maxLeft[i], maxRight[i]) - A[i];
+    }
+    // console.log(maxLeft);
+    return totalWaterContains;
+
+}
+
+console.log(rainWater([0, 1, 0, 2]))
+console.log(rainWater([6, 3, 2, 4, 1, 3, 5, 3, 4]))
