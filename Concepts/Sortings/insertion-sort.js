@@ -54,7 +54,7 @@ function insertionSort(A) {
         const element = A[i];
         let k = i;
         for (let j = i - 1; j >= 0; j--) {
-            if (A[j] > element) {
+            if (element < A[j]) {
                 // shift
                 A[k] = A[j];
                 k--;
@@ -69,84 +69,101 @@ function insertionSort(A) {
 }
 //console.log(insertionSort([8, 3, 9, 1]))
 console.log(insertionSort([5, 2, 10, 9, 1, 3]))
+// insertionSortWithWhile is also in this file.
 
-/*
-@ Dry run
-
-[5, 2, 10, 9, 1, 3]
-
-arr[0] is already sorted because of single element, so leave it as it is.
-Start from index 1 to array length ->  for (let i = 1; i < A.length; i++)
-Now compare ith element to all its previous elements; -> for (let j = i - 1; j >= 0; j--)
-If ith element is less then jth element, shift jth element to next position.
-
-? We have taken a extra variable k to store ith value why?
-- Because once shift occurres we do k--; So if we take i and do i--, outer loop will call again for same ith value. 
-
-Process 2:
-
-k = 1;
-Compare 2 to 5 => 2 < 5 => 5 will move to index 1 (kth index) and do k--;
-Now no any elements in left side so put 2 at 0 index (k = 0)
-
-Arr = [2, 5, 10, 9, 1, 3]
-
-Process 10:
-
-k = 2;
-Compare 10 to 5 => 10 > 5 so no change
-Compare 2 to 10 => 10 > 2 so no change
-
-Arr = [2, 5, 10, 9, 1, 3]
-
-Process 9:
-
-k = 3;
-Comapre 9 to 10 => 9 < 10 => 10 will shift right at 3rd index
-k-- => k = 2;
-Compare 9 to 5 => 9  > 5 so no change
-Compare 9 to 2 => 9 > 2 so no change
-end of inner for loop.
-place 9 to kth position now and that is 2.
-
-[2, 5, 9, 10, 1, 3]
-
-process: 1
-
-i = 4 & k = 4;
- 1 < 10 => 10 will move to 4th index => k = 3
- 1 < 9 => 9 will move to 3rd index => k = 2
- 1 < 5 => 5 will move to 2nd index => k = 1
- 1 < 2 => 2 will move to 1st index => k = 0
- inner for loop end and kth value is 0;
- So now place 1 to kth position means at 0 index.
-
- [1, 2, 5, 9, 10, 3]
-
- Same do for last element 3.
-
- And final array is ->
-
- [1, 2, 3, 5, 9, 10]
-
-*/
-
+//@ This code is good compare to above one.
 function insertionSortWithWhile(A) {
     console.log('insertionSort With While :', A);
-    // Start from 1 as A[0] is always sorted
+    // Single element is itself sorted. So A[0] is in sorted order.
     for (let i = 1; i < A.length; i++) {
-        const element = A[i];
-        let k = i;
-        let j = i - 1; // start from left element of ith index
-        while (j >= 0 && A[j] > element) { // if true , do shift
-            A[k] = A[j];
+        const currElement = A[i];
+        let j = i - 1; // start from left to currElement of ith index
+        while (j >= 0 && A[j] > currElement) { // if true, do shift
+            A[j + 1] = A[j];
             j--;
-            k--;
         }
-        A[k] = element;
+        A[j + 1] = element;
     }
     return A;
-
 }
 
 console.log(insertionSortWithWhile([5, 2, 10, 9, 1, 3]))
+
+/*
+* DRY RUN
+
+Sort Below array step by step.
+
+Arr  = [10, 9, 1, 3]
+
+Single element is itself sorted. If we take element 10 only then it is already
+in sorted order because no any other elements to compare in it's Left side.
+
+> I start from 1 to 3 (3 is last index)
+> Current Element is 9
+> Now Compare 9 with all previous elements. If current element is less than
+ the any previous element stop comparing at that point.
+
+> I  is 1 so J will start from 0
+
+> Compare 9 to 10 => 9 < 10 => So We need to shift 10 at one place to its next.
+
+Arr  = [10, 10, 1, 3]
+
+> Now J = -1 and I = 1
+
+> No any further elements remained to compare so stop comparison.
+
+> We have to place current element 9 to its correct position and that is J + 1.
+
+Arr  = [9, 10, 1, 3]
+
+> I = 2 that is A[2] = 1
+
+> Current element is 1.
+
+> J will go from 1 to 0 because I is 2.
+
+> A[2] < A[1] => YES => So Shift Jth element means 10 to one position next.
+
+Arr  = [9, 10, 10, 3]
+
+> Now J = 0
+
+> Compare 1 to 9 => 1 < 9 => YES => Again move 9 to one position next.
+
+Arr  = [9, 9, 10, 3]
+
+> Now J = -1. Stop comparing.
+
+> Place current element to J + 1 position.
+
+Arr  = [1, 9, 10, 3]
+
+> Now I = 3 => A[3] = 3
+
+> Current Element = 3
+
+> J will start from 2 to 0 because i is 3.
+
+> 3 < 10 => YES => Shift 10 to next.
+
+> Arr  = [1, 9, 10, 10]
+
+> J is now 1.
+
+> 3 < 9 => YES => Shift 9 to next.
+
+> Arr  = [1, 9, 9, 10]
+
+> J is now 0.
+
+> Compare 1 to 3 and 3 < 1 => FALSE => stop comparing.
+
+> At this time J is 0 and Now its time to place current element to
+ correct position and that will be J + 1.
+
+> Arr  = [1, 3, 9, 10]
+
+> Finished Algo.
+*/

@@ -183,9 +183,9 @@ Index=     0  1  2  3  4  5    6   7   8   9  10
 
 * Here Unique element is 8 and that is on index 4th.
 
-? There are only three posibilities for position of single element-
+? There are only three possibilities for position of single element-
 
-[1, 2, 2, 3, 3] => Here single element is at start and that is even.
+[1, 2, 2, 3, 3] => Here single element is at start and that is even index 0.
 
 [1, 1, 2, 2, 3] => Here single element is at end and that is even.
 
@@ -193,7 +193,7 @@ Index=     0  1  2  3  4  5    6   7   8   9  10
 
 ? In all three cases, There are some observations-
 
-1. Single elment always be on Even index position.
+1. Single element always be on Even index position.
 2. Left side from single element has (EVEN - ODD) indexing.
 3. Right side from single element has (ODD - EVEN) indexing.
 
@@ -221,10 +221,11 @@ function findSingleElementWithBinarySearch(A) {
             // unique element finds when A[mid] is not same as next and previous element.
             return A[mid];
         }
+        const midIndexEven = mid % 2 === 0;
         if (A[mid] == A[mid - 1]) {
             // If middle is same as previous & mid is even, it means mid-1 will be odd. So pattern is Odd-Even.
             // We know that If pattern is Odd-Even Means we are on right side and for next search we must go to Left.
-            if (mid % 2 == 0) {
+            if (midIndexEven) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
@@ -232,7 +233,7 @@ function findSingleElementWithBinarySearch(A) {
         } else {
             // If middle is same as next & mid is even, it means mid+1 will be odd. So pattern is Even-Odd.
             // We know that If pattern is Even-Odd Means we are on left side and for next search we must go to Right.
-            if (mid % 2 == 0) {
+            if (midIndexEven) {
                 left = mid + 1;
             } else {
                 right = mid - 1;
@@ -401,7 +402,7 @@ console.log(findPeakWithBinarySearch([17, 18, 21, 12])) //21
 console.log(findPeakWithBinarySearch([1, 9, 9, 9, 11])) //9
 
 
-//! Find local minmimum element - that is smaller then previous and next elements.
+//! Find local minimum element - that is smaller then previous and next elements.
 
 function findLocalMinimum(A) {
     console.log('find LocalMinimum With BinarySearch :', A);
@@ -481,7 +482,7 @@ console.log(sqrt(50)) // 7
 
 //@ Solution 2 with Binary search = O(logn)
 
-//* NOTE: To Solve a problem with binary search, you should know the Return statement in Linear search. That return statement and binary seawrch return statement is same.
+//* NOTE: To Solve a problem with binary search, you should know the Return statement in Linear search. That return statement and binary search return statement is same.
 /*
     SQRT in Linear search - Return statement => i * i == n
     Binary search - Return statement =>         mid * mid == n

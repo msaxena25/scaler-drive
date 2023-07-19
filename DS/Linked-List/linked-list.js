@@ -23,13 +23,13 @@ In Linked list, When it comes to executing any operation like insertion, deletio
 
 1. Undo button of any application like Microsoft Word, Paint, etc: A linked list of states.
 
-2. GPS Navigation: A linked list of map data. Travelling from origin to destination is example of traversing through all nodes. Rerouting by a GPS is an example of Add and Remove operations of map data.
+2. GPS Navigation: A linked list of map data. Traveling from origin to destination is example of traversing through all nodes. Rerouting by a GPS is an example of Add and Remove operations of map data.
 
 @ Some example of double linked list.
 
 1. Browser's Next and Previous Button: a linked list of URLs.
 2. Image Viewer's Next and Previous Button: a linked list of images
-3. Undo and Redo button of Photoshop, a linked list of states.
+3. Undo and Redo button of Photo-shop, a linked list of states.
 
 
 */
@@ -278,7 +278,7 @@ console.log(searchItemInList(new Node('4'), 5));
 
 
 
-//! What is diff in array and linkedlist in case of insertion at kth position while both take O(n) time complexity?
+//! What is diff in array and linked list in case of insertion at kth position while both take O(n) time complexity?
 
 /*
 Insertion at kth position in Array takes O(n)

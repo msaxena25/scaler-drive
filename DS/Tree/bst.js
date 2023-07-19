@@ -1,4 +1,4 @@
-//! Binary serach tree
+//! Binary search tree
 
 /*
 > A binary search tree (BST) is a sorted binary tree, where we can easily search for any key using the binary search algorithm.
@@ -129,7 +129,7 @@ function bstInsert(root, value) {
 * If X has only 1 child - Then remove X and make X parent's child to X child.
 * If X has 2 children - This is complicated case.
     > Search for X
-    > Search for max in left sub tree & store in temp OR seach for Min in right sub tree.
+    > Search for max in left sub tree & store in temp OR search for Min in right sub tree.
     > Replace X with temp.
 */
 
@@ -181,7 +181,7 @@ function deleteNodeInBSTWithRecursion(A, B) {
             A.left = run(A.left, B); // Go to left
         }
         else {
-            // If A is leaf node
+            // If A is leaf node (Single node in tree only)
             if (A.left == null && A.right == null) {
                 return null;
             }
@@ -302,7 +302,7 @@ function constructBalancedTree(arr, start, end) {
 
 // TC = O(n) & SC - O(h)
 function validBinaryTree(A) {
-    let isBST = true; // Initially assueme tree is valid
+    let isBST = true; // Initially assume tree is valid
     function check(A) {
         if (A == null) { // If node is null then return max value as Min Int and min value as Max Int.
             return { max: Number.MIN_SAFE_INTEGER, min: Number.MAX_SAFE_INTEGER };
@@ -346,7 +346,7 @@ function validBinaryTree(A) {
 > Now node 2 will return max and min value to its parent node that is 10. Compare node value to max and min.
 > And at 10, Max and Min value from left subtree is 2.
 > Same as all above, at node 10, Max and Min value from right sub tree is 11.
-> Now compare max values and min values and node value and find Max and Min for node 10 which will be paas to 1.
+> Now compare max values and min values and node value and find Max and Min for node 10 which will be pass to 1.
 > At 1, max value is 11 and min value is 2.
 > Here 1 is < then 11 and that fails attribute of BST, so here isBST is false.
 > Once all node traversed, return from function and then check isBST.

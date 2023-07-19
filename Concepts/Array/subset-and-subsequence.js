@@ -15,9 +15,10 @@ The subarray has the same sequence of elements (order of the elements) as it is 
 [2]
 [3]
 [1, 2]
-[1, 3]
 [2, 3]
 [1, 2, 3]
+....
+...
 
 @ What is subset?
 
@@ -73,7 +74,7 @@ Subset => [1, 3] & [3, 1] are same.
 
 Subset => [1, 2, 3] & [3, 2, 1] are same.
 
-? Some subsets from above array-
+? Some subsets from above array- (Subset is any combination of items)
 
 [1, 2, 3]
 [1, 3, 2]
@@ -83,12 +84,12 @@ Subset => [1, 2, 3] & [3, 2, 1] are same.
 [3, 2, 1]
 
 But Actually they are all same subset with same elements,
-so all will count as 1 and We will consider a subset [1,2,3] only.
+so all will count as 1 and We will consider a subset [1,2,3] as per elements original order.
 
 */
 
 /*
-* For Distinct elements => no. of subsets = no. of subsequences.
+* For Distinct elements => no. of subsets = no. of subsequences. ✔️
 
 @ Arr  = [1, 2, 3]
 
@@ -104,7 +105,7 @@ SubSequence         SubSet
 
 Subsets like [3,1], [3, 2] or [3,2,1] will not consider because they have same elements from one of above subset, just order change.
 
-* So total number of subsequences are subset = 2^n
+* So total number of subsequences & subsets = 2^n
 
 Here n = 3 , so 2^3 = 8.
 
@@ -116,13 +117,16 @@ Here n = 3 , so 2^3 = 8.
 *Type            Continuity  Order   Count
 
 Subarray            Yes     Yes     n*(n+1) / 2
-Subsequence         Yes     No      2^n
-Subset              No      No      2^n
+Subsequence         No      Yes      2^n
+Subset (Distinct)   No      No      2^n
 
 */
 
 
 /*
+! Connection of Subsequences and Bit Representation
+
+
 @ arr = [1, 2, 3]
 
 In every subsequence, either element will be there or not, means each item has only two states 0 or 1.
@@ -185,9 +189,9 @@ Now Calculate ith subsequence based on above left shift value by doing AND opera
 And if resulting value is not 0 then take that index element.
 
 1st => [arr[0]]
-    index 0    i = 1 => 001 & 001 = 1
-    index 1    i = 1 => 010 & 001 = 0
-    index 2    i = 1 => 100 & 001 = 0
+    index 0    i = 1 => 1 << 0 & 001 = 1
+    index 1    i = 1 => 1 << 1 & 001 = 0
+    index 2    i = 1 => 1 << 2 & 001 = 0
 
 2nd => [arr[1]]
     index 0    i = 2 => 001 & 010 = 0
@@ -215,12 +219,13 @@ And if resulting value is not 0 then take that index element.
 
 //! Return all subsequences from given array
 
+//@ Using Bit approach is simple way to generate all subsequences
 function printSubsequences(A) {
     console.log('printSubsequences :', A);
     const ans = [];
     const len = A.length;
     const total = Math.pow(2, len); // total subsequences
-    for (let i = 0; i < total; i++) {
+    for (let i = 0; i < total; i++) { // i = 0 If we need empty subsequence else start i from 1.
         // loop over indices
         let temp = [];
         for (let j = 0; j < len; j++) {
@@ -234,8 +239,61 @@ function printSubsequences(A) {
     return ans;
 
 }
-printSubsequences([12, 13]);
+printSubsequences([1, 2, 3, 4]);
 //printSubsequences([1, 2]);
+
+
+function printSubsequencesSecond(A) {
+    console.log('printSubsequencesSecond :', A);
+    const ans = [];
+    const len = A.length;
+    const total = Math.pow(2, len); // total subsequences
+    for (let i = 0; i < total; i++) { // i = 0 If we need empty subsequence else start i from 1.
+       let temp = [];
+       let bit = (i).toString(2); // converting ith into binary
+       for (let j = len - bit.length; j < len; j++) {
+            if(+bit[j]) {
+                temp.push(A[j]);
+            }
+       }
+        ans.push(temp);
+    }
+    return ans;
+}
+console.log(printSubsequencesSecond([1, 2, 3, 4]))
+
+// Brute Force solution to print all subsequences
+// TC = O(n^4)
+// SC = O(n)
+function printSubsequencesBF(A) {
+    console.log('printSubsequencesBF :', A);
+    const ans = [];
+    /*
+        Logic
+        1. Create outer for loop.
+        2. Single element is also a subsequence so put that into a temp array like  let temp = [[A[i]]];
+        3. Loop over rest all values from i + 1 index.
+        4. Main Logic-
+             for every subsequence that is currently in temp array
+             Pick one by one subsequence item using for each loop.
+             Create a new subsequence using picked subsequence elements. (Can use spread operator to get element of array)
+             Now push this newly subsequence again into temp array.
+        5. Finally push this temp array into final answer array with spread operator.
+    */
+    for (let i = 0; i < A.length; i++) {
+        let temp = [[A[i]]];
+        for (let j = i + 1; j < A.length; j++) {
+            temp.forEach(element => {
+                temp.push([...element, A[j]]);
+            });
+        }
+        ans.push(...temp);
+
+    }
+    return ans;
+
+}
+console.log(printSubsequencesBF([1, 2, 3, 4]))
 
 
 
@@ -379,7 +437,7 @@ function subArrayORWithContributionTech(A) {
         let zsub = BigInt(0); // zero subarray
         for (let j = 0; j < n; j++) { //check ith bit of every element
             if ((A[j] & (1 << i)) == 0) { // check ith bit is 0 or not
-                count0++; // checking how many contiuous 0s are there
+                count0++; // checking how many continuous 0s are there
             }
             else {
                 zsub += BigInt(count0) * BigInt(count0 + 1) / BigInt(2); // calculate subarrays that have only 0

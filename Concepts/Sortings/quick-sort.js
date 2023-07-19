@@ -28,7 +28,7 @@ and dividing the array into two subarrays around that pivot.
 */
 
 
-//! Separate the elements in two partitons that all elements smaller then x should be in Left and all elements greater then x should be in right position. It is not necessary that x is present in array. x is just a partition point.
+//! Separate the elements in two partitions that all elements smaller then x should be in Left and all elements greater then x should be in right position. It is not necessary that x is present in array. x is just a partition point.
 
 /*
 x = 4
@@ -87,16 +87,19 @@ function quickSort(A) {
     console.log('quickSort :', A);
 
     function partition(A, start, end) {
-        let pivot = A[end]; //selecting the rightmost element as pivot
-        let i = start; // left pointer
-        for (let j = start; j < end; j++) {
-            if (A[j] < pivot) {
-                [A[i], A[j]] = [A[j], A[i]]; // swap when element is less then pivot element.
-                i++; // increase pointer
+        let pivot = A[end]; // Generally we consider last element as Pivot
+        let j = start; // left pointer
+
+        // Loop over from start to < end not <= end. Because last element already taken as Pivot element.
+        for (let i = start; i < end; i++) {
+            if (A[i] < pivot) {
+                [A[j], A[i]] = [A[i], A[j]]; // swap when element is less then pivot element.
+                j++; // increase pointer
             }
         }
-        [A[i], A[end]] = [A[end], A[i]]; // swap pivot element at last
-        return i;
+        // Now all smaller elements from pivot is in left side so position where smaller elements ends that position will be of that pivot element. Thats why simply swapping pivot element with last jth index.
+        [A[j], A[end]] = [A[end], A[j]];
+        return j; // pivot index
 
     }
     function sort(A, start, end) {
@@ -104,8 +107,8 @@ function quickSort(A) {
             return;
         }
         let pivotIndex = partition(A, start, end);
-        sort(A, start, pivotIndex - 1);
-        sort(A, pivotIndex + 1, end);
+        sort(A, start, pivotIndex - 1); // apply same partitions and swapping on Left side.
+        sort(A, pivotIndex + 1, end); // apply same partitions and swapping on Right side.
     }
 
     sort(A, 0, A.length - 1);

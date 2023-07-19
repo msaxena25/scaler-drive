@@ -73,8 +73,8 @@ bubbleSort([4, 5, 9, 6, 3, 2, 8, 6, 7, 1, 2])
  * Why is bubble sort more efficient?
 
 The bubble sort has a space complexity of O(1). The number of swaps in bubble sort equals the number of
- inversion pairs in the given array. When the array elements are few and the array is nearly sorted,
- bubble sort is effective and efficient.
+inversion pairs in the given array. When the array elements are few and the array is nearly sorted,
+bubble sort is effective and efficient.
 
 * Which sorting algorithm is best?
 

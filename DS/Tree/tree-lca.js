@@ -17,7 +17,7 @@ output: [6, 1, 3, 2]
  */
 
 /*
-* Appraoch
+* Approach
             1
          /      \
        2          3
@@ -28,7 +28,7 @@ output: [6, 1, 3, 2]
 
 
 
-In Order travesal = [5, 4, 6, 2, 12, 11, 1, 9, 7, 10, 3, 8]
+In Order traversal = [5, 4, 6, 2, 12, 11, 1, 9, 7, 10, 3, 8]
 
 Right Most Node => No right children of that node. => [6, 11, 10]
 

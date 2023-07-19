@@ -260,7 +260,7 @@ function levelOrderTraversalWithNewLine(root) {
     Q.push(root); // enqueue root element
     let temp = []; // to save same level elements
     while (Q.length != 0) { // empty method of queue
-        let curr = Q.shift(); // dequque method of queue
+        let curr = Q.shift(); // dequeue method of queue
         temp.push(curr.data);
         if (curr.left) {
             Q.push(curr.left);
@@ -294,7 +294,7 @@ function printRightView(root) {
     let last = root; // initially root element will be last element
     Q.push(root); // enqueue root element
     while (Q.length != 0) { // empty method of queue
-        let curr = Q.shift(); // dequque method of queue
+        let curr = Q.shift(); // dequeue method of queue
         if (curr.left) {
             queue.push(curr.left);
         }
@@ -400,7 +400,7 @@ function verticalTraversal(root) {
     console.log(orderMap, minDistance, maxDistance);
     let ans = [];
     for (let i = minDistance; i <= maxDistance; i++) {
-        ans.push(orderMap[i])
+        ans.push(orderMap[i]) // push all elements of ith index of orderMap to ans.
     }
     return ans;
 
@@ -425,9 +425,9 @@ console.log(verticalTraversal(tree));
 Output: [1, 2, 4, 8, 3, 7]
 */
 
-//@ I have used here array to store node, but actually we have to store data in Queque.
-function topViewofBT(root) {
-    console.log('topViewofBT :', root);
+//@ I have used here array to store node, but actually we have to store data in Queue.
+function topViewOfBT(root) {
+    console.log('topViewOfBT :', root);
     if (root == null) {
         return;
     }
@@ -477,7 +477,7 @@ function topViewofBT(root) {
     return ans;
 
 }
-console.log(topViewofBT(tree));
+console.log(topViewOfBT(tree));
 
 
 
@@ -531,19 +531,20 @@ The difference between the height of the left and the height of the right subtre
 
 // SC and TC = O(n)
 function heightBalancedTree(root) {
-    let isBalanced = true; // initially assumed that tree is balaced
-    function balanced(root) {
-        if (root == null) {
+    let isBalanced = true; // initially assumed that tree is balanced
+    function balanced(node) {
+        if (node == null) {
             return -1; // if node is null , means return -1
         }
-        let left = balanced(root.left); // traverse left sub tree
-        let right = balanced(root.right); // traverse right sub tree
-        if (Math.abs(left - right) > 1) { // In case diff > 1 means tree is not balaced
+        let left = balanced(node.left); // traverse left sub tree
+        let right = balanced(node.right); // traverse right sub tree
+        if (Math.abs(left - right) > 1) { // In case diff > 1 means tree is not balanced
             isBalanced = false; // tree is not balanced
         }
         return Math.max(left, right) + 1; // calculate height
 
     }
+
     balanced(root);
     if (isBalanced) {
         return 1;
@@ -621,7 +622,7 @@ In sub tree [3, 2] Check Post order and as per that 2 wil be node. And If 2 is n
  * @param {*} endPost  - end index of post order
  */
 
-//* Linear way => TC -> O(n) , SC -> O(h) = O(h) in worst case it will be O(n)
+//* Linear way => TC -> O(n) , SC -> O(h) = O(h), in worst case it will be O(n)
 //* HashMap => If we use hashMap then SC => O(n) + O(h) = O(n)
 function constructBinaryTree(inOrderArr, postOrderArr, startIn, endIn, startPost, endPost) {
 
@@ -647,7 +648,7 @@ function constructBinaryTree(inOrderArr, postOrderArr, startIn, endIn, startPost
              Postorder array indices  => count number of elements left side in In-Order and based on that we will find index in post order
                  => nodeIndex = 1;
                  => countLeft = nodeIndex - startIn
-                 => startPost = startPost, endPost = startPost + countLeft - 1;
+                 => startPost = startPost, endPost = startPost + countLeft - 1; // did -1 because index start from 0
         Right sub tree indices ->
              Inorder array indices    => start will be nodeIndex + 1 and end index will be endIn
              Postorder array indices  => count number of elements right side in In-Order and based on that we will find index in post order
@@ -661,5 +662,87 @@ function constructBinaryTree(inOrderArr, postOrderArr, startIn, endIn, startPost
     node.right = constructBinaryTree(inOrderArr, postOrderArr, nodeIndex + 1, endIn, startPost + countLeft, endPost - 1);
     return node;
 }
-console.log('constructBinaryTree from Inorder and PostOrder');
+console.log('constructBinaryTree from InOrder and PostOrder');
 console.log(constructBinaryTree([2, 1, 3], [2, 3, 1], 0, 2, 0, 2));
+
+console.log(constructBinaryTree([8, 4, 2, 5, 1, 6, 3, 7], [8, 4, 5, 2, 6, 7, 3, 1], 0, 7, 0, 7));
+/*
+
+            1
+          /   \
+         2    3
+        / \  / \
+       4   5 6  7
+      /
+     8
+*/
+
+
+//!  Diameter of binary tree
+
+/*
+Given a Binary Tree A consisting of N integer nodes, you need to find the diameter of the tree.
+
+The diameter of a tree is the number of edges on the longest path between two nodes in the tree.
+
+*/
+
+/*
+ * Approach
+
+For a single Node diameter will be 0.
+Diameter is based on left path and right path.
+
+Let's calculate diameter for a single Node with below algorithm.
+
+1. First check Node is null or not, so Node is not null.
+2. Go to its left with recursive call.
+3. Left is null so return -1.
+4. Go to right and that is also null so return -1.
+5. diameter for that Node = ( left + 1 ) + (right + 1) = -1 + 1 - 1 + 1 = 0.
+6. No more nodes to visits. So return 0.
+
+
+
+            1
+          /   \
+         2    3
+        / \  / \
+       4   5 6  7
+      /
+     8
+
+
+1. Diameter of 8 is 0 because there is no any left or right child.
+2. Now see Node 4.
+    - 4 have left child 8 and from there value will return left + 1 and that is 1.
+    - 4 does not have right child so will return 0.
+    - diameter of 4 is = 1 + 0 = 1.
+3. Now see Node 2.
+    - 4 have left 1 and right 0 and it will return Max value from left + 1 and right + 1 to its parent node.
+    - From left sub tree 2 have value now 2.
+    - From right side 2 have value 1.
+    - So diameter at Node 2 is 2 + 1 = 3.
+4. Now see Node 1.
+    - 2 will return Max value from left + 1 and right + 1 to its parent. So max is left + 1 (2 + 1) = 3.
+    - Left subtree have max path is 3.
+    - Right subtree have 2.
+    - so total is 3 + 2 = 5 and that is max.
+*/
+
+let maxDiameter = 0;
+function diameterOfBT(node) {
+    if (node == null) {
+        return -1;
+    }
+    let left = diameterOfBT(node.left);
+    let right = diameterOfBT(node.right);
+
+    let d = (left + 1) + (right + 1); // Calculate diameter at each Node and compare with Max value.
+    if (d > maxDiameter) {
+        maxDiameter = d;
+    }
+    return Math.max(left + 1, right + 1); // return Only Max path between left and right to parent node.
+}
+diameterOfBT(node);
+return maxDiameter;

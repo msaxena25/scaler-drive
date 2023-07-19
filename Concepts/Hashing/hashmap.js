@@ -7,7 +7,7 @@
 
 /*
 Given an Array of integers B, and a target sum A.
-Check if there exists a pair (i,j) such that Bi + Bj = A and i!=j.
+Check if there exists a pair (i,j) such that Bi + Bj = A and i != j.
 
 B = 21   A = [9, 10, 7, 10, 9, 1, 5, 1, 5]
 Output:
@@ -246,6 +246,8 @@ output: 5
 function firstRepeatingElement(A) {
     console.log('firstRepeatingElement :', A);
     let hm = {};
+
+    // Create frequency array
     for (let i = 0; i < A.length; i++) {
         if (hm[A[i]]) {
             hm[A[i]] += 1;
@@ -253,7 +255,8 @@ function firstRepeatingElement(A) {
             hm[A[i]] = 1;
         }
     }
-    for (let i = 0; i < A.length; i++) { // loop again on array items and check frequency
+    // loop on array items and check frequency in Map, return first element whose frequency is  > 1
+    for (let i = 0; i < A.length; i++) {
         if (hm[A[i]] > 1) {
             return A[i];
         }
@@ -320,7 +323,7 @@ NOTE: if B > N, return an empty array.
  [2, 3, 3, 2]
 */
 
-//@ Number of total subarrays of size k is = N - k + 1.
+//@ Formula - Number of total subarrays of size k is = N - k + 1.
 
 //? Not possible with Set.
 function distinctNumberInWindow(A, B) {
@@ -364,8 +367,31 @@ function setDataInMap(A) {
 }
 setDataInMap([1, 1, 2, 3, 4, 4, 2, 2, 3, 4, 6, 7])
 
+/*
+* Approach
 
-//@ done with hashmap
+Arr      = [1, 2, 1, 3, 4, 3]
+B        = 3
+
+Lets create a Frequency map of first 3 elements
+
+Map = {1: 2, 2: 1}; => 1 come 2 times and 2 come 1 time. So For first 3 items , map size is 2.
+
+Now start window technique. Start from 1st item to next 3 items.
+
+0th item will be removed from Map and 3rd item will add into Map.
+
+Note: During remove first element -
+    If first item frequency is 1 in Map, means till now it came only 1 time, so delete it.
+    If first item freq is more then 1 in Map, decrease frequency by 1.
+Note: During adding new element -
+    If new element exists in map, increase its frequency Else add it with Frequency by 1.
+
+After adding new element, check map size and that will be answer of that window.
+*/
+
+
+//@ done with hashmap - TC and SC = O(n)
 function distinctNumberInWindowWithHM(A, B) {
     console.log('distinctNumberInWindowWithHM :', A, B);
     let hm = new Map(); // create a map

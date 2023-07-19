@@ -14,7 +14,7 @@
 Single Responsibility Principle
 Open/Close Principle
 Liskov's substitution Principle
-Interface Seggregation
+Interface Segregation
 Dependency Inversion
 */
 
@@ -217,7 +217,7 @@ abstract class Birds1 extends AnimalBase {
   abstract fly(); // This is abstract method so cannot implement this here..
 }
 
-// Concreate class - A class which extends abstract class.
+// Concrete class - A class which extends abstract class.
 
 class Peacocks extends Birds1 {
   fly(): void {
@@ -226,7 +226,7 @@ class Peacocks extends Birds1 {
 }
 class Duck extends Birds1 {
   fly(): void {
-    console.log('Genearlly dont fly. I found in places where there is water like ponds, rivers');
+    console.log('Generally don\'t fly. I found in places where there is water like ponds, rivers');
   }
 }
 
@@ -252,14 +252,14 @@ Extension - Yes, Now we can add fly method as per our need in client code.
 // 😒 Kiwi or Penguin cannot fly but still It needs to implement fly method because that is abstract.
 
 class Kiwi extends Birds1 {
-  // Concreate class
+  // Concrete class
   fly() {
     // this is unused here..
   }
 }
-//👀 If we dont implement fly method, we will get compile error because of abstract.
+//👀 If we don't implement fly method, we will get compile error because of abstract.
 
-// abstract -  Astract class says that you can do something (like Bird can fly), ok, but How you can do thatone,
+// abstract -  Abstract class says that you can do something (like Bird can fly), ok, but How you can do thatone,
 // it need to tell in child class.
 
 // 💻 Lets throw some exception from fly method
@@ -310,14 +310,14 @@ without modifications, with any child class C extends P
 // 🎨 How should we re-design it?
 
 abstract class Bird2 extends AnimalBase {
-  // species inherited from animalbase
+  // species inherited from AnimalBase
   bird: string = '';
 
   // every bird can speak or eat so put these method here..
   speak() {}
   eat() {}
 
-  // dont define abstract method here like fly or swim etc...
+  // don'\t define abstract method here like fly or swim etc...
 }
 
 // Create Interface for Fly
@@ -326,7 +326,7 @@ interface IFly {
   fly(): void;
 }
 
-// Now We know Eagle can fly so implment IFly interface
+// Now We know Eagle can fly so implement IFly interface
 
 class Eagle extends Bird2 implements IFly {
   fly() {
@@ -375,7 +375,7 @@ class Airplane implements ICanFly {
 
 /**
 1. Keep your interfaces minimal
-2. No code should be forced to implement a method that it does not need
+2. No code should be forced to implement a method that it does not need.
 
 To fix the previous code, we can split the ICanFly interface into multiple interfaces
 ICanFly , IHasWings , IHasLegs
@@ -401,7 +401,7 @@ ICanFly , IHasWings , IHasLegs
  * Cages have  -
  *
  * 1. Bars (सलाखों)> Wooden , Iron  bars, small bars
- * 2. Feeding Bowl - Fuites, water, meat.
+ * 2. Feeding Bowl - Fruits, water, meat.
  * 3. size - height , width
  */
 
@@ -438,7 +438,7 @@ class CarnivorousCage {
 }
 
 class HerbivorousCage {
-  fruitesFeedingBowl: FruitFeedingBowl;
+  fruitsFeedingBowl: FruitFeedingBowl;
   waterBowl: WaterFeedingBowl;
   woodenBars: WoodenBars;
   listOfAnimals = new Array(5);
@@ -452,7 +452,7 @@ class HerbivorousCage {
 
 // Same way we will create other Cage designs...
 
-// ✔️ Composite Class -  Classes that made upon serveral other classes. CarnivorousCage & HerbivorousCage
+// ✔️ Composite Class -  Classes that made upon several other classes. CarnivorousCage & HerbivorousCage
 // are composite class because they are created with other classes.
 
 // ✔️ Utility Class - FruitFeedingBowl, WoodenBars, IronBars etc - are utility classes.
@@ -461,7 +461,7 @@ class HerbivorousCage {
  PROBLEM WITH ABOVE CODE -
 
 1. For each type of cages, we have to create new class.
-2. Maximum code are common in both the classes, so this is code duplicacy.
+2. Maximum code are common in both the classes, so this is code duplicate.
  */
 
 // Lets try to understand Dependencies in this structure -
@@ -487,7 +487,7 @@ class HerbivorousCage {
 /**
 1. IFeedingBowl -  High level
 2. IBars -  High level
-3. FruitFeedingBowl -  Low level (specific to fruites only)
+3. FruitFeedingBowl -  Low level (specific to fruits only)
 4. MeatFeedingBowl - Low level
 5. HerbivorousCage -  High level
 6. CarnivorousCage -  High level
@@ -497,7 +497,7 @@ Implementations - Low level  (FruitFeedingBowl, MeatFeedingBowl, WoodenBars)
 Class -  High level (HerbivorousCage, CarnivorousCage) -  It seems like specific but they are composite class.
 
 CarnivorousCage depends on three classes MeatFeedingBowl, WaterFeedingBowl, IronBars and
-they internally depends on other interfaces
+they internally depends on other interfaces.
 
 */
 
@@ -513,7 +513,7 @@ they internally depends on other interfaces
 
  */
 
-// How can we acheive dependency inversion - by 💉 Dependency Injection
+// How can we achieve dependency inversion - by 💉 Dependency Injection
 
 // 💉 Dependency Injection
 

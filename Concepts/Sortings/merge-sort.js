@@ -110,7 +110,7 @@ Space complexity - O(n)
 
  ? A = [9, 8, 7, 3, 6, 4, 1, 5, 0, 10]
 
-To devide a list into parts, we need a mid point from where we will break.
+To divide a list into parts, we need a mid point from where we will break.
 & mid = (start + end) / 2
 
 array length = 10, mid = 5, two subarrays indices => [0, 4] & [5, 9]
@@ -131,7 +131,7 @@ mid = Math.floor(5 / 2) = 2                   mid = Math.floor(5 / 2) = 2
 
 Compare 9 & 8   7 is single so no merge             same do compare and merge for rest.
 & merge them    here at this step.
-                Comapre 3 & 6 & merge them.
+                Compare 3 & 6 & merge them.
 
 [8, 9]              [7]  [3, 6]                   [1, 4]         [5], [0, 10]
 
@@ -154,7 +154,7 @@ function mergeSort(A) {
         let mid = Math.floor((start + end) / 2); // find mid
         divide(A, start, mid); // recursive call to divide left array
         divide(A, mid + 1, end); // recursive call to divide right array
-        conquer(A, start, mid, end);  // at last merge all individual items
+        conquer(A, start, mid, end);  // merge items, We have to create two arrays thats why needed start, mid and end.
     }
 
     function conquer(A, start, mid, end) {
@@ -195,7 +195,7 @@ function mergeSort(A) {
 
 }
 console.log(mergeSort([7, 2, 9, 5, 1])) //[1, 2, 5, 7, 9]
-console.log(mergeSort([-7, -2, 9, 5, 1, 0, 2, 8, 12, 6])) // [-7, -2, 0, 1, 2, 5, 6, 8, 9, 12]
+//console.log(mergeSort([-7, -2, 9, 5, 1, 0, 2, 8, 12, 6])) // [-7, -2, 0, 1, 2, 5, 6, 8, 9, 12]
 
 
 //! Calculate Time / Space Complexity of Merge sort
@@ -213,7 +213,7 @@ n/8  n/8   n/8 n/8       n/8  n/8     n/8  n/8
 ..     ..           ..              ..
 ..      ..          ..              ..
 
-At each step n is divinding  by 2 and values are : 2^1, 2^2, 2^3, 2 ^4......
+At each step n is dividing  by 2 and values are : 2^1, 2^2, 2^3, 2 ^4......
 So to reach 1, Suppose steps are required is k. It means we can write-
 
 n / 2^k = 1
@@ -250,7 +250,7 @@ input:
 A = [8, 3, 4]
 
 pair => i < j =>  (0, 1) => A[0] > A[1] => 8 > 3
-pari => i < j =>  (0, 2) => A[0] > A[2] => 8 > 4
+pair => i < j =>  (0, 2) => A[0] > A[2] => 8 > 4
 
 So output is: 2
 
@@ -309,12 +309,12 @@ Dividing step are over, now time to merge them.
     i=0             j=0
 
     1 < 2 so 1 will come first, so no pair exists with 1. Increase i.
-    4 > 2 so 2 will come first, it means all elements from ith index will be greater then 4. So inversion pair are (4, 2), (5, 2), Increase j by 1.
+    4 > 2 so 2 will come first, it means all elements from ith index will be greater then 4 because array is sorted. So inversion pair are (4, 2), (5, 2), Increase j by 1.
     4 > 3, so 3 will come first, And pair are = (4, 3), (5, 3) , Increase j by 1.
     4 < 6 so 4 will come first, no pair. Increase i.
     5 < 6 , so 5 will come first, no pair.
 
-* Now conclusion is => consider only one condition and that is jth element < ith element. If condition true incresae pair count by First array length - ith index. (N-i)
+* Now conclusion is => consider only one condition and that is jth element < ith element. If condition true increase pair count by First array length - ith index. (N-i)
 * (n-i) represents count of elements from ith index.
 
 */
@@ -381,11 +381,11 @@ console.log(findInversionPairs([4, 5, 1, 2, 6, 3]))
 //! Stability in array Concept.
 
 //? Relative order of equal elements should not change.
-// Two elements are equal based on value or weightage or with any other condition.
+// Two elements are equal based on value or weight or with any other condition.
 
 [1, 2, 3, 4, 5, 6, 7]
 
-// Suppose 2 5 and 7 have exact same preferences and have higher pref over 1 as well. So they should come togther but in retive order.
+// Suppose 2 5 and 7 have exact same preferences and have higher pref over 1 as well. So they should come together but in relative order.
 
 [2, 5, 7, 1, 3, 4, 6]
 

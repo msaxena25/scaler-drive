@@ -133,8 +133,8 @@ ________       ________
 
 a = 8        1 0 0 0 (8)
 a >> 1       0 1 0 0 (4)
-a >> 1       0 0 1 0 (2)
-a >> 1       0 0 0 1  (1)
+a >> 2       0 0 1 0 (2)
+a >> 3       0 0 0 1  (1)
 
 ! On every right shift, decimal value just half of previous decimal value.
 
@@ -487,7 +487,7 @@ b >= 2 * 10 ^ 9;
 var c = a * b; // 4 * 10^18  (INT OVERFLOW)
 
 var c = a * b;
-parseInt(c); // Still same problem because overlow will happen during multiplication step.
+parseInt(c); // Still same problem because overflow will happen during multiplication step.
 
 var c = parseInt(a) * b; // will work.
  */

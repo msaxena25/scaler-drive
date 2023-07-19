@@ -201,10 +201,10 @@ function consecutiveElementsLengthWithHashing(A) {
         }
     }
     //console.log(map)
-    let maxLength = 1; // min length will be 1 (Because a single element is also a part of consective)
+    let maxLength = 1; // min length will be 1 (Because a single element is also a part of consecutive)
     for (let i = 0; i < A.length; i++) {
         const el = A[i];
-        // if element is start element, find out next consective elements and check if they exist in array or not
+        // if element is start element, find out next consecutive elements and check if they exist in array or not
         if (map.get(el)) {
             let len = 1;
             let j = 1;
@@ -294,8 +294,8 @@ Given a binary string A of size N. There are Q queries given by the array B of s
 
 Each query is given by :-
 
-1 X :- Flip the bit of the X-th position in A
-2 X :- Find the index of the nearest '1' from X. If there are multiple such indexes, return the one with the lower index. Return -1 if there are no '1's in A
+[1 X] :- Flip the bit of the X-th position in A
+[2 X] :- Find the index of the nearest '1' from X. If there are multiple such indexes, return the one with the lower index. Return -1 if there are no '1's in A
 
 Note :- We use 1-based indexing.
 
@@ -309,6 +309,19 @@ Output: [7, 2]
 
 //@ Solution 1: Brute Force approach TC - O(n^2) and SC - O(n)
 
+/* 
+ * Approach
+
+1. Loop over each query
+2. As per question we have to change string character and that is possible only when we will convert string to array. Direct update into string is not possible.
+3. Now If query first value is 1 means we have to flip value and if first value is 2 means we have to find nearest 1 from that char.
+4. If query is [1, 7] means flip 7th value. To flip from 0 to 1 OR 1 to 0, XOR is best operation.  arr[b - 1] = arr[b - 1] ^ 1;  // b-1 because of 1 based indexing.
+5. If query is [2, 5] means find nearest 1 from 5th char. There are three possibilities here-
+    a. If 5th index is already 1 then that will be closest index of 5th char.
+    b. If not a, then traverse left and right both side using while loop from 5th char and find nearest 1.
+    c. May be there is no any 1 exist. So closest index will be -1.
+
+*/
 
 function flipAndFind(A, B) {
     console.log('flipAndFind :', A);
@@ -316,9 +329,9 @@ function flipAndFind(A, B) {
     let ans = [];
     for (let i = 0; i < B.length; i++) {
         const [a, b] = B[i];
-        if (a == 1) { // flip index value
+        if (a == 1) { // 1 means flip index value
             arr[b - 1] = arr[b - 1] ^ 1; // 0 to 1 OR 1 to 0
-        } else if (a == 2) { // find index value
+        } else if (a == 2) { // 2 means find index value
             let closestIndex = -1; // initialize with -1 as per question statement
             if (arr[b - 1] == 1) { // if current item is 1, that will be closest index else traverse array.
                 closestIndex = b;

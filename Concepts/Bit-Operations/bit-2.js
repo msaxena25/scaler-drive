@@ -18,11 +18,11 @@ A << 2       0 0 0 1 0 1 0 0  = 20
 
 ..
 
-By seing above patterns its looks like -
+By seeing above patterns its looks like -
 
 * A << n = A * 2^n // But Here is some limitation-
 
-A = 5 and n = 6 => 5 * 2^6 = 320. (Expection)
+A = 5 and n = 6 => 5 * 2^6 = 320. (Expectation)
 
 ? But Lets see maximum number of 8 bit integer = 1 1 1 1 1 1 1 = 255
 
@@ -35,7 +35,7 @@ A << 5       1 0 1 0 0 0 0 0  = 160
 A << 6       0 1 0 0 0 0 0 0  = 64
 
 @ As per formula A << 6 was 320 but Here A << 6 is 64  WHY ?
-? Because of Interger Overflow.
+? Because of Integer Overflow.
 
 
 * A >> n = A / 2^n
@@ -221,7 +221,7 @@ function findUniqueThrice(A) {
     // Now take two groups
     let x = 0; let y = 0;
 
-    // Check each element on the basis of setBitIndex and find out x and y value seperatelly.
+    // Check each element on the basis of setBitIndex and find out x and y value separately.
     for (let i = 0; i < A.length; i++) {
         if ((A[i] >> setBitIndex) & 1 == 1) {
             x = A[i] ^ x;

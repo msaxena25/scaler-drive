@@ -44,7 +44,7 @@ Selection sort is a sorting algorithm. This sorting algorithm is an in-place com
 list is divided into two parts, the sorted part at the left end and the unsorted part at the right end. Initially,
 the sorted part is empty, and the unsorted part is the entire list.
 
-? Apporach of selection sort-
+? Approach of selection sort-
 
 * It works on the idea of repeatedly finding the smallest / largest element and placing it at its correct sorted position.
 
@@ -87,7 +87,13 @@ as 2 is already at 1st index so no need of swap.
 
 A = [1, 2, 5, 6, 7, 8, 15]; // 2, 5, 6, 7, 8, 15 are now their sorted positions.
 
-So array length is 7, 6 elements are sorted so last 7th element automatically will be on its correct position.
+    So array length is 7, 6 elements are sorted so last 7th element automatically will be on its correct position.
+*/
+
+/*
+    Outer For Loop are running from last index to first index. Purpose of this for loop to swap Max element to the Last element.
+    Inner For loop are running from First index to Last Unsorted index. Purpose of this for loop is to find Max element.
+
 */
 
 function selectionSort(A) {
