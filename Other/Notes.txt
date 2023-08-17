@@ -1,0 +1,35 @@
+Fully Understand-
+
+1. Array 1 D and 2 D
+2. Array Prefix sum
+3. Array Sliding window
+4. Subarrays
+5. recursions
+6. Hashing
+7. binary Tree
+
+
+
+Need Fully revised
+
+Graph
+Trie
+Backtracking
+Greedy
+Heap
+DP
+
+
+Need quick revise only
+
+1. subset and subsequence
+2. bit operations
+3. Sorting
+4. string ascii
+5. Queue & Stack
+6. linked list
+7. Tree and BST
+
+
+
+No Idea

@@ -43,7 +43,7 @@ max total no. of shifts =  0 + 1 + 2 + 3 + 4 ...... + (n-1)
                        =  n^2
 
 * Time Complexity: O(n^2)
-* Space: O(n)
+* Space: O(1)
 
 */
 
