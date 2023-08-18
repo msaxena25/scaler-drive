@@ -42,15 +42,15 @@ The top-most node is known as the root node, while the nodes with no children ar
 //! Lets design a Node Class
 
 class Node {
-  data; // any type
-  left; // type of left is also a Node
-  right; // type of right is also a Node
+    data; // any type
+    left; // type of left is also a Node
+    right; // type of right is also a Node
 
-  constructor(data) {
-    this.data = data;
-    this.left = null; // left contains address of Left tree.
-    this.right = null; // Right contains address of Right tree.
-  }
+    constructor(data) {
+        this.data = data;
+        this.left = null; // left contains address of Left tree.
+        this.right = null; // Right contains address of Right tree.
+    }
 }
 
 //! There are many types of tree data structures. Some of them are:
@@ -118,14 +118,14 @@ and the right child is at index (2*i + 2) in the array.
 //! Create a Binary tree from a given array
 
 function createTree(arr, i) {
-  let node = null;
-  if (i < arr.length && arr[i] != null) {
-    node = new Node(arr[i]);
+    let node = null;
+    if (i < arr.length && arr[i] != null) {
+        node = new Node(arr[i]);
 
-    node.left = createTree(arr, 2 * i + 1); // left side will also be a tree whose root node will be 2i + 1.
-    node.right = createTree(arr, 2 * i + 2); // right side will also be a tree whose root node will be 2i + 2.
-  }
-  return node; // finally return node (will all children)
+        node.left = createTree(arr, 2 * i + 1); // left side will also be a tree whose root node will be 2i + 1.
+        node.right = createTree(arr, 2 * i + 2); // right side will also be a tree whose root node will be 2i + 2.
+    }
+    return node; // finally return node (will all children)
 }
 const tree = createTree([1, 2, 3, 4, 5, 6, 7], 0);
 console.log(tree);
@@ -134,12 +134,12 @@ console.log(tree);
 
 const preOrderMap = [];
 function preorder(node) {
-  if (node == null) {
-    return;
-  }
-  preOrderMap.push(node.data);
-  preorder(node.left);
-  preorder(node.right);
+    if (node == null) {
+        return;
+    }
+    preOrderMap.push(node.data);
+    preorder(node.left);
+    preorder(node.right);
 }
 preorder(tree);
 console.log('Pre ', preOrderMap);
@@ -148,12 +148,12 @@ console.log('Pre ', preOrderMap);
 
 const inOrderMap = [];
 function inOrder(node) {
-  if (node == null) {
-    return;
-  }
-  inOrder(node.left);
-  inOrderMap.push(node.data);
-  inOrder(node.right);
+    if (node == null) {
+        return;
+    }
+    inOrder(node.left);
+    inOrderMap.push(node.data);
+    inOrder(node.right);
 }
 inOrder(tree);
 console.log('In ', inOrderMap);
@@ -162,12 +162,12 @@ console.log('In ', inOrderMap);
 
 const postOrderMap = [];
 function postOrder(node) {
-  if (node == null) {
-    return;
-  }
-  postOrder(node.left);
-  postOrder(node.right);
-  postOrderMap.push(node.data);
+    if (node == null) {
+        return;
+    }
+    postOrder(node.left);
+    postOrder(node.right);
+    postOrderMap.push(node.data);
 }
 postOrder(tree);
 console.log('Post ', postOrderMap);
@@ -200,25 +200,25 @@ We can use array as well because pushing element in queue or array are same. But
 
 // TC and Sc -  O(n)
 function levelOrderTraversal1(root) {
-  console.log('levelOrderTraversal  : print items in same line');
-  if (root == null) {
-    return;
-  }
-  let queue = [];
-  let ans = [];
-  queue.push(root); // that is called enqueue process in Queue data structure
-  while (queue.length != 0) {
-    // that is queue.empty method of Queue
-    let curr = queue.shift(); // same as queue.dequeue method (pop from front side)
-    ans.push(curr.data);
-    if (curr.left) {
-      queue.push(curr.left);
+    console.log('levelOrderTraversal  : print items in same line');
+    if (root == null) {
+        return;
     }
-    if (curr.right) {
-      queue.push(curr.right);
+    let queue = [];
+    let ans = [];
+    queue.push(root); // that is called enqueue process in Queue data structure
+    while (queue.length != 0) {
+        // that is queue.empty method of Queue
+        let curr = queue.shift(); // same as queue.dequeue method (pop from front side)
+        ans.push(curr.data);
+        if (curr.left) {
+            queue.push(curr.left);
+        }
+        if (curr.right) {
+            queue.push(curr.right);
+        }
     }
-  }
-  return ans;
+    return ans;
 }
 
 console.log(levelOrderTraversal1(tree));
@@ -245,32 +245,32 @@ and print a new line.
 
 // TC and Sc -  O(n)
 function levelOrderTraversalWithNewLine(root) {
-  console.log('levelOrderTraversal With New Line', root);
-  if (root == null) {
-    return;
-  }
-  let ans = [];
-  let Q = [];
-  let last = root; // initially root element will be last element
-  Q.push(root); // enqueue root element
-  let temp = []; // to save same level elements
-  while (Q.length != 0) {
-    // empty method of queue
-    let curr = Q.shift(); // dequeue method of queue
-    temp.push(curr.data);
-    if (curr.left) {
-      Q.push(curr.left);
+    console.log('levelOrderTraversal With New Line', root);
+    if (root == null) {
+        return;
     }
-    if (curr.right) {
-      Q.push(curr.right);
+    let ans = [];
+    let Q = [];
+    let last = root; // initially root element will be last element
+    Q.push(root); // enqueue root element
+    let temp = []; // to save same level elements
+    while (Q.length != 0) {
+        // empty method of queue
+        let curr = Q.shift(); // dequeue method of queue
+        temp.push(curr.data);
+        if (curr.left) {
+            Q.push(curr.left);
+        }
+        if (curr.right) {
+            Q.push(curr.right);
+        }
+        if (curr == last) {
+            ans.push(temp); // push same level all elements into final array
+            temp = []; // empty temp arr
+            last = Q[Q.length - 1]; // rear() method of queue
+        }
     }
-    if (curr == last) {
-      ans.push(temp); // push same level all elements into final array
-      temp = []; // empty temp arr
-      last = Q[Q.length - 1]; // rear() method of queue
-    }
-  }
-  return ans;
+    return ans;
 }
 
 console.log(levelOrderTraversalWithNewLine(tree));
@@ -279,55 +279,55 @@ console.log(levelOrderTraversalWithNewLine(tree));
 
 // TC and Sc -  O(n)
 function printRightView(root) {
-  console.log('printRightView of tree');
-  if (root == null) {
-    return;
-  }
-  let Q = [];
-  let last = root; // initially root element will be last element
-  Q.push(root); // enqueue root element
-  while (Q.length != 0) {
-    // empty method of queue
-    let curr = Q.shift(); // dequeue method of queue
-    if (curr.left) {
-      queue.push(curr.left);
+    console.log('printRightView of tree');
+    if (root == null) {
+        return;
     }
-    if (curr.right) {
-      queue.push(curr.right);
+    let Q = [];
+    let last = root; // initially root element will be last element
+    Q.push(root); // enqueue root element
+    while (Q.length != 0) {
+        // empty method of queue
+        let curr = Q.shift(); // dequeue method of queue
+        if (curr.left) {
+            queue.push(curr.left);
+        }
+        if (curr.right) {
+            queue.push(curr.right);
+        }
+        if (curr == last) {
+            console.log(curr.data); // only print last element
+            last = Q[Q.length - 1]; // rear() method of queue
+        }
     }
-    if (curr == last) {
-      console.log(curr.data); // only print last element
-      last = Q[Q.length - 1]; // rear() method of queue
-    }
-  }
 }
 
 //! Left view of tree
 
 function printLeftView(node) {
-  if (node == null) {
-    return;
-  }
-  let q = [node];
-  let temp = []; // to store only one level elements
-  let last = node; // initially node is last node.
-  let ans = [];
-  while (q.length > 0) {
-    const el = q.shift(); // pop first element
-    temp.push(el);
-    if (el.left) {
-      q.push(el.left);
+    if (node == null) {
+        return;
     }
-    if (el.right) {
-      q.push(el.right);
+    let q = [node];
+    let temp = []; // to store only one level elements
+    let last = node; // initially node is last node.
+    let ans = [];
+    while (q.length > 0) {
+        const el = q.shift(); // pop first element
+        temp.push(el);
+        if (el.left) {
+            q.push(el.left);
+        }
+        if (el.right) {
+            q.push(el.right);
+        }
+        if (el == last) {
+            ans.push(temp[0].data); // we have to pick only first item of one level's elements.
+            last = q[q.length - 1]; // again update last element
+            temp = []; // empty temp array to store next level elements
+        }
     }
-    if (el == last) {
-      ans.push(temp[0].data); // we have to pick only first item of one level's elements.
-      last = q[q.length - 1]; // again update last element
-      temp = []; // empty temp array to store next level elements
-    }
-  }
-  return ans;
+    return ans;
 }
 
 //! Vertical Order traversal, Left to Right and Top to Bottom
@@ -394,52 +394,52 @@ We need elements from top to bottom and that is only possible with Level order t
 
 // SC and TC - O(n)
 function verticalTraversal(root) {
-  console.log('verticalTraversal :');
-  if (root == null) {
-    return;
-  }
-  let orderMap = {}; // map to contains nodes with its order (distance from root node)
-  let Q = []; // queue for level order traversal
-  // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
-  // Why do Level order - because we have to traverse from top to bottom as per question requirement
+    console.log('verticalTraversal :');
+    if (root == null) {
+        return;
+    }
+    let orderMap = {}; // map to contains nodes with its order (distance from root node)
+    let Q = []; // queue for level order traversal
+    // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
+    // Why do Level order - because we have to traverse from top to bottom as per question requirement
 
-  Q.push([root, 0]); // initial node is root and it has distance 0
-  orderMap[0] = [root.data];
+    Q.push([root, 0]); // initial node is root and it has distance 0
+    orderMap[0] = [root.data];
 
-  let minDistance = 0; // track min left distance
-  let maxDistance = 0; // track max right distance
+    let minDistance = 0; // track min left distance
+    let maxDistance = 0; // track max right distance
 
-  while (Q.length != 0) {
-    let [currNode, currDistance] = Q.shift();
-    if (currDistance < minDistance) {
-      minDistance = currDistance;
+    while (Q.length != 0) {
+        let [currNode, currDistance] = Q.shift();
+        if (currDistance < minDistance) {
+            minDistance = currDistance;
+        }
+        if (currDistance > maxDistance) {
+            maxDistance = currDistance;
+        }
+        if (currNode.left) {
+            Q.push([currNode.left, currDistance - 1]); // moving left side so did -1 here.
+            if (orderMap[currDistance - 1]) {
+                orderMap[currDistance - 1].push(currNode.left.data);
+            } else {
+                orderMap[currDistance - 1] = [currNode.left.data];
+            }
+        }
+        if (currNode.right) {
+            Q.push([currNode.right, currDistance + 1]); // moving right side so did +1 here.
+            if (orderMap[currDistance + 1]) {
+                orderMap[currDistance + 1].push(currNode.right.data);
+            } else {
+                orderMap[currDistance + 1] = [currNode.right.data];
+            }
+        }
     }
-    if (currDistance > maxDistance) {
-      maxDistance = currDistance;
+    console.log(orderMap, minDistance, maxDistance);
+    let ans = [];
+    for (let i = minDistance; i <= maxDistance; i++) {
+        ans.push(orderMap[i]); // push all elements of ith index of orderMap to ans.
     }
-    if (currNode.left) {
-      Q.push([currNode.left, currDistance - 1]); // moving left side so did -1 here.
-      if (orderMap[currDistance - 1]) {
-        orderMap[currDistance - 1].push(currNode.left.data);
-      } else {
-        orderMap[currDistance - 1] = [currNode.left.data];
-      }
-    }
-    if (currNode.right) {
-      Q.push([currNode.right, currDistance + 1]); // moving right side so did +1 here.
-      if (orderMap[currDistance + 1]) {
-        orderMap[currDistance + 1].push(currNode.right.data);
-      } else {
-        orderMap[currDistance + 1] = [currNode.right.data];
-      }
-    }
-  }
-  console.log(orderMap, minDistance, maxDistance);
-  let ans = [];
-  for (let i = minDistance; i <= maxDistance; i++) {
-    ans.push(orderMap[i]); // push all elements of ith index of orderMap to ans.
-  }
-  return ans;
+    return ans;
 }
 console.log(verticalTraversal(tree));
 
@@ -461,81 +461,87 @@ Output: [1, 2, 4, 8, 3, 7]
 
 //@ I have used here array to store node, but actually we have to store data in Queue.
 function topViewOfBT(root) {
-  console.log('topViewOfBT :', root);
-  if (root == null) {
-    return;
-  }
-  let orderMap = {}; // map to contains nodes with its order (distance from root node)
-  let Q = []; // queue for level order traversal
-  // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
-  // Why do Level order - because we have to traverse from top to bottom as per question requirement
-
-  Q.push([root, 0]); // initial node is root and it has distance 0
-  orderMap[0] = [root.data];
-
-  let minDistance = 0; // track min left distance
-  let maxDistance = 0; // track max right distance
-
-  while (Q.length != 0) {
-    let [currNode, currDistance] = Q.shift(); // use Queue data structure
-    if (currDistance < minDistance) {
-      minDistance = currDistance;
+    console.log('topViewOfBT :', root);
+    if (root == null) {
+        return;
     }
-    if (currDistance > maxDistance) {
-      maxDistance = currDistance;
-    }
-    if (currNode.left) {
-      Q.push([currNode.left, currDistance - 1]); // moving left side so did -1 here.
-      if (orderMap[currDistance - 1]) {
-        orderMap[currDistance - 1].push(currNode.left.data);
-      } else {
-        orderMap[currDistance - 1] = [currNode.left.data];
-      }
-    }
-    if (currNode.right) {
-      Q.push([currNode.right, currDistance + 1]); // moving right side so did +1 here.
-      if (orderMap[currDistance + 1]) {
-        orderMap[currDistance + 1].push(currNode.right.data);
-      } else {
-        orderMap[currDistance + 1] = [currNode.right.data];
-      }
-    }
-  }
-  //console.log(orderMap);
+    let orderMap = {}; // map to contains nodes with its order (distance from root node)
+    let Q = []; // queue for level order traversal
+    // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
+    // Why do Level order - because we have to traverse from top to bottom as per question requirement
 
-  /* Every first item of same order will be seen from top */
-  let ans = [];
-  for (let i = minDistance; i <= maxDistance; i++) {
-    ans.push(orderMap[i][0]); //* This is only change here in top view case compare to vertical traversal code
-  }
-  return ans;
+    Q.push([root, 0]); // initial node is root and it has distance 0
+    orderMap[0] = [root.data];
+
+    let minDistance = 0; // track min left distance
+    let maxDistance = 0; // track max right distance
+
+    while (Q.length != 0) {
+        let [currNode, currDistance] = Q.shift(); // use Queue data structure
+        if (currDistance < minDistance) {
+            minDistance = currDistance;
+        }
+        if (currDistance > maxDistance) {
+            maxDistance = currDistance;
+        }
+        if (currNode.left) {
+            Q.push([currNode.left, currDistance - 1]); // moving left side so did -1 here.
+            if (orderMap[currDistance - 1]) {
+                orderMap[currDistance - 1].push(currNode.left.data);
+            } else {
+                orderMap[currDistance - 1] = [currNode.left.data];
+            }
+        }
+        if (currNode.right) {
+            Q.push([currNode.right, currDistance + 1]); // moving right side so did +1 here.
+            if (orderMap[currDistance + 1]) {
+                orderMap[currDistance + 1].push(currNode.right.data);
+            } else {
+                orderMap[currDistance + 1] = [currNode.right.data];
+            }
+        }
+    }
+    //console.log(orderMap);
+
+    /*
+     @Every first item of same order will be seen from top. How?
+      Suppose there are 3 nodes at 3rd order. So 2nd and 3rd node are lying on same path so, those cannot be visible from top. Only first node will be visible from top.
+    */
+    let ans = [];
+    for (let i = minDistance; i <= maxDistance; i++) {
+        ans.push(orderMap[i][0]); //* This is only change here in top view case compare to vertical traversal code
+    }
+    return ans;
 }
 console.log(topViewOfBT(tree));
+
+
+
 
 //! Max depth of binary tree :: can solve with level order traversal
 
 function maxDepth(A) {
-  if (A == null) {
-    return null;
-  }
-  let last = A;
-  let Q = []; // queue
-  Q.push(A);
-  let depth = 0;
-  while (Q.length != 0) {
-    let curr = Q.shift(); // remove first element
-    if (curr.left) {
-      Q.push(curr.left);
+    if (A == null) {
+        return null;
     }
-    if (curr.right) {
-      Q.push(curr.right);
+    let last = A;
+    let Q = []; // queue
+    Q.push(A);
+    let depth = 0;
+    while (Q.length != 0) {
+        let curr = Q.shift(); // remove first element
+        if (curr.left) {
+            Q.push(curr.left);
+        }
+        if (curr.right) {
+            Q.push(curr.right);
+        }
+        if (curr == last) {
+            depth++;
+            last = Q[Q.length - 1];
+        }
     }
-    if (curr == last) {
-      depth++;
-      last = Q[Q.length - 1];
-    }
-  }
-  return depth;
+    return depth;
 }
 
 //! Height balanced tree
@@ -558,26 +564,26 @@ The difference between the height of the left and the height of the right subtre
 
 // SC and TC = O(n)
 function heightBalancedTree(root) {
-  let isBalanced = true; // initially assumed that tree is balanced
-  function balanced(node) {
-    if (node == null) {
-      return -1; // if node is null , means return -1
+    let isBalanced = true; // initially assumed that tree is balanced
+    function balanced(node) {
+        if (node == null) {
+            return -1; // if node is null , means return -1
+        }
+        let left = balanced(node.left); // traverse left sub tree
+        let right = balanced(node.right); // traverse right sub tree
+        if (Math.abs(left - right) > 1) {
+            // In case diff > 1 means tree is not balanced
+            isBalanced = false; // tree is not balanced
+        }
+        return Math.max(left, right) + 1; // calculate height
     }
-    let left = balanced(node.left); // traverse left sub tree
-    let right = balanced(node.right); // traverse right sub tree
-    if (Math.abs(left - right) > 1) {
-      // In case diff > 1 means tree is not balanced
-      isBalanced = false; // tree is not balanced
-    }
-    return Math.max(left, right) + 1; // calculate height
-  }
 
-  balanced(root);
-  if (isBalanced) {
-    return 1;
-  } else {
-    return 0;
-  }
+    balanced(root);
+    if (isBalanced) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 console.log(heightBalancedTree(tree));
 
@@ -648,42 +654,42 @@ In sub tree [3, 2] Check Post order and as per that 2 wil be parent node. And If
 //* Linear way => TC -> O(n) , SC -> O(h) = O(h), in worst case it will be O(n)
 //* HashMap => If we use hashMap then SC => O(n) + O(h) = O(n)
 function constructBinaryTree(inOrderArr, postOrderArr, startIn, endIn, startPost, endPost) {
-  if (startIn > endIn) {
-    return null;
-  }
-
-  // Step 1 :: Last element of Post order is always Node.
-  let node = new Node(postOrderArr[endPost]); // create a new node based on end Index
-
-  // Step 2 :: Find above node Index from In Order array
-  let nodeIndex;
-  for (let startIn = 0; startIn <= endIn; startIn++) {
-    const element = inOrderArr[startIn];
-    if (element == postOrderArr[endPost]) {
-      // we can also do (element == node.data)
-      nodeIndex = startIn;
-      break;
+    if (startIn > endIn) {
+        return null;
     }
-  }
-  /*  Step 3 :: Now elements before nodeIndex will become part of Left sub tree.
-        Left sub tree indices ->
-             Inorder array indices    => start will be startIn and end index will be nodeIndex - 1
-             Postorder array indices  => count number of elements left side in In-Order and based on that we will find index in post order
-                 => nodeIndex = 1;
-                 => countLeft = nodeIndex - startIn
-                 => startPost = startPost, endPost = startPost + countLeft - 1; // did -1 because index start from 0
-        Right sub tree indices ->
-             Inorder array indices    => start will be nodeIndex + 1 and end index will be endIn
-             Postorder array indices  => count number of elements right side in In-Order and based on that we will find index in post order
-                 => nodeIndex = 1;
-                 => countRight = endIn - nodeIndex
-                 => startPost = startPost + countLeft, endPost = endPost - 1;
-     */
-  let countLeft = nodeIndex - startIn;
-  let countRight = endIn - nodeIndex; // this is not in use.
-  node.left = constructBinaryTree(inOrderArr, postOrderArr, startIn, nodeIndex - 1, startPost, startPost + countLeft - 1);
-  node.right = constructBinaryTree(inOrderArr, postOrderArr, nodeIndex + 1, endIn, startPost + countLeft, endPost - 1);
-  return node;
+
+    // Step 1 :: Last element of Post order is always Node.
+    let node = new Node(postOrderArr[endPost]); // create a new node based on end Index
+
+    // Step 2 :: Find above node Index from In Order array
+    let nodeIndex;
+    for (let startIn = 0; startIn <= endIn; startIn++) {
+        const element = inOrderArr[startIn];
+        if (element == postOrderArr[endPost]) {
+            // we can also do (element == node.data)
+            nodeIndex = startIn;
+            break;
+        }
+    }
+    /*  Step 3 :: Now elements before nodeIndex will become part of Left sub tree.
+          Left sub tree indices ->
+               Inorder array indices    => start will be startIn and end index will be nodeIndex - 1
+               Postorder array indices  => count number of elements left side in In-Order and based on that we will find index in post order
+                   => nodeIndex = 1;
+                   => countLeft = nodeIndex - startIn
+                   => startPost = startPost, endPost = startPost + countLeft - 1; // did -1 because index start from 0
+          Right sub tree indices ->
+               Inorder array indices    => start will be nodeIndex + 1 and end index will be endIn
+               Postorder array indices  => count number of elements right side in In-Order and based on that we will find index in post order
+                   => nodeIndex = 1;
+                   => countRight = endIn - nodeIndex
+                   => startPost = startPost + countLeft, endPost = endPost - 1;
+       */
+    let countLeft = nodeIndex - startIn;
+    let countRight = endIn - nodeIndex; // this is not in use.
+    node.left = constructBinaryTree(inOrderArr, postOrderArr, startIn, nodeIndex - 1, startPost, startPost + countLeft - 1);
+    node.right = constructBinaryTree(inOrderArr, postOrderArr, nodeIndex + 1, endIn, startPost + countLeft, endPost - 1);
+    return node;
 }
 console.log('constructBinaryTree from InOrder and PostOrder');
 console.log(constructBinaryTree([2, 1, 3], [2, 3, 1], 0, 2, 0, 2));
@@ -753,22 +759,22 @@ Let's calculate diameter for a single Node with below algorithm.
 */
 
 function calculateDiameter(node) {
-  let maxDiameter = 0;
-  function diameterOfBT(node) {
-    if (node == null) {
-      return -1;
-    }
-    let left = diameterOfBT(node.left);
-    let right = diameterOfBT(node.right);
+    let maxDiameter = 0;
+    function diameterOfBT(node) {
+        if (node == null) {
+            return -1;
+        }
+        let left = diameterOfBT(node.left);
+        let right = diameterOfBT(node.right);
 
-    let d = left + 1 + (right + 1); // Calculate diameter at each Node and compare with Max value.
-    if (d > maxDiameter) {
-      maxDiameter = d;
+        let d = left + 1 + (right + 1); // Calculate diameter at each Node and compare with Max value.
+        if (d > maxDiameter) {
+            maxDiameter = d;
+        }
+        return Math.max(left + 1, right + 1); // return Only Max path between left and right to parent node.
     }
-    return Math.max(left + 1, right + 1); // return Only Max path between left and right to parent node.
-  }
-  diameterOfBT(node);
-  return maxDiameter;
+    diameterOfBT(node);
+    return maxDiameter;
 }
 
 //!  Sum of Left Leaves
@@ -778,40 +784,40 @@ Given a binary tree, find and return the sum of node value of all left leaves in
 */
 
 function sumOfLeftLeaves(A) {
-  let sum = 0;
-  function preOrder(A) {
-    if (A == null) {
-      return;
+    let sum = 0;
+    function preOrder(A) {
+        if (A == null) {
+            return;
+        }
+        // We have to pick Left node and only leaf node means whose left and right are null.
+        if (A.left && A.left.left == null && A.left.right == null) {
+            sum += A.left.data;
+        }
+        preOrder(A.left);
+        preOrder(A.right);
     }
-    // We have to pick Left node and only leaf node means whose left and right are null.
-    if (A.left && A.left.left == null && A.left.right == null) {
-      sum += A.left.data;
-    }
-    preOrder(A.left);
-    preOrder(A.right);
-  }
-  preOrder(A);
-  return sum;
+    preOrder(A);
+    return sum;
 }
 
 //! Counting the Nodes with more value than all its ancestors
 
 function countingNodes(A) {
-  let count = 1; // Assuming there wil be at least one Node.
+    let count = 1; // Assuming there wil be at least one Node. (Because root node always considered)
 
-  // Why Pre Order - Because we have to process first Node data so pre order is best fit.
-  function preOrder(A, maxValue) {
-    if (A == null) {
-      return;
+    // Why Pre Order - Because we have to process first Node data so pre order is best fit.
+    function preOrder(A, maxValue) {
+        if (A == null) {
+            return;
+        }
+        if (A.data > maxValue) {
+            count++; // If Node data is greater than max value coming from its parent then increase count.
+        }
+        preOrder(A.left, Math.max(A.data, maxValue)); // Pass Math.max(A.data, maxValue) to its child tree
+        preOrder(A.right, Math.max(A.data, maxValue));
     }
-    if (A.data > maxValue) {
-      count++; // If Node data is greater than max value coming from its parent then increase count.
-    }
-    preOrder(A.left, Math.max(A.data, maxValue)); // Pass Math.max(A.data, maxValue) to its child tree
-    preOrder(A.right, Math.max(A.data, maxValue));
-  }
-  preOrder(A, A.data); // initially root data is max value
-  return count;
+    preOrder(A, A.data); // initially root data is max value
+    return count;
 }
 
 //! Odd and Even Levels
@@ -825,73 +831,73 @@ NOTE: Consider the level of root node as 1.
 */
 
 function oddAndEvenLevelDifference(A) {
-  if (A == null) {
-    return;
-  }
-  let oddSum = 0;
-  let evenSum = 0;
-  let q = [A];
-  let sameLevelElementsSum = 0; // to store only same level elements sum
-  let last = A; // initially
-  let level = 1; // as per question root is at level 1.
-  while (q.length > 0) {
-    const el = q.shift(); // pop first element
-    sameLevelElementsSum += el.data; // add node data into sameLevelElementsSum
-    if (el.left) {
-      q.push(el.left);
+    if (A == null) {
+        return;
     }
-    if (el.right) {
-      q.push(el.right);
+    let oddSum = 0;
+    let evenSum = 0;
+    let q = [A];
+    let sameLevelElementsSum = 0; // to store only same level elements sum
+    let last = A; // initially
+    let level = 1; // as per question root is at level 1.
+    while (q.length > 0) {
+        const el = q.shift(); // pop first element
+        sameLevelElementsSum += el.data; // add node data into sameLevelElementsSum
+        if (el.left) {
+            q.push(el.left);
+        }
+        if (el.right) {
+            q.push(el.right);
+        }
+        if (el == last) {
+            if (level % 2 == 0) {
+                // check level is odd or even
+                evenSum += sameLevelElementsSum;
+            } else {
+                oddSum += sameLevelElementsSum;
+            }
+            level++; // at this point one level is completely traversed so we can increase level value
+            last = q[q.length - 1]; // update last item
+            sameLevelElementsSum = 0; // reset sum of sameLevelElementsSum
+        }
     }
-    if (el == last) {
-      if (level % 2 == 0) {
-        // check level is odd or even
-        evenSum += sameLevelElementsSum;
-      } else {
-        oddSum += sameLevelElementsSum;
-      }
-      level++; // at this point one level is completely traversed so we can increase level value
-      last = q[q.length - 1]; // update last item
-      sameLevelElementsSum = 0; // reset sum of sameLevelElementsSum
-    }
-  }
-  return oddSum - evenSum; // finally return. Mentioned in question that output should be odd - even.
+    return oddSum - evenSum; // finally return. Mentioned in question that output should be odd - even.
 }
 
 //! Boundary Traversal Of Binary Tree -- uncompleted
 
 function boundaryTraversal(A) {
-  let q = [A];
-  let last = A;
-  let temp = [];
-  let levelElements = [];
-  let leftEls = [];
-  let rightEls = [];
+    let q = [A];
+    let last = A;
+    let temp = [];
+    let levelElements = [];
+    let leftEls = [];
+    let rightEls = [];
 
-  while (q.length > 0) {
-    let node = q.shift();
-    temp.push(node.data);
-    if (A.left) {
-      q.push(A.left);
+    while (q.length > 0) {
+        let node = q.shift();
+        temp.push(node.data);
+        if (A.left) {
+            q.push(A.left);
+        }
+        if (A.right) {
+            q.push(A.right);
+        }
+        if (node == last) {
+            leftEls.push(temp[0]);
+            rightEls.push(temp[temp.length - 1]);
+            levelElements = temp;
+            temp = [];
+        }
     }
-    if (A.right) {
-      q.push(A.right);
+    let ans = leftEls;
+    for (let i = 1; i < levelElements.length - 1; i++) {
+        ans.push(levelElements[i]);
     }
-    if (node == last) {
-      leftEls.push(temp[0]);
-      rightEls.push(temp[temp.length - 1]);
-      levelElements = temp;
-      temp = [];
+    for (let i = rightEls.length - 1; i >= 0; i--) {
+        ans.push(rightEls[i]);
     }
-  }
-  let ans = leftEls;
-  for (let i = 1; i < levelElements.length - 1; i++) {
-    ans.push(levelElements[i]);
-  }
-  for (let i = rightEls.length - 1; i >= 0; i--) {
-    ans.push(rightEls[i]);
-  }
-  return ans;
+    return ans;
 }
 
 //!  Max Sum Path in Binary Tree
@@ -904,24 +910,24 @@ The path may start and end at any node in the tree.
 Note: A maximum sum path is any path which has the maximum sum of the nodes lying on the path. Node can have negative values as well.*/
 
 function maxSumPath(A) {
-  console.log('maxSumPath :', A);
-  let maxSumValue = -1001; // min value : we can take Number.MIN_Safe_Integer as well.
-  function run(A) {
-    if (A == null) {
-      return 0;
-    }
-    let left = run(A.left);
-    let right = run(A.right);
+    console.log('maxSumPath :', A);
+    let maxSumValue = -1001; // min value : we can take Number.MIN_Safe_Integer as well.
+    function run(A) {
+        if (A == null) {
+            return 0;
+        }
+        let left = run(A.left);
+        let right = run(A.right);
 
-    // Max path on a particular Node will be
-    const max = Math.max(left + A.data, right + A.data, left + right + A.data, A.data);
-    if (max > maxSumValue) {
-      maxSumValue = max;
+        // Max path on a particular Node will be
+        const max = Math.max(left + A.data, right + A.data, left + right + A.data, A.data);
+        if (max > maxSumValue) {
+            maxSumValue = max;
+        }
+        return Math.max(left + A.data, right + A.data, A.data); // return to parent max among left + data , right + data or data
     }
-    return Math.max(left + A.data, right + A.data, A.data); // return to parent max among left + data , right + data or data
-  }
-  run(A);
-  return maxSumValue;
+    run(A);
+    return maxSumValue;
 }
 
 const tree0 = createTree([1, 2, 3], 0);

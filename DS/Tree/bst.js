@@ -18,7 +18,7 @@
 
 
 * Complexity of binary search tree algorithm
-Insertion : O(n)
+Insertion : O(h) because we have to search level by level in one direction only at a time.
 
 Searching O(h) (h: Height of the binary search tree)
     Range of this h could be n in worst case. Below is tree structure.
@@ -178,9 +178,10 @@ function findMinInRightSubTree(root) {
 
 function deleteNodeInBSTWithRecursion(A, B) {
   function run(A, B) {
-    if (A == null) return null; //If root is null then return null
+    if (A == null) return null; //If node is null then return null
+    // Go to right if element is greater then node & whatever will return either node or null, will assign to right child.
     if (B > A.data) {
-      A.right = run(A.right, B); // Go to right if element is greater then node
+      A.right = run(A.right, B);
     } else if (B < A.data) {
       A.left = run(A.left, B); // Go to left
     }
@@ -204,7 +205,7 @@ function deleteNodeInBSTWithRecursion(A, B) {
         temp = temp.right;
       }
       A.data = temp.data; // replace A.data with temp data
-      A.left = run(A.left, temp.data); // call again run function and now remove that temp data from tree
+      A.left = run(A.left, temp.data); // call again run function on left side because we have taken left most node and now remove that temp data from tree
     }
     return A;
   }

@@ -26,7 +26,7 @@ function createBinaryTree(arr, i) {
 //! Morris InOrder Traversal || InOrder traversal without stack and recursion
 
 /*
-Given a binary tree, return the inorder traversal of its nodes' values.
+Given a binary tree, return the InOrder traversal of its nodes' values.
 
 NOTE: Using recursion and stack are not allowed.
 
@@ -43,8 +43,8 @@ output: [6, 1, 3, 2]
 
 * Approach
 
-PreOrder traversal takes O(H) Space Complexity because of its using stack data structure to store recursive calls.
-Morris InOrder traversal algorithm says that we can do PreOrder traversal without using any extra space. Space Complexity will be O(1). So It means there will no any recursive call.
+InOrder traversal takes O(H) Space Complexity because of its using stack data structure to store recursive calls.
+Morris InOrder traversal algorithm says that we can do InOrder traversal without using any extra space. Space Complexity will be O(1). So It means there will no any recursive call.
 
 ? If there is no any recursive call then how will we come to previous visited node. Like In below tree After print 6 we have to print 2.
 
@@ -71,7 +71,7 @@ Right pointer of these nodes 6 11 and 10 are null and that is useless. So someho
 Temporary Right Pointer Links => 5 ---> 4, 6 ---> 2, 12 ---> 11, 11 ---> 1, 9 ---> 7, 10 ---> 3
 
 ? Why Right Most Node ?
-Right Most Node is the last child of tree which traversed into Last in PreOrder traversal. Means when we on Right Most Node, after read that we have to go back to ancestor Node. Thats why we added a temporary link between a node to its a Right Most Node. 
+Right Most Node is the last child of tree which traversed into Last in InOrder traversal. Means when we on Right Most Node, after read that we have to go back to ancestor Node. Thats why we added a temporary link between a node to its a Right Most Node.
 */
 
 //? https://www.scaler.com/topics/morris-traversal/
@@ -675,7 +675,7 @@ function sumBinaryTree(A) {
 }
 
 
-//! Next Pointer Binary Tree (Use of level data structure with Queue data structure)
+//! Next Pointer Binary Tree (Use of level order traversal with Queue data structure)
 
 /* Given a binary tree,
 Populate each next pointer to point to its next right node. If there is no next right node,
