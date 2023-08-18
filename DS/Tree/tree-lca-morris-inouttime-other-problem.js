@@ -368,7 +368,7 @@ NOTE: Distance between two nodes is number of edges between them.
 function distanceBetweenTwoNodes(A, B, C) {
 
     let curr = A;
-     // First traverse tree and find least common ancestor. Why lca ? Because We have to recognize From which Nodes, B and C are in separate directions. So We will calculate distance from that common node and finally add distance.
+    // First traverse tree and find least common ancestor. Why lca ? Because We have to recognize From which Nodes, B and C are in separate directions. So We will calculate distance from that common node and finally add distance.
     let ancestorNode;
     while (curr != null) {
         if (B < curr.data && C < curr.data) {
@@ -438,3 +438,369 @@ function recoverBinarySearchTree(A) {
 const t3 = createBinaryTree([150, 113, 165, 76, 142, 158, 175, 65, 84, 139, 143, 156, 160, 168, 191, 62, 74, 82, 86, 120, 141, null, 147, 154, 157, 159, 162, 167, 172, 188, 192, 59, 63, 66, 75, 80, 83, 85, 89, 111, 128, 140, null, 145, 148, 153, 155, null, null, null, null, 161, 164, 166, null, 171, 173, 182, 189, null, 195, 43, 60, null, 64, null, 73, null, null, 78, 81, null, null, null, null, 88, 90, 109, 94, 126, 132, null, null, 144, 146, null, 149, 151, null, null, null, null, null, 163, null, null, null, 170, null, null, 174, 178, 186, null, 190, 194, 196, null, 49, null, 61, null, null, 70, null, 77, 79, null, null, 87, null, null, 92, 101, 110, 112, 119, 122, 127, 129, 136, null, null, null, null, null, null, null, 152, null, null, 169, null, null, null, 177, 179, 185, 187, null, null, 193, null, null, null, 45, 58, null, null, 69, 71, null, null, null, null, null, null, 91, 93, 97, 107, null, null, null, null, 116, null, 121, 125, null, null, null, 131, 134, 138, null, null, null, null, 176, null, null, 180, 183, null, null, null, null, null, 44, 47, 53, null, 67, null, null, 72, null, null, null, null, 96, 99, 104, 108, 115, 117, null, null, 123, null, 130, null, 133, 135, 137, null, null, null, null, 181, null, 184, null, null, 46, 48, 51, 57, null, 68, null, null, 95, null, 98, 100, 102, 106, null, null, 114, null, null, 118, null, 124, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 50, 52, 54, null, null, null, null, null, null, null, null, null, null, 103, 105, null, null, null, null, null, null, null, null, null, null, null, null, 56, null, null, null, null, 55, null, null, null], 0);
 
 console.log(recoverBinarySearchTree(t3));
+
+
+
+
+//! Kth Smallest Element In BST
+
+
+/* Given a binary search tree represented by root A, write a function to find the Bth smallest element in the tree. */
+
+/*
+
+- TO Find Out Kth smallest or largest we have to use InOrder traversal.
+- Why InOrder traversal - Because it is in sorted order.
+- Create InOrder traversal array and then search kth smallest element from start.
+
+*/
+
+function kthSmallestInBST(A) {
+    console.log('kthSmallestInBST :', A);
+    const arr = [];
+
+    function inOrder(A) {
+        if (A == null) {
+            return;
+        }
+        inOrder(A.left);
+        arr.push(A.data);
+        inOrder(A.right);
+    }
+    inOrder(A);
+    return arr[k - 1]; // why k -1 because we have to find 2nd smallest and array start from 0 index.
+}
+
+
+//! Path Sum in Binary Tree - Root to Leaf
+
+
+/* Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+Tree:     5
+         / \
+        4   8
+       /   / \
+      11  13  4
+     /  \      \
+    7    2      1
+
+ B = 22
+
+ There exist a root-to-leaf path 5 -> 4 -> 11 -> 2 which has sum 22. So, return 1.
+*/
+
+/*
+
+- Start from root node.
+- Check root value and do (B - root value) and pass that remaining amount to its both child.
+- If at any side Leaf, node data is equal to that remaining sum , means path exists.
+- If path found from left side then no need to traverse right side. We can use OR condition to validate this.
+
+*/
+
+function rootToLeaf(A, B) {
+    console.log('rootToLeaf :', A, B);
+
+    function check(A, remainingSum) {
+        if (A == null) {
+            return 0;
+        }
+        if (A.left == null && A.right == null) { // leaf node
+            if (A.data == remainingSum) { // we have to find path till leaf that why this is inside above If condition.
+                return 1; // path exists
+            } else {
+                return 0;
+            }
+        }
+
+        // First check in left side, then check into Right side. If nothing found then return 0.
+        return check(A.left, remainingSum - A.data) || check(A.right, remainingSum - A.data);
+    }
+
+    return check(A, B);
+}
+
+const t4 = createBinaryTree([1000, 2000, null, -3001], 0);
+// console.log(rootToLeaf(t4, -1));
+console.log(rootToLeaf(t4, 100));
+
+
+//!  Invert the Binary Tree
+
+/* Given a binary tree A, invert the binary tree and return it.
+Inverting refers to making the left child the right child and vice versa.
+
+Input-
+
+     1
+   /   \
+  2     3
+ / \   / \
+4   5 6   7
+
+Output-
+
+     1
+   /   \
+  3     2
+ / \   / \
+7   6 5   4
+
+*/
+
+/*
+
+- Inversion means for every tree, we have to swap lift child to right child and vice versa.
+- How swap perform generally on two values like a and b?
+    - We keep a into temp. like temp = a;
+    - then we do a = b;
+    - and last we do b = temp;
+- Same above concept we will use here for tree as well.
+- Store left child node into temp.
+- Assign left child into right child.
+- Assign right child to that temp Node.
+
+*/
+
+// TC - O(n) and SC = O(h)
+function invertBinaryTree(A) {
+
+    function invert(A) {
+        if (A == null) {
+            return;
+        }
+        let tempLeftNode = invert(A.left); // first store left node into temp
+        A.left = invert(A.right); // make right node to left node
+        A.right = tempLeftNode; // now assign temp node into right node
+        return A;
+    }
+    return invert(A);
+}
+
+
+//! Symmetric Binary Tree (use of InOrder traversal)
+
+
+/* Given a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+
+output : 1(yes it is.)
+*/
+
+// We will create InOrder traversal and then verify nodes left and right side of root node. If they are not same at any point means tree is not symmetric.
+function checkSymmetricBinaryTree(A) {
+    const arr = [];
+    function inOrder(A) {
+        if (A == null) {
+            return;
+        }
+        inOrder(A.left);
+        arr.push(A.data);
+        inOrder(A.right);
+    }
+    inOrder(A);
+
+    // To by Symmetric total nodes should be even. Because If length is Odd means number of nodes left and right side are not same.
+    if (arr.length % 2 == 0) {
+        return 0;
+    }
+
+    // To be symmetric, Middle element of in order array must be root node.
+    let midIndex = Math.floor(arr.length / 2);
+    if (arr[midIndex] != A.data) {
+        return 0;
+    }
+
+    // If above both are true then check each node left and right side. If at any index , they are not same return 0.
+    let i = midIndex;
+    let j = midIndex;
+    while (i >= 0 || j < arr.length) {
+        if (arr[i] != arr[j]) {
+            return 0;
+        }
+        i--;
+        j++;
+    }
+    return 1;
+}
+
+
+//! Sum binary tree or not
+
+/* Given a binary tree. Check whether the given tree is a Sum-binary Tree or not.
+
+Sum-binary Tree is a Binary Tree where the value of a every node is equal to sum of the nodes present in its left
+subtree and right subtree.
+A leaf node is also considered as SumTree.
+
+       26
+     /    \
+    10     3
+   /  \     \
+  4   6      3
+
+output: 1(yes)
+
+ */
+
+function sumBinaryTree(A) {
+
+    let isSumTree = 1; // initially takes value as 1
+    function check(A) {
+        if (A == null) {
+            return null;
+        }
+
+        let left = check(A.left);
+        let right = check(A.right);
+
+        // left and right both are null means leaf Node. And as per question, leaf node is sum binary tree so return a.data;
+        // If left and right sum are not same as parent data, mark isSumTree as 0.
+        if (left == null && right == null) {
+            return A.data;
+        } else if (left + right !== A.data) {
+            isSumTree = 0;
+        }
+        return left + right + A.data; // return sum of left, right and parent node to its parent Node.
+
+    }
+    check(A);
+    return isSumTree;
+}
+
+
+//! Next Pointer Binary Tree (Use of level data structure with Queue data structure)
+
+/* Given a binary tree,
+Populate each next pointer to point to its next right node. If there is no next right node,
+the next pointer should be set to NULL.
+Initially, all next pointers are set to NULL.
+
+Assume perfect binary tree.
+
+        1
+       /  \
+      2    5
+     / \  / \
+    3  4  6  7
+
+    output -
+
+         1 -> NULL
+       /  \
+      2 -> 5 -> NULL
+     / \  / \
+    3->4->6->7 -> NULL
+
+*/
+
+
+/*
+
+- We have to traverse here level by level so will apply here Level Order traversal.
+- We use Queue data structure.
+- Time complexity is O(n)
+- Space Complexity is O(n) : Calculation is below =>
+
+- If Tree is Perfect binary tree (given in question) means every node have two children instead of leaf node.
+
+- Level 0 => number of nodes 1 => 2^0
+- Level 1 => number of nodes 2 => 2^1
+- Level 2 => number of nodes 4 => 2^2
+- Level 3 => number of nodes 8 => 2^3
+..
+..
+- Level h => number of nodes  => 2^h
+
+Total Nodes => 2^0 + 2^1 + 2^2 + ... + 2^h = N (number of nodes)
+
+@ In Level Order traversal question we have used array instead of proper Queue data structure. But there was no any error of time limit exceeded. But Here I tried with same on online editor and it gives TLE Error.  So we will implement Queue data structure first.
+*/
+
+// Node structure of Queue :: We are using linked list to implement Queue
+class QNode {
+    data;
+    next;
+    constructor(value) {
+        this.data = value;
+        this.next = null;
+    }
+}
+class Queue {
+    head = null;
+    tail = null;
+    constructor() { }
+    enqueue(value) {
+        const node = new Node(value);
+        if (this.head == null) {
+            this.head = node;
+            this.tail = node;
+        } else {
+            this.tail.next = node; // make new node to current tail next element
+            this.tail = node; // now make tail to last newly added element
+        }
+    }
+    dequeue() {
+        if (this.head == null) {
+            return null;
+        }
+        // we know that we have to remove node from front :: And front is head so just make head.next to head
+        let node = this.head;
+        if (this.head.next == null) { // means there is only one element
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.head = this.head.next;
+        }
+        return node.data;
+
+    }
+    isEmpty() {
+        return this.head == null;
+    }
+    front() {
+        return this.head ? this.head.data : -1;
+    }
+    rear() {
+        return this.tail ? this.tail.data : -1;
+    }
+}
+
+
+function nextPointerBinaryTree(A) {
+    let q = new Queue();
+    q.enqueue(A);
+    let last = A; // take last variable to trace level finish
+    let prev = null; // track previous node to assign next
+
+    while (!q.isEmpty()) {
+        let node = q.dequeue();
+
+        // If prev exists then make prev.next as current node. and then make current node as prev.
+        if (prev) {
+            prev.next = node;
+        }
+        prev = node;
+
+        if (node.left) {
+            q.enqueue(node.left);
+        }
+
+        if (node.right) {
+            q.enqueue(node.right);
+        }
+
+        if (node == last) { // check when last element will process of same level
+            node.next = null; // last node next will be null as per question
+            last = q.rear();
+            prev = null; // assign prev as null for next level processing.
+        }
+
+    }
+}
