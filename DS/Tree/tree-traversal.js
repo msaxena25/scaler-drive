@@ -112,6 +112,7 @@ function preorder(node) {
 If we observe carefully we can see that if the parent node is at index i in the array then
 the left child of that node is at index (2*i + 1)
 and the right child is at index (2*i + 2) in the array.
+Parent of a Node = (i - 1) / 2
 
  */
 
@@ -938,3 +939,84 @@ console.log(maxSumPath(tree1)); // 25
 
 const tree2 = createTree([20, -10, 20, null, null, -10, -50], 0); // null means no child at that place
 console.log(maxSumPath(tree2)); // 40
+
+
+
+
+
+
+//! Flatten Binary Tree to Linked List
+
+/* Given a binary tree A, flatten it to a linked list in-place.
+
+@ note: in-place means we have to do this in O(1) space complexity.
+
+The left child of all nodes should be NULL.
+
+input:
+
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+
+output:
+
+1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6
+*/
+
+/*
+@ Approach
+
+Linked List structure does not have left and right child. It must have next child only.
+
+Output is like : 1-->2-->3-->4-->5-->6
+
+So if we see Output, we can observe that Root node of tree is first element of list.
+Just think in which traversal, Root comes first and that is Pre Order traversal. (N L R)
+
+As per question, we cannot use extra space, means we have to modify Existing Binary tree. And Left child should be null.
+
+So any how we have to move all left children of tree to right side.
+But Problem is that If we make left child of Node's to right child then we will loose right child Nodes.
+And we cannot store right child nodes to somewhere before moving because we must do this in SC O(1).
+
+- So to solve this problem, we will use Morris Traversal algorithm concept.
+- Output tree is in Pre order traversal. left tree are first then right child.
+- So to move from left tree to right tree, we will attach a link from right most node of left sub tree to Node right child. 
+
+*/
+
+//TC  = O(n)
+function FlattenBinaryTree(A) {
+    console.log('FlattenBinaryTree :', A);
+    let curr = A;
+    while (curr != null) {
+        if (curr.left == null) {
+            curr = curr.right; // No left tree, great. directly move to right tree.
+        } else {
+            // find right most Node First in left sub tree
+            let temp = curr.left;
+            while (temp.right != null) {
+                temp = temp.right;
+            }
+            temp.right = curr.right; // Created Artificial Link
+            curr.right = curr.left;  // Now make left tree to current right tree.
+            curr.left = null; // We have moved curr.left into right so now make it null;
+            curr = curr.right; // Nothing on left side now, so move to right.
+        }
+    }
+    return A;
+
+}

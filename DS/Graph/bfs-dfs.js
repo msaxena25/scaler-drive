@@ -12,8 +12,7 @@ A Graph in Data Structure is a non-linear data structure that consists of nodes 
 
 In a non-linear data structure, elements are not arranged linearly or sequentially.
 
-? A graph is a pair of sets (V, E), where V is the set of vertices and E is the set of edges,
-? connecting the pairs of vertices. Below is the example.
+? A graph is a pair of sets (V, E), where V is the set of vertices and E is the set of edges, connecting the pairs of vertices. Below is the example.
 
 V = {a, b, c, d}
 E = {ab, ac, ad, bc, cd}
@@ -23,7 +22,7 @@ In the above graph, |V| = 4 because there are four nodes (vertices) and, |E| = 5
 
 !Degree of a Node:
 
-Degree of a node is the number of edges connecting the node in the graph. A simple example would be, suppose in facebook, if you have 100 friends then the node that represents you has a degree of 100.
+Degree of a node is the number of edges connected to a node in the graph. A simple example would be, suppose in facebook, if you have 100 friends then the node that represents you has a degree of 100.
 
 
 ! Types of Graph
@@ -173,7 +172,7 @@ OutDegree - number of outing edges.
 /*
 ? BFS
 
-Breadth-First Search or BFS is a vertex-based algorithm used for finding the shortest path in a graph between two indexes.
+Breadth-First Search or BFS is a vertex-based algorithm used for finding the shortest path in a graph between two indices.
 Queue(FIFO - First In, First Out) is used in BFS for storing the visited vertices.
 It is also known as level order traversal.
 
@@ -211,31 +210,32 @@ Array index start from 0, so indices are Nodes and given values are connecting N
 */
 
 function DFSTraversal(list) {
-  console.log('DFSTraversal :', list);
-  let n = list.length;
-  let visited = []; // an array to store all visited node.
-  let output = []; // keep traversed nodes and finally return this
+    console.log('DFSTraversal :', list);
+    let n = list.length;
+    let visited = []; // an array to store all visited node so that don't visit same node again.
+    let output = []; // keep traversed nodes and finally return this
 
-  for (let i = 0; i < n; i++) {
-    // This outer loop will check every node.
-    if (!visited[i]) {
-      // If node is not visited then call dfs function
-      dfs(i);
+    // Why this For loop? This outer for loop check all vertices. Most of vertices will be checked by dfs function because they are all connected but If there is any node which are totally disconnected, that can cover with this outer for loop.
+    for (let i = 0; i < n; i++) {
+        // This outer loop will check every node.
+        if (!visited[i]) {
+            // If node is not visited then call dfs function
+            dfs(i);
+        }
     }
-  }
 
-  function dfs(node) {
-    visited[node] = true;
-    output.push(node); // or print node
-    const connectedNodes = list[node]; // find all connected node.
-    for (let j = 0; j < connectedNodes.length; j++) {
-      if (!visited[connectedNodes[j]]) {
-        // again check if node is visited or not
-        dfs(connectedNodes[j]); // call again dfs function
-      }
+    function dfs(node) {
+        visited[node] = true;
+        output.push(node); // or print node
+        const connectedNodes = list[node]; // find all connected node.
+        for (let j = 0; j < connectedNodes.length; j++) {
+            if (!visited[connectedNodes[j]]) {
+                // again check if node is visited or not
+                dfs(connectedNodes[j]); // call again dfs function
+            }
+        }
     }
-  }
-  return output;
+    return output;
 }
 const adjacencyList = [[1, 3], [0], [3, 8], [0, 2, 4, 5], [3, 6], [3], [4, 7], [6], [2]];
 
@@ -244,36 +244,36 @@ console.log(DFSTraversal(adjacencyList)); //  [0, 1, 3, 2, 8, 4, 6, 7, 5]
 //! BFS Traversal
 
 function BFSTraversal(list) {
-  console.log('BFSTraversal :', list);
-  let n = list.length;
-  let visited = []; // an array to store all visited node.
-  let output = []; // keep traversed nodes and finally return this
-  let Q = []; // Queue data structure
+    console.log('BFSTraversal :', list);
+    let n = list.length;
+    let visited = []; // an array to store all visited node.
+    let output = []; // keep traversed nodes and finally return this
+    let Q = []; // Queue data structure
 
-  for (let i = 0; i < n; i++) {
-    // This outer loop will check every node.
-    if (!visited[i]) {
-      // If node is not visited then call dfs function
-      bfs(i);
-    }
-  }
-
-  function bfs(node) {
-    Q.push(node); // push node into Queue
-    while (Q.length) {
-      const el = Q.shift(); // remove element from queue
-      visited[el] = true;
-      output.push(el); // or print node
-      const connectedNodes = list[el]; // find all connected node.
-      for (let j = 0; j < connectedNodes.length; j++) {
-        if (!visited[connectedNodes[j]]) {
-          // again check if node is visited or not
-          Q.push(connectedNodes[j]); // push node into Queue
+    for (let i = 0; i < n; i++) {
+        // This outer loop will check every node.
+        if (!visited[i]) {
+            // If node is not visited then call dfs function
+            bfs(i);
         }
-      }
     }
-  }
-  return output;
+
+    function bfs(node) {
+        Q.push(node); // push node into Queue
+        while (Q.length) {
+            const el = Q.shift(); // remove element from queue
+            visited[el] = true;
+            output.push(el); // or print node
+            const connectedNodes = list[el]; // find all connected node.
+            for (let j = 0; j < connectedNodes.length; j++) {
+                if (!visited[connectedNodes[j]]) {
+                    // again check if node is visited or not
+                    Q.push(connectedNodes[j]); // push node into Queue
+                }
+            }
+        }
+    }
+    return output;
 }
 
 console.log(BFSTraversal(adjacencyList)); //  [0, 1, 3, 2, 8, 4, 6, 7, 5]
@@ -326,34 +326,34 @@ Output =>  The given graph contain cycle 1 -> 3 -> 4 -> 1 or the cycle 1 -> 2 ->
 
 // TC  = O(n + E) and SC = O(n)
 function isCyclicGraph(n, edgeList) {
-  console.log('isCyclicGraph :', edgeList);
-  let visited = {};
-  let currPath = {};
-  for (let i = 1; i <= n; i++) {
-    // Node start from 1.
-    if (!visited[i] && dfs(i)) {
-      console.log(currPath);
-      return 1; // cycle
-    }
-  }
-  return 0; // cycle not exists
-  function dfs(node) {
-    visited[node] = true;
-    currPath[node] = true;
-    for (let j = 0; j < edgeList.length; j++) {
-      if (edgeList[j][0] == node) {
-        if (currPath[edgeList[j][1]]) {
-          return true; // return to main call, no need to process further for current path because cycle exists
+    console.log('isCyclicGraph :', edgeList);
+    let visited = {};
+    let currPath = {};
+    for (let i = 1; i <= n; i++) {
+        // Node start from 1.
+        if (!visited[i] && dfs(i)) {
+            console.log(currPath);
+            return 1; // cycle
         }
-        // If node is not visited then only call dfs for that node.
-        if (!visited[edgeList[j][1]] && dfs(edgeList[j][1])) {
-          return true; // if DFS return true then return true to main caller.
-        }
-      }
     }
-    currPath[node] = false; // update Node in current path with false for other fresh traversal from that node.
-    return false; // return false to main call.
-  }
+    return 0; // cycle not exists
+    function dfs(node) {
+        visited[node] = true;
+        currPath[node] = true;
+        for (let j = 0; j < edgeList.length; j++) {
+            if (edgeList[j][0] == node) {
+                if (currPath[edgeList[j][1]]) {
+                    return true; // return to main call, no need to process further for current path because cycle exists
+                }
+                // If node is not visited then only call dfs for that node.
+                if (!visited[edgeList[j][1]] && dfs(edgeList[j][1])) {
+                    return true; // if DFS return true then return true to main caller.
+                }
+            }
+        }
+        currPath[node] = false; // update Node in current path with false for other fresh traversal from that node.
+        return false; // return false to main call.
+    }
 }
 
 /*
@@ -385,20 +385,20 @@ let B2 = [[1, 2]];
 console.log(isCyclicGraph(2, B2));
 
 let B = [
-  [1, 2],
-  [2, 3],
-  [3, 4],
-  [4, 5],
+    [1, 2],
+    [2, 3],
+    [3, 4],
+    [4, 5],
 ];
 console.log(isCyclicGraph(5, B));
 
 let B1 = [
-  [1, 5],
-  [4, 1],
-  [2, 4],
-  [3, 4],
-  [5, 2],
-  [1, 3],
+    [1, 5],
+    [4, 1],
+    [2, 4],
+    [3, 4],
+    [5, 2],
+    [1, 3],
 ];
 
 console.log(isCyclicGraph(5, B1));
@@ -427,66 +427,66 @@ console.log(isCyclicGraph(5, B1));
 */
 
 function isPathExists(A, edgeList) {
-  console.log('isPathExists :', edgeList);
-  let visited = {};
+    console.log('isPathExists :', edgeList);
+    let visited = {};
 
-  const adjList = {}; // Instead of iterating edgeList again and again for each node, simple is to create adjacency list.
-  for (let i = 0; i < edgeList.length; i++) {
-    const [nodeA, nodeB] = edgeList[i];
-    if (adjList[nodeA]) {
-      adjList[nodeA].push(nodeB);
-    } else {
-      adjList[nodeA] = [nodeB];
+    const adjList = {}; // Instead of iterating edgeList again and again for each node, simple is to create adjacency list.
+    for (let i = 0; i < edgeList.length; i++) {
+        const [nodeA, nodeB] = edgeList[i];
+        if (adjList[nodeA]) {
+            adjList[nodeA].push(nodeB);
+        } else {
+            adjList[nodeA] = [nodeB];
+        }
     }
-  }
 
-  // We have to find path from node '1' to given node A. So only call traversal for node 1.
-  if (dfs(1)) {
-    return 1;
-  }
-  return 0;
-
-  function dfs(node) {
-    visited[node] = true;
-    const connectedNodes = adjList[node] || []; // get connected node. In case there is no any connected node for any node then make it empty array.
-    for (let j = 0; j < connectedNodes.length; j++) {
-      if (!visited[connectedNodes[j]] && connectedNodes[j] == A) {
-        return true; // path exists from 1 to A
-      }
-      // If node is not visited then only call dfs for that node.
-      if (!visited[connectedNodes[j]] && dfs(connectedNodes[j])) {
-        return true; // if DFS return true then return true to main caller.
-      }
+    // We have to find path from node '1' to given node A. So only call traversal for node 1.
+    if (dfs(1)) {
+        return 1;
     }
-    return false;
-  }
+    return 0;
+
+    function dfs(node) {
+        visited[node] = true;
+        const connectedNodes = adjList[node] || []; // get connected node. In case there is no any connected node for any node then make it empty array.
+        for (let j = 0; j < connectedNodes.length; j++) {
+            if (!visited[connectedNodes[j]] && connectedNodes[j] == A) {
+                return true; // path exists from 1 to A
+            }
+            // If node is not visited then only call dfs for that node.
+            if (!visited[connectedNodes[j]] && dfs(connectedNodes[j])) {
+                return true; // if DFS return true then return true to main caller.
+            }
+        }
+        return false;
+    }
 }
 
 let B5 = [
-  [1, 2],
-  [2, 3],
-  [4, 3],
+    [1, 2],
+    [2, 3],
+    [4, 3],
 ];
 
 console.log(isPathExists(4, B5));
 
 const A = 5;
 let B3 = [
-  [1, 2],
-  [2, 3],
-  [3, 4],
-  [4, 5],
+    [1, 2],
+    [2, 3],
+    [3, 4],
+    [4, 5],
 ];
 
 console.log(isPathExists(A, B3));
 
 let B4 = [
-  [1, 2],
-  [4, 1],
-  [2, 4],
-  [3, 4],
-  [5, 2],
-  [1, 3],
+    [1, 2],
+    [4, 1],
+    [2, 4],
+    [3, 4],
+    [5, 2],
+    [1, 3],
 ];
 
 console.log(isPathExists(5, B4));
@@ -554,72 +554,72 @@ d(j) = [ -1   0  +1  -1  +1  -1   0  +1  ]
 
 // A is input  2*2 matrix
 function islands(A) {
-  console.log('islands :', A);
-  let v = []; // v is visited matrix same row and column of A
-  let numberOfIslands = 0;
+    console.log('islands :', A);
+    let v = []; // v is visited matrix same row and column of A
+    let numberOfIslands = 0;
 
-  // Belows are directions values which will use to find next columns.
-  // By seeing matrix and a Node, we can write down these values easily.
-  let dI = [-1, -1, -1, 0, 0, +1, +1, +1];
-  let dJ = [-1, 0, +1, -1, +1, -1, 0, +1];
+    // Belows are directions values which will use to find next columns.
+    // By seeing matrix and a Node, we can write down these values easily.
+    let dI = [-1, -1, -1, 0, 0, +1, +1, +1];
+    let dJ = [-1, 0, +1, -1, +1, -1, 0, +1];
 
-  // Step 1 :: Create visited array
-  for (let i = 0; i < A.length; i++) {
-    v.push([]);
-    for (let j = 0; j < A[0].length; j++) {
-      v[i].push(false);
-    }
-  }
-
-  // Step 2 :: Outer loop on all row and columns
-
-  for (let i = 0; i < A.length; i++) {
-    for (let j = 0; j < A[0].length; j++) {
-      // Step 3 :: If value is 1 and that is not visited, call traversal
-      if (A[i][j] == 1 && !v[i][j]) {
-        // If there is single 1 or connected 1s, island will be counted 1 thats why increased value here.
-        numberOfIslands++;
-        // Purpose of dfs function is only to mark visited all connected node only. nothing to return from there.
-        dfs(i, j);
-      }
-    }
-  }
-
-  function dfs(i, j) {
-    v[i][j] = true; // mark that node to visited
-
-    // Step 4 :: loop over all direction for a node. (we have total 8 directions)
-    for (let k = 0; k < 8; k++) {
-      const newI = i + dI[k]; // by adding dI values we can get new I index.
-      const newJ = j + dJ[k];
-
-      // Step 5 :: Check if Node is in matrix Boundaries or not
-
-      if (newI >= 0 && newI < A.length && newJ >= 0 && newJ < A[0].length) {
-        // Step 6 :: check new node is 1 and not visited then traverse again
-        if (A[newI][newJ] == 1 && !v[newI][newJ]) {
-          dfs(newI, newJ);
+    // Step 1 :: Create visited array
+    for (let i = 0; i < A.length; i++) {
+        v.push([]);
+        for (let j = 0; j < A[0].length; j++) {
+            v[i].push(false);
         }
-      }
     }
-  }
-  return numberOfIslands;
+
+    // Step 2 :: Outer loop on all row and columns
+
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A[0].length; j++) {
+            // Step 3 :: If value is 1 and that is not visited, call traversal
+            if (A[i][j] == 1 && !v[i][j]) {
+                // If there is single 1 or connected 1s, island will be counted 1 thats why increased value here.
+                numberOfIslands++;
+                // Purpose of dfs function is only to mark visited all connected node only. nothing to return from there.
+                dfs(i, j);
+            }
+        }
+    }
+
+    function dfs(i, j) {
+        v[i][j] = true; // mark that node to visited
+
+        // Step 4 :: loop over all direction for a node. (we have total 8 directions)
+        for (let k = 0; k < 8; k++) {
+            const newI = i + dI[k]; // by adding dI values we can get new I index.
+            const newJ = j + dJ[k];
+
+            // Step 5 :: Check if Node is in matrix Boundaries or not
+
+            if (newI >= 0 && newI < A.length && newJ >= 0 && newJ < A[0].length) {
+                // Step 6 :: check new node is 1 and not visited then traverse again
+                if (A[newI][newJ] == 1 && !v[newI][newJ]) {
+                    dfs(newI, newJ);
+                }
+            }
+        }
+    }
+    return numberOfIslands;
 }
 
 const a = [
-  [0, 1, 0],
-  [0, 0, 1],
-  [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1],
+    [1, 0, 0],
 ]; // 3 * 3 matrix
 
 console.log(islands(a)); //2
 
 const a1 = [
-  [1, 1, 0, 0, 0],
-  [0, 1, 0, 0, 0],
-  [1, 0, 0, 1, 1],
-  [0, 0, 0, 0, 0],
-  [1, 0, 1, 0, 1],
+    [1, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [1, 0, 0, 1, 1],
+    [0, 0, 0, 0, 0],
+    [1, 0, 1, 0, 1],
 ];
 
 console.log(islands(a1)); //4
@@ -628,86 +628,86 @@ console.log(islands(a1)); //4
 
 // A is given matrix, B is source and C is destination
 function shortestPath(A, B, C) {
-  console.log('shortestPath :', A);
-  let v = []; // v is visited matrix
-  let shortestPath = -1; // initialize with -1 means there is no way to reach destination
-  let tempPath = -1;
+    console.log('shortestPath :', A);
+    let v = []; // v is visited matrix
+    let shortestPath = -1; // initialize with -1 means there is no way to reach destination
+    let tempPath = -1;
 
-  // Belows are directions (Top, Right, Bottom and Left) values which will use to find next columns.
-  // By seeing matrix and a Node, we can write down these values easily.
-  // As per question statement we cannot go to diagonally.
+    // Belows are directions (Top, Right, Bottom and Left) values which will use to find next columns.
+    // By seeing matrix and a Node, we can write down these values easily.
+    // As per question statement we cannot go to diagonally.
 
-// 0 - top, 1 - right, 2 - bottom, 3 - left
-  let dI = [-1, 0, +1, 0];
-  let dJ = [0, +1, 0, -1];
-  let landingDir = [2, 3, 0, 1];
+    // 0 - top, 1 - right, 2 - bottom, 3 - left
+    let dI = [-1, 0, +1, 0];
+    let dJ = [0, +1, 0, -1];
+    let landingDir = [2, 3, 0, 1];
 
-  // Step 1 :: Create visited array
-  for (let i = 0; i < A.length; i++) {
-    v.push([]);
-    for (let j = 0; j < A[0].length; j++) {
-      v[i].push({});
+    // Step 1 :: Create visited array
+    for (let i = 0; i < A.length; i++) {
+        v.push([]);
+        for (let j = 0; j < A[0].length; j++) {
+            v[i].push({});
+        }
     }
-  }
 
-  console.log(v)
+    console.log(v)
 
-  // Check destination valid - to stop ball, destination must have at least one neighbor wall Or should be with boundaries wall.
+    // Check destination valid - to stop ball, destination must have at least one neighbor wall Or should be with boundaries wall.
 
-  let isValid = false;
-  if (C[0] == 0 || C[0] == A.length - 1 || C[1] == 0 || C[1] == A[0].length - 1) {
-    isValid = true;
-  }
-  for (let k = 0; k < 4; k++) {
-    let I = C[0] + dI[k];
-    let J = C[1] + dJ[k];
-    if (A[I] && A[I][J] && A[I][J] == 1) {
-      isValid = true;
-      break;
+    let isValid = false;
+    if (C[0] == 0 || C[0] == A.length - 1 || C[1] == 0 || C[1] == A[0].length - 1) {
+        isValid = true;
     }
-  }
-
-  if (!isValid) {
-    return -1;
-  }
-
-  // Step 2 :: Outer loop on all row and columns
-
-  for (let i = B[0]; i < A.length; i++) {
-    for (let j = B[1]; j < A[0].length; j++) {
-      if (B[0] == i && B[1] == j && A[i][j] == 0 && !v[i][j][0]) {
-        tempPath = -1;
-        dfs(i, j, 0);
-      }
-    }
-  }
-  return shortestPath;
-
-  function dfs(i, j, dir) {
-    v[i][j][dir] = true;
     for (let k = 0; k < 4; k++) {
-      let newI = i + dI[k];
-      let newJ = j + dJ[k];
-      if (newI >= 0 && newI < A.length && newJ >= 0 && newJ < A[0].length) {
-        if (C[0] == newI && C[1] == newJ && A[newI][newJ] == 0 && !v[newI][newJ][landingDir[k]]) {
-          tempPath++;
-          shortestPath = shortestPath < 0 ? tempPath : Math.min(shortestPath, tempPath);
-          tempPath = 0;
+        let I = C[0] + dI[k];
+        let J = C[1] + dJ[k];
+        if (A[I] && A[I][J] && A[I][J] == 1) {
+            isValid = true;
+            break;
         }
-        // Step 6 :: check new node is 1 and not visited then traverse again
-        if (A[newI][newJ] == 0 && !v[newI][newJ][landingDir[k]]) {
-          tempPath++;
-          dfs(newI, newJ, landingDir[k]);
-        }
-      }
     }
-  }
+
+    if (!isValid) {
+        return -1;
+    }
+
+    // Step 2 :: Outer loop on all row and columns
+
+    for (let i = B[0]; i < A.length; i++) {
+        for (let j = B[1]; j < A[0].length; j++) {
+            if (B[0] == i && B[1] == j && A[i][j] == 0 && !v[i][j][0]) {
+                tempPath = -1;
+                dfs(i, j, 0);
+            }
+        }
+    }
+    return shortestPath;
+
+    function dfs(i, j, dir) {
+        v[i][j][dir] = true;
+        for (let k = 0; k < 4; k++) {
+            let newI = i + dI[k];
+            let newJ = j + dJ[k];
+            if (newI >= 0 && newI < A.length && newJ >= 0 && newJ < A[0].length) {
+                if (C[0] == newI && C[1] == newJ && A[newI][newJ] == 0 && !v[newI][newJ][landingDir[k]]) {
+                    tempPath++;
+                    shortestPath = shortestPath < 0 ? tempPath : Math.min(shortestPath, tempPath);
+                    tempPath = 0;
+                }
+                // Step 6 :: check new node is 1 and not visited then traverse again
+                if (A[newI][newJ] == 0 && !v[newI][newJ][landingDir[k]]) {
+                    tempPath++;
+                    dfs(newI, newJ, landingDir[k]);
+                }
+            }
+        }
+    }
 }
 
 const e1 = [
-  [0, 1, 0],
-  [0, 0, 1],
-  [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1],
+    [1, 0, 0],
 ];
 const e2 = [0, 0];
 const e3 = [2, 2];
@@ -724,8 +724,8 @@ console.log(shortestPath(e1, e2, e3)); // 4
 // console.log(shortestPath(c1, c2, c3)); // 1
 
 const d1 = [
-  [0, 1],
-  [1, 0],
+    [0, 1],
+    [1, 0],
 ];
 const d2 = [0, 0];
 const d3 = [1, 1];
@@ -733,24 +733,24 @@ const d3 = [1, 1];
 //console.log(shortestPath(d1, d2, d3)); // -1
 
 const f1 = [
-  [1, 1, 0, 1],
-  [0, 0, 0, 1],
-  [1, 0, 0, 1],
-  [0, 0, 1, 0],
+    [1, 1, 0, 1],
+    [0, 0, 0, 1],
+    [1, 0, 0, 1],
+    [0, 0, 1, 0],
 ];
 console.log(shortestPath(f1, [1, 1], [2, 1])); //3
 
 const g1 = [
-  [0, 1, 1, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0],
-  [0, 1, 0, 1, 1, 0],
-  [1, 1, 0, 1, 1, 1],
-  [1, 0, 1, 1, 0, 0],
-  [1, 1, 1, 1, 1, 1],
-  [0, 0, 1, 0, 1, 0], //7
-  [0, 1, 0, 0, 0, 0], //8
-  [0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0],
+    [0, 1, 0, 1, 1, 0],
+    [1, 1, 0, 1, 1, 1],
+    [1, 0, 1, 1, 0, 0],
+    [1, 1, 1, 1, 1, 1],
+    [0, 0, 1, 0, 1, 0], //7
+    [0, 1, 0, 0, 0, 0], //8
+    [0, 0, 0, 0, 0, 0],
 ];
 
 //console.log(shortestPath(g1, [7, 5], [8, 3])); //-1
