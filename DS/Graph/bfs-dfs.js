@@ -265,6 +265,8 @@ function BFSTraversal(list) {
             visited[el] = true;
             output.push(el); // or print node
             const connectedNodes = list[el]; // find all connected node.
+
+            // For loop because one Node can have multiple connected Node, But In Tree, max children are 2 so don't use for loop in Tree Level order traversal.
             for (let j = 0; j < connectedNodes.length; j++) {
                 if (!visited[connectedNodes[j]]) {
                     // again check if node is visited or not
@@ -359,7 +361,7 @@ function isCyclicGraph(n, edgeList) {
 /*
 @ Understand Code
 
-- create an object named visited to store visited nodes. (No need to traverse same node again)
+- create an object named visited to store visited nodes. ( No need to traverse same node again )
 - create an object named currPath to store current path.
 - Iterate on all nodes
 - Now see dfs function
@@ -375,9 +377,6 @@ function isCyclicGraph(n, edgeList) {
     - And return false.
 - If dfs function returns false means no cycle.
 - If dfs function returns true means cycle exists.
-
-
-
 
 */
 
@@ -754,3 +753,428 @@ const g1 = [
 ];
 
 //console.log(shortestPath(g1, [7, 5], [8, 3])); //-1
+
+
+
+//! Rotten Oranges
+
+/* Given a matrix of integers A of size N x M consisting of 0, 1 or 2.
+
+Each cell can have three values:
+
+The value 0 representing an empty cell.
+The value 1 representing a fresh orange.
+The value 2 representing a rotten orange.
+
+Every minute, any fresh orange that is adjacent (Left, Right, Top, or Bottom) to a rotten orange becomes rotten. Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1 instead.
+
+Input:
+
+A = [   [2, 1, 1]
+        [1, 1, 0]
+        [0, 1, 1]   ]
+
+output: 4
+
+*/
+
+/*
+@ Approach
+
+- Every unit of time, all direct adjacent (Left, Right, Top, or Bottom) of a rotten orange become rotten.
+- First find out all locations of rotten oranges because rotten process will start from those cells parallel.
+- Most important thing is that generally we have one source Node but in this problem we have multiple source nodes. Thats why such problems called MULTI SOURCE problems.
+- We have to traverse all adjacent of Nodes so will use here BFS. (Queue data structure will be used here)
+
+- Initially traverse matrix and put all rotten oranges in Queue with initial time 0.
+- Now loop over on Queue.
+- One important thing to note is that time of all direct adjacent will be same & that will be greater than its parent cell.
+- Direction where user can move: [[-1, 0], [1, 0], [0, -1], [0, 1]]; // top, bottom, left, right
+- During traverse once any adjacent item is found 1 then change it to rotten (value 2) and insert into Queue with time increment.
+
+
+- At last again traverse matrix to check for fresh oranges. If any one is left then simply return -1.
+
+
+*/
+
+// TC = O(n * m) and SC = O(number of items in queue -- max n * m)
+function rottenOranges(A) {
+    console.log('rottenOranges :', A);
+    let q = []; // Queue data structure
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A[0].length; j++) {
+            if (A[i][j] == 2) { // only push rotten oranges from Queue First, process will start from those.
+                q.push([i, j, 0]); //[i, j, time] -- Initially time is 0
+            }
+        }
+    }
+    let directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // top, bottom, left, right
+    let requiredTime = 0;
+    while (q.length > 0) {
+        let [x, y, t] = q.shift(); // have to use Queue pop method
+        requiredTime = t;
+
+        // 0, 1, 2, 3 - there are four directions where we can move
+        for (let i = 0; i < 4; i++) {
+            let newI = x + directions[i][0];
+            let newJ = y + directions[i][1];
+            if (newI >= 0 && newI < A.length && newJ >= 0 && newJ < A[0].length) {
+                if (A[newI][newJ] == 1) {
+                    A[newI][newJ] = 2; // update value 1 to 2 in original array
+                    q.push([newI, newJ, t + 1]);
+                }
+            }
+
+        }
+    }
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A[0].length; j++) {
+            if (A[i][j] == 1) {
+                return -1; // Traverse again and check if any 1 value is left. (Means all oranges did not rotten.)
+            }
+        }
+    }
+    //console.log(A)
+    return requiredTime;
+}
+
+const a4 = [
+    [2, 1, 1],
+    [1, 1, 0],
+    [0, 1, 1]
+]
+
+const a5 = [
+    [2, 1, 1],
+    [0, 1, 1],
+    [1, 0, 1]]
+
+console.log(rottenOranges(a4));
+
+console.log(rottenOranges(a5));
+
+
+//! Coloring graph
+
+/*
+* There are total 3 Special cases on coloring graphs.
+
+1. Trees
+                   [1]                             --- level 1
+                /       \           \
+          [2]             [3]           [4]        --- level 2
+      [5]     [6]     [7]      [8]                 --- level 3
+
+
+
+Node [1] will be one Color. Lets say Color of Node [1] is 'A'.
+Node [2], [3], [4] are adjacent of Node [1] so they will be of different color. So color of these are 'B'.
+Node [5] and [6] are adjacent of Node [2], so we can give them a color 'A'.
+Node [7] and [8] are adjacent of Node [3] so we can assign color 'A to these Nodes.
+
+
+Total Color required is 2.
+
+IF there is single Node is tree then required color is 1 Else required color will be 2 for any level of tree.
+
+
+2 Cycle Graph
+
+- If Number of Nodes are even then required min color will be 2.
+- If Number of Nodes are Odd then required min color will be 3.
+
+
+[1]-----[2]
+ |       |
+ |       |
+ |       |
+[3]-----[4]
+
+
+Number of Nodes are Even here so color required is 2.
+Node [1] & [4] will be of same color and Nodes [3], [2] will be of same color.
+
+        [1]
+      /     \
+     [2]    [3]
+      |      |
+      |      |
+     [4]----[5]
+
+Number of Nodes are Odd here so required color are 3.
+
+
+3. Bipartite Graph
+
+Nodes of graph can be divided in to two sets such that there is no edge between the nodes in the same set.
+
+
+[1]----[2]-----[3]
+ |      |       |
+[4]----[5]-----[6]
+    \        /
+     \      /
+        [7]
+
+
+[1]----[2], [4]
+
+[3]----[2], [6]
+
+[5]----[4], [6]
+
+[7]---[4], [6]
+
+So there are two sets formed [1, 3, 5, 7] and [2, 4, 6].
+
+Min Required color = 2.  (it is also called Chromatic number)
+
+Chromatic number means  - distinct minimum number.
+
+
+        [1]
+      /     \
+     [2]    [3]
+      |      |
+      |      |
+     [4]----[5]
+
+ [1]----[2], [3]
+
+ [2]---[4], [1]
+
+ [4]----[5], [2]
+
+ [3]---[5], [1]
+
+ There was possible 2 sets [1, 4, 3] and [2, 5] but  3 is also connected with 1. So that is not bipartite graph.
+
+
+
+*/
+
+//! Coloring graph question based on cycle graph
+
+/* Given the number of vertices A in a Cyclic Graph.
+Your task is to determine the minimum number of colors required to color the graph so that no two Adjacent vertices
+have the same color.
+*/
+
+// A is number of vertices.
+function coloringGraph(A) {
+    console.log('coloringGraph :', A);
+
+    /*
+    - If Number of Nodes are even in Cyclic graph then chromatic number will be 2.
+    - If Number of Nodes are Odd then then chromatic number will be 3.
+ */
+    if (A % 2 == 0) {
+        return 2;
+    }
+    else {
+        return 3;
+    }
+
+}
+
+
+//! Check Bipartite Graph Question
+
+/*
+Given a undirected graph having A nodes. A matrix B of size M x 2 is given which represents the edges.
+
+A graph is bipartite if we can split it's set of nodes into two independent subsets A and B such that every edge in the graph has one node in A and another node in B.
+
+Input:
+A = 2 (number of nodes)
+B = [ [0, 1] ]  (edges connection)
+
+Output: 1 (it is bipartite graph)
+*/
+
+/*
+@ Approach
+
+- We create two subsets to check Bipartite.
+- Lets say that first subset is 0 (named) and second subset is 1 (named).
+- Now one by one we will assign subset name to each Node.
+- We are given a matrix of edges, so first we will create adjacency list based on the given input.
+- Initially for each Node assign subset value -1.
+- We have to call dfs only if node is not in any subset means its value is -1.
+- Before start on graph problems, we always first create adjacency List.
+- Most important things is that, If in problem, directed graph is mentioned then only create one side Adj list
+ else create both side Adj list.
+
+
+*/
+
+/**
+ *
+ * @param {*} A - number of nodes
+ * @param {*} B - edges matrix
+ */
+function checkBipartite(A, B) {
+    console.log('checkBipartite :', A);
+    let adjList = {};
+
+    // Code to create adjacency List for both directions :: List is a type of Map
+    // In problem statement nothing is mentioned like directed graph thats why created adj list for both directions.
+    for (let i = 0; i < B.length; i++) {
+        let [first, second] = B[i];
+        if (adjList[first]) {
+            adjList[first].push(second);
+        } else {
+            adjList[first] = [second];
+        }
+
+        if (adjList[second]) {
+            adjList[second].push(first);
+        } else {
+            adjList[second] = [first];
+        }
+
+    }
+    console.log(adjList);
+    let subset = []; // Chromatic number array
+
+    for (let i = 0; i < A; i++) {
+        subset[i] = -1;
+    }
+
+    for (let i = 0; i < A; i++) {
+        if (subset[i] == -1) {
+            subset[i] = 0; // Assign subset 0 to Node 0
+            if (!dfs(i)) {
+                console.log(subset)
+                return 0;
+            }
+        }
+    }
+    console.log(subset)
+    return 1;
+
+    function dfs(node) {
+        let connectedNodes = adjList[node]; // get all adjacent Nodes
+        if (connectedNodes) {
+            for (let i = 0; i < connectedNodes.length; i++) {
+                if (subset[connectedNodes[i]] == subset[node]) { // If source and adjacent have same subset value means that is bipartite
+                    return false;
+                }
+                else if (subset[connectedNodes[i]] == -1) { // If adjacent Node is not in any subset
+                    subset[connectedNodes[i]] = 1 - subset[node]; // If source is 1 then adjacent will be 0 and vice versa
+                    if (!dfs(connectedNodes[i])) { // again call dfs for adjacent Node
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+}
+
+console.log(checkBipartite(10, [[7, 8], [1, 2], [0, 9], [1, 3], [6, 7], [0, 3], [2, 5], [3, 8], [4, 8]])) //1
+console.log(checkBipartite(2, [[0, 1]])) // 1
+console.log(checkBipartite(2, [[0, 1], [0, 2], [1, 2]])) // 0
+
+
+
+//! Construct Roads (Bipartite graph is given)
+
+/* A country consist of N cities connected by N - 1 roads. King of that country want to construct maximum number of roads such that the new country formed remains bipartite country.
+
+
+Input:
+
+ A = 5
+ B = [
+       [1, 3]
+       [1, 4]
+       [3, 2]
+       [3, 5]
+     ]
+
+Output:
+2
+
+*/
+
+
+function createBipartiteSubsets(A, B) {
+    console.log('createBipartiteSubsets :', A);
+    let adjList = {};
+
+    // Code to create adjacency List for both directions :: List is a type of Map
+    for (let i = 0; i < B.length; i++) {
+        let [first, second] = B[i];
+        if (adjList[first]) {
+            adjList[first].push(second);
+        } else {
+            adjList[first] = [second];
+        }
+
+        if (adjList[second]) {
+            adjList[second].push(first);
+        } else {
+            adjList[second] = [first];
+        }
+
+    }
+
+    console.log('adjList :', adjList);
+    let subset = []; // Chromatic number array
+
+    // Nodes are started from Value 1 to A.
+    for (let i = 1; i <= A; i++) {
+        subset[i] = -1; // initialize Nodes subset to -1
+    }
+
+    for (let i = 1; i <= A; i++) {
+        if (subset[i] == -1) {
+            subset[i] = 0; // Assign subset 0 to Node 0
+            dfs(i);
+        }
+    }
+
+    function dfs(node) {
+        let connectedNodes = adjList[node]; // get all adjacent Nodes
+        if (connectedNodes) {
+            for (let i = 0; i < connectedNodes.length; i++) {
+                if (subset[connectedNodes[i]] == -1) { // If adjacent Node is not in any subset
+                    subset[connectedNodes[i]] = 1 - subset[node]; // If source is 1 then adjacent will be 0 and vice versa
+                    dfs(connectedNodes[i]);
+                }
+            }
+        }
+    }
+
+    let countA = 0; // count element of subset 0
+    let countB = 0; // count elements of subset 1
+
+    for (let i = 1; i <= A; i++) {
+        if (subset[i] == 0) {
+            countA++;
+        } else {
+            countB++;
+        }
+    }
+    console.log(subset)
+    // First calculate total possible edges among Nodes : so that are a * b
+    // In problem statement already given that A - 1 road is already constructed.
+    // So simply remove that A - 1 from total to get more roads.
+    return ((countA * countB) - (A - 1)) % 1000000007;
+}
+const B6 = [
+    [1, 3],
+    [1, 4],
+    [3, 2],
+    [3, 5]
+]
+
+console.log(createBipartiteSubsets(2, [[2, 1]])) // 0
+
+console.log(createBipartiteSubsets(5, B6)) //2
+
+console.log(createBipartiteSubsets(10, [[7, 8], [1, 2], [0, 9], [1, 3], [6, 7], [0, 3], [2, 5], [3, 8], [4, 8]]))  // 16
