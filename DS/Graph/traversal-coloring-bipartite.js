@@ -1178,3 +1178,184 @@ console.log(createBipartiteSubsets(2, [[2, 1]])) // 0
 console.log(createBipartiteSubsets(5, B6)) //2
 
 console.log(createBipartiteSubsets(10, [[7, 8], [1, 2], [0, 9], [1, 3], [6, 7], [0, 3], [2, 5], [3, 8], [4, 8]]))  // 16
+
+
+
+
+//!  Distance of nearest cell
+
+/* Given a matrix of integers A of size N x M consisting of 0 or 1.
+For each cell of the matrix find the distance of nearest 1 in the matrix.
+Distance between two cells (x1, y1) and (x2, y2) is defined as |x1 - x2| + |y1 - y2|.
+Find and return a matrix B of size N x M which defines for each cell in A distance of nearest 1 in the matrix A.
+
+NOTE: There is at least one 1 is present in the matrix.
+
+Input:
+
+A = [
+      [0, 0, 0, 1],
+      [0, 0, 1, 1],
+      [0, 1, 1, 0]
+    ]
+
+Output:
+
+[
+  [3, 2, 1, 0],
+  [2, 1, 0, 0],
+  [1, 0, 0, 1]
+]
+*/
+
+function nearestCell(A) {
+    console.log('nearestCell Brute force:', A);
+
+    let onesPositions = [];
+
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A[0].length; j++) {
+            if (A[i][j] == 1) {
+                onesPositions.push([i, j]);
+            }
+        }
+    }
+    //console.log(onesPositions)
+
+    for (let i = 0; i < A.length; i++) {
+        for (let j = 0; j < A[0].length; j++) {
+            if (A[i][j] == 0) {
+                let distance = Number.MAX_SAFE_INTEGER;
+                onesPositions.forEach(element => {
+                    let d = Math.abs(i - element[0]) + Math.abs(j - element[1]);
+                    if (d < distance) {
+                        distance = d;
+                    }
+                });
+                A[i][j] = distance;
+            } else {
+                A[i][j] = 0;
+            }
+        }
+    }
+    return A;
+
+}
+
+const c1 = [
+    [0, 0, 0, 1],
+    [0, 1, 1, 1],
+    [0, 1, 1, 0]
+]
+
+
+console.log(nearestCell(c1));
+
+/*
+@Approach
+
+- This is like multi source BFS problem. Because here we have to find distance from 1 to each cell.
+- Means Source are 1, from where we have to calculate distance.
+- Matrix is also a graph and best way to solve multi source problem is using bfs technique.
+- First create a Queue and push all 1's position into that with initial distance 0 because 1 have distance 0.
+- There are 4 directions where we can move. [[-1, 0], [1, 0], [0, -1], [0, 1]]; // top, bottom, left, right
+- Also create Queue data structure here else it will give time limit exceed error.
+
+*/
+
+class Node {
+    data;
+    next;
+    constructor(value) {
+        this.data = value;
+        this.next = null;
+    }
+}
+
+// Based on linked list
+class Queue {
+    head;
+    tail;
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+    enqueue(value) {
+        const node = new Node(value);
+        if (this.head == null) {
+            this.head = node;
+            this.tail = node;
+        } else {
+            // If we do not track tail then to reach last node, we will use while loop
+            this.tail.next = node; // make new node to current tail next element
+            this.tail = node; // now make tail to last newly added element
+        }
+    }
+    dequeue() {
+        if (this.head == null) {
+            return null;
+        }
+        let node = this.head;
+        if (this.head.next == null) { // means there is only one element
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.head = this.head.next;
+        }
+        return node.data;
+    }
+    isEmpty() {
+        return this.head == null;
+    }
+}
+
+function nearestCellUsingBFS(A) {
+    console.log('nearestCell Using BFS :', A);
+    let q = new Queue(); // Queue data structure
+    let ans = [];
+    for (let i = 0; i < A.length; i++) {
+        ans.push([]);
+        for (let j = 0; j < A[0].length; j++) {
+            if (A[i][j] == 1) { // only push 1 in Queue First, process will start from those.
+                q.enqueue([i, j, 0]); //[i, j, distance] -- Initially distance is 0 because for 1, distance is 0
+                ans[i][j] = 0;
+            } else {
+                ans[i][j] = -1;
+            }
+
+        }
+    }
+    // console.log(ans);
+    let directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]; // top, bottom, left, right
+    while (!q.isEmpty()) {
+        let [x, y, d] = q.dequeue(); // have to use Queue pop method
+
+        // 0, 1, 2, 3 - there are four directions where we can move
+        for (let i = 0; i < 4; i++) {
+            let newI = x + directions[i][0];
+            let newJ = y + directions[i][1];
+            if (newI >= 0 && newI < A.length && newJ >= 0 && newJ < A[0].length) {
+                if (A[newI][newJ] == 0 && ans[newI][newJ] == -1) {
+                    ans[newI][newJ] = d + 1;
+                    q.enqueue([newI, newJ, d + 1]);
+                }
+            }
+        }
+    }
+    return ans;
+
+}
+const c2 = [
+    [0, 0, 0, 1],
+    [0, 1, 1, 1],
+    [0, 1, 1, 0]
+]
+
+console.log(nearestCellUsingBFS(c2));
+
+const c3 = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 1],
+    [0, 0, 1, 0]
+]
+console.log(nearestCellUsingBFS(c3));
