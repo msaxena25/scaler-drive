@@ -14,7 +14,7 @@
             (Front)                (Rear)
             (Enqueue)              (Dequeue)
 
-? Opeartions on Queue-
+? Operations on Queue-
 
 1. enqueue(x) = Insert element at rear end
 2. dequeue() = Remove element from front side
@@ -107,12 +107,18 @@ q.enqueue(7);
 q.enqueue(9);
 q.enqueue(11);
 q.enqueue(13);
-q.dequeue(11);
-q.dequeue(3);
+
+
 console.log(q.head)
 console.log(q.front());
 console.log(q.rear())
 console.log(q.isEmpty())
+
+q.dequeue(11);
+q.dequeue(3);
+q.dequeue(13);
+
+console.log(q.head)
 
 const qu2 = new Queue();
 qu2.enqueue([3, 0]);

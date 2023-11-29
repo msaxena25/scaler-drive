@@ -404,7 +404,7 @@ function verticalTraversal(root) {
     // Step 1 :: Do level order traversal and store elements in Q & orderMap with its coordinates or distance from root.
     // Why do Level order - because we have to traverse from top to bottom as per question requirement
 
-    Q.push([root, 0]); // initial node is root and it has distance 0
+    Q.push([root, 0]); // initial node is root and it has distance 0z
     orderMap[0] = [root.data];
 
     let minDistance = 0; // track min left distance
