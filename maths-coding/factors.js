@@ -427,3 +427,13 @@ function someForLoop() {
         console.log(i);
     }
 }
+
+
+
+let a = 30;
+function fn() {
+    
+    let a = 50;
+    console.log(a);
+}
+fn()

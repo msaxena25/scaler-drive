@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ways to add Event Listener</title>
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        .box {
+            background-color: lightcoral;
+            border: 1px solid green;
+            height: 10rem;
+            width: 10rem;
+        }
+
+        .testSelectorClass {
+            background-color: rgb(152, 16, 225);
+            border: 1px solid green;
+            height: 7rem;
+            width: 7rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <pre>
+* Ways to add Event listener
+* 1. inline
+* 2. addEventListeners
+
+* In Inline events  Adding same event multiple times, only last event will execute.
+* In event listeners Adding same event multiple time, Only first time all events will occur
+ but after that only last event will be run.
+
+ *  click ->  mousedown + mouseup
+
+* Event objects
+Sometimes, inside an event handler function, you'll see a parameter specified with a name such as event, evt, or e. This is called the event object, and it is automatically passed to event handlers to provide extra features and information.
+
+* Removing listeners
+
+- If you've added an event handler using addEventListener(), you can remove it again using the removeEventListener() method.
+- You can also remove listener using AbortSignal controller.
+
+* Abort Signal & Abort controller
+https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal
+
+The AbortSignal interface represents a signal object that allows you to communicate with a DOM request (such as a fetch request) and abort it if required via an AbortController object.
+
+- In case of promise call, When abort() is called, the fetch() or any promise rejects with an "AbortError" DOMException.
+
+- If you need to abort the operation on timeout then you can use the static AbortSignal.timeout() method. This returns an AbortSignal that will automatically timeout after a certain number of milliseconds.
+
+
+- Example: You can add same abort signal to many listeners and abort all on page unload or destroy.
+
+- Example - You are downloading video from server on an event call but in middle you can abort that by this signal.
+
+* https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events
+
+* Difference between ways to read DOM element
+
+    * a. query Selector : selectors, first element
+    * b. getElementById: idName, first element matching that id
+    * c. querySelectorAll : selectors, nodelist
+    * d. getElementsByTag : tagName, HTMLcollection
+    * e. getElementsByClassName : className, HTMLcollection
+
+* Difference between Node list and HTML collections
+
+- In normal use, we can see Node list is returned from querySelector and querySelectorAll methods.
+    HTML collection returned from  getElementsByClassName or getElementsByTagName methods.
+- Node List is static list while HTML Collection is Live list.
+- forEach works with Node List but not with HTML collection.
+- 
+
+    </pre>
+
+    <button>click Me </button>
+    <input type="text">
+    <ul></ul>
+
+    <div class="box">applying events on this div</div>
+
+    <div id="testSelectorId" class="testSelectorClass">test different ways of selecting element - 1</div>
+    <div id="testSelectorId" class="testSelectorClass">test different ways of selecting element - 2</div>
+
+    <script>
+        "use Strict;"
+        const box = document.querySelector(".box");
+
+        //addEventInline();
+        //addEventByEventListeners();
+        // createTodoList();
+        removeListenerUsingAbortController();
+
+        /****inline listener*/
+        // Adding same event multiple times, only last event will execute.
+        function addEventInline() {
+            box.onclick = function () {
+                alert("Added through Inline I was clicked");
+            }
+            box.onclick = function () {
+                alert("Added through Inline I was clicked again");
+            }
+        }
+
+        // add event Listeners
+        function addEventByEventListeners() {
+            const cb1 = function () {
+                alert("I was clicked");
+            }
+            const cb2 = function () {
+                alert("I was clicked again");
+                box.removeEventListener("click", cb1);
+            }
+            // Adding same event multiple time, Only first time all events will occur but after that only last event will be run,
+            box.addEventListener("click", cb1);
+            box.addEventListener("click", cb2);
+        }
+        /****Add Event listener**/
+
+        function removeListenerUsingAbortController() {
+            const controller = new AbortController(); // Create abort controller instance
+
+            box.addEventListener("click",
+                () => {
+                    alert('I am clicked and will abort')
+                    controller.abort(); // removes all event handlers associated with this controller, you can do this anywhere
+                },
+                { signal: controller.signal } // pass an AbortSignal to this handler
+            );
+        }
+
+        // adding dynamic Li into Ul with value of input text
+        function createTodoList() {
+            /******Adding listener once***/
+            const button = document.querySelector("button");
+            const ul = document.querySelector("ul");
+            const input = document.querySelector("input");
+            button.addEventListener("click", function handler() {
+                // content from input
+                const value = input.value;
+                if (!value) {
+                    alert("empty task can't be added");
+                    return;
+                }
+                // create li ,
+                const li = document.createElement("li");
+                li.innerText = value;
+                //  add it to the ui
+                const allLis = document.querySelectorAll("li");
+                if (allLis.length == 0) {
+                    ul.appendChild(li)
+                } else {
+                    ul.insertBefore(li, allLis[0]);
+                }
+
+                // remove added item
+                // li.addEventListener("click", function cb() {
+                //     li.remove();
+                // }, { once: true });
+
+                input.value = ""
+
+            })
+
+            /***remove event Listener**/
+            /***
+             * 1. event should be added with the help of addEventListener
+             * 2. cb function should be a named fn
+             * */
+            // box.removeEventListener("click",cb1);
+        }
+
+        understandSelectors();
+
+        function understandSelectors() {
+            // this will return first matching element only.
+            // return type is DOM element
+            const a = document.querySelector('.testSelectorClass');
+            console.log(a);
+
+            // this will return all matching elements
+            // return type is Node List
+            const b = document.querySelectorAll('.testSelectorClass');
+            console.log(b)
+
+            // return type is DOM element
+            // only return first matching element
+            const c = document.getElementById('testSelectorId');
+            console.log(c)
+
+            // return type is HTMl Collection
+            // will return all matching elements
+            const d = document.getElementsByClassName('testSelectorClass');
+            console.log(d)
+
+            // return type is HTMl Collection
+            // will return all matching elements
+            const e = document.getElementsByTagName('div');
+            console.log(e);
+
+            // Try for each on Node list and it works
+            console.log('----- Print Node list element using for each');
+            b.forEach(item => {
+                console.log(item)
+            });
+
+            // for each does not work on HTML collections. this will give error
+            // d.forEach is not a function
+            /*   d.forEach(item => {
+                  console.log(item)
+              }); */
+
+            console.log('HTML Collection length before adding new div', d.length); //2
+            console.log('Node List length before adding new div', b.length) // 2
+
+            // create new element with same class name
+            const newEl = document.createElement('div');
+            newEl.setAttribute('class', 'testSelectorClass');
+            newEl.innerText = 'I am added dynamically';
+            document.body.appendChild(newEl);
+
+            console.log('HTML Collection length after adding new div', d.length); //3
+            console.log('Node List length after adding new div', b.length) //2
+
+            /*
+             HTML Collection are live list but Node List are static list.
+            */
+        }
+
+    </script>
+</body>
+
+</html>

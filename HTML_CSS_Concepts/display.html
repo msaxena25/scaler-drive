@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is live share testing</title>
+</head>
+<style>
+    .block {
+        display: block;
+        /* height, width, padding ,margin, border */
+        background-color: lightblue;
+        /* user defined height : works */
+        height: 100px;
+        /* user defined width : works */
+        width: 100px;
+
+        /* padding works */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+
+        /* margin  works */
+        margin-top: 10px;
+        margin-left: 20px;
+        /* border works */
+        border-top: 2px solid red;
+        border-left: 2px solid red;
+
+    }
+
+    .inline {
+        display: inline;
+        background-color: lightgreen;
+        /* user defined height : does not work */
+        height: 100px;
+        /* user defined width : does not work */
+        width: 100px;
+
+        /* padding works */
+        padding-top: 30px;
+        padding-left: 30px;
+        padding-bottom: 40px;
+        padding-right: 10px;
+
+        /* margin works in horizontal*/
+        margin-left: 10px;
+        margin-right: 10px;
+        /* margin does not work in vertical direction */
+        margin-top: 10px;
+
+        /* border -> works*/
+        border-top: 2px solid red;
+        border-left: 2px solid red;
+    }
+
+    .inline_block {
+        display: inline-block;
+        background-color: mediumorchid;
+
+        /* user defined height : does not work */
+        height: 100px;
+        /* user defined width : does not work */
+        width: 100px;
+
+        /* padding works */
+        padding-top: 30px;
+        padding-left: 30px;
+
+
+        /* margin works in horizontal only*/
+        margin-left: 10px;
+        margin-right: 20px;
+        /* margin does not work in vertical direction */
+        margin-top: 10px;
+        margin-bottom: 30px;
+
+
+        /* border -> works*/
+        border-top: 2px solid red;
+        border-left: 2px solid red;
+    }
+</style>
+
+<body>
+    <!-- block level element  -->
+    <div class="block">Hello I am display block element.</div>
+    <div class="block">Hello I am display block element.</div>
+
+    <!-- inline element -> style a part of a line -->
+    <div class="inline">I am inline</div>
+    <div class="inline">I am inline</div>
+
+    <!--  inline block -->
+    <div class="inline_block">I am inline block</div>
+
+    <!--  inline -->
+    <div class="inline">I am inline</div>
+</body>
+
+</html>
+
+<!-- 
+display :
+1. block 
+    Line break -  block creates line break before and after the element.
+New Element - A new element comes to the next line.
+Height - User-defined height works here.
+Width - User-defined width works here.
+Margin - Works in all directions.
+Padding - Works in all directions.
+Border - Works in all directions.
+
+2. inline 
+    Line break -  inline does not create line break before and after the element.
+New Element - A new element comes just next to the current element.
+Height - User-defined height does not work here.
+Width - User-defined width does not work here.
+Margin - Works in only a Horizontal direction & does not work in the vertical direction.
+Padding - Works in all directions.
+Border - Works in all directions.
+
+3. inline block
+  Line break -  inline-block does not create line break before and after the element.
+New Element - A new element comes just next to the current element.
+Height - User-defined height works here.
+Width - User-defined width works here.
+Margin - Works in only a Horizontal direction & does not work in the vertical direction.
+Padding - Works in all directions.
+Border - Works in all directions.
+ -->

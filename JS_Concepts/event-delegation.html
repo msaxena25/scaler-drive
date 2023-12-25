@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Delegation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn {
+            border: solid 1px orange;
+            height: 30px;
+            background-color: antiquewhite;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            border: 3px solid;
+            height: 10rem;
+            width: 10rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Understand event delegation</h2>
+    <pre>
+* Question - Use a single event handler(only one element should have event handler attached with it) and do the following:
+On clicking of the color name change the background color of the div.container to the same.
+
+* What is Event Delegation?
+
+The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler
+to each of them – we put a single handler on their common ancestor.
+In the handler we get event.target to see where the event actually happened and handle it.
+
+This process is called event delegation.
+
+* Capturing and bubbling allow us to implement one of the most powerful event handling patterns called event delegation.
+
+* DOM token list > https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList
+    </pre>
+    <div class="container">
+        <div class="btn red">red</div>
+        <div class="btn blue">blue</div>
+        <div class="btn green">green</div>
+    </div>
+    <script>
+        // pattern -> event delegation
+        const container = document.querySelector(".container");
+        container.addEventListener("click", function (e) {
+            // const color = e.target.getAttribute("class"); // It will return direct classes Names : 'btn green'
+            const color = e.target.classList; // this will return DOMTokenList: ['btn', 'green', value: 'btn green']
+            console.log(color)
+            if (color[0] == "container") {
+                container.style.backgroundColor = 'white';
+            } else {
+                container.style.backgroundColor = color[1];
+            }
+        })
+
+    </script>
+</body>
+
+</html>
