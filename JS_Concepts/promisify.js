@@ -69,18 +69,16 @@ getSum(10, 10, (err, result) => {
 
 
 // return a promise
-function promisify(fn) {
-
+function promisify(asyncFn) {
     return function (...inputs) {
         return new Promise((resolve, reject) => {
-
             // This If is extra safety check for validate number of input parameters which required to async function
             // Reject Promise incase sufficient parameters are not passed
-            if (inputs.length !== fn.length - 1) {
+            if (inputs.length !== asyncFn.length - 1) {
                 reject('Please validate number of inputs parameters')
             }
             // Call async function and pass callback function as last parameter
-            fn(...inputs, (err, result) => {
+            asyncFn(...inputs, (err, result) => {
                 if (err) {
                     reject(err);
                 } else {

@@ -31,3 +31,16 @@ let c1 = cap1.printName;
 c1();  // My Name is
 
 //**** */
+
+//! Implement Array last method to return last element of array
+
+const arr = [2,3,4,5];
+const arr1 = [];
+
+Array.prototype.last = function() {
+    console.log(this) // this will refer to array
+    return this.length ? this[this.length - 1] : -1;
+}
+console.log(arr.last())
+console.log(arr1.last())
+
