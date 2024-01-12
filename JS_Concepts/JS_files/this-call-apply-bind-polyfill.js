@@ -111,7 +111,7 @@ cap3.sayHi();
 
 //! Understand call, apply and bind
 
-//@ call - Borrowing a method from the object & used for another object.
+//@ call - Borrowing a method from the object & use for another object.
 
 let animal = {
     prefix: 'Animal name is ',
@@ -150,10 +150,10 @@ animal1.printAnimal('Lion', 'Tiger', 'Elephant', 'Monkey');
 animal1.printAnimal.apply(prefix, ['Dog', 'Cat', 'Cow', 'Rabbit']);
 
 
- /*
- ! Difference between Rest parameter and spread operator
+/*
+! Difference between Rest parameter and spread operator
 
- * Both syntax are same and that is ...
+* Both syntax are same and that is ...
 
 Rest -> when you are collecting the parameters, is used as function parameter.
 
@@ -163,7 +163,7 @@ Spread -> when you are spreading an array/obj in individual elements , when you 
 
 console.log(...animalName); ===> This is spread operator.
 
- */
+*/
 
 
 //@ bind
@@ -188,11 +188,12 @@ animalBoundFn('Crocodile');
 JS follows prototypal OOPS.
 
 let arr = [1, 2, 3, 4];
+
 console.log(typeof arr); //print object
 
 As the type of arr is an object, it has some parent object also.
-arr has parent Array.
-Array has all the methods required by every array. Parent of Array of Object.
+arr has parent - Array.
+Array has all the methods required by every array. Parent of Array is Object.
 
 * So everything starts from an Object and it has children like Array which will inherit all the properties of Object, and it can have its property.
 
@@ -206,23 +207,83 @@ console.log(arr.toString()); // prints 1,2,3,4
 
 */
 
+//! How to check given variable is array or not?
+
+console.log(Array.isArray([1, 2])); // true
+
+console.log(Array.isArray({})); // false
 
 
 
+//! Polyfill of call, apply and bind.
 
+// Means Create custom own call, apply & bind method.
 
-
-//! Different example
-
-let office = {
-    key: Math.floor(Math.random() * 9999),
-    getEmpCode: function (name) {
-        const code = name + this.key;
-        console.log(code);
+// This house object have its own method createHouse.
+const house = {
+    address: 'Mumbai',
+    createHouse: function (owner) {
+        console.log('my house in', this.address, ' and Owner of this house is', owner);
     }
 }
 
-// Note : Here key is same for all these three calling, while we have taken random number as key.
-office.getEmpCode('Peter');
-office.getEmpCode('Sam');
-office.getEmpCode('Angle');
+house.createHouse('John');
+
+// This house1 object have address property but does not have any method to create house.
+// So this can borrow method from house object to create house using 'call'.
+const house1 = {
+    address: 'Delhi'
+}
+
+// house.createHouse.call(house1); // my house in Delhi
+
+//* Now create same own 'call' method
+
+/**
+ * 
+ * @param {*} obj - An object that does not have method and want to borrow it from other object.
+ * @param  {...any} args - these are arguments which are required in that method.
+ */
+Function.prototype.myCall = function (obj, ...args) {
+    //console.log(this); // 'this' will represent that method on which call is applied. Here createHouse is that method.
+
+    // So now we can add temp method into our object.
+    obj.temp = this;
+    obj.temp(...args); // finally call our method.
+    delete obj.temp; // at last delete that newly added method. If we don't delete this, it will persist.
+}
+
+house.createHouse.myCall(house1, 'Jack');
+
+
+
+//* Create own apply method
+
+Function.prototype.myApply = function (obj, args) {
+    obj.temp = this;
+    obj.temp(...args); // finally call our method.
+    delete obj.temp;
+}
+
+house.createHouse.myApply({ address: 'London' }, ['Mack']);
+
+
+//* Create own bind method
+
+// bind method returns a bound function.
+
+Function.prototype.myBind = function (obj) {
+    // we have to keep 'this' inside a variable. Because inside boundFn this will be different (window).
+    let tempMethod = this;
+
+    function boundFn(...args) {
+        // console.log(this); // this is window not same as above this.
+        obj.temp = tempMethod;
+        obj.temp(...args); // finally call our method.
+        delete obj.temp;
+    }
+    return boundFn;
+}
+
+const bound = house.createHouse.myBind({ address: 'London' });
+bound('Mike');

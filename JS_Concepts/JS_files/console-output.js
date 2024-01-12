@@ -7,7 +7,7 @@ let cap = {
     }
 }
 
-// Calling like this, here this represent cap object
+// here this represent cap object
 cap.printName(); // My Name is  Js
 
 let c = cap.printName;
@@ -33,6 +33,9 @@ c1();  // My Name is
 //**** */
 
 //! Implement Array last method to return last element of array
+
+
+// When you want a feature on all the children of a data types, Add that feature to Parent's prototype. 
 
 const arr = [2,3,4,5];
 const arr1 = [];
