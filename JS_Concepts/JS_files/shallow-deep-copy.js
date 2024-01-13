@@ -73,6 +73,7 @@ Re-assigning nested object properties of the copy does affect the source object.
 //? The assign method creates a new object. It takes two arguments. One is an empty object {} called target, and the second is some object.
 
 function assign() {
+    const obj1 = { name: 'object 1' };
     const obj4 = Object.assign(obj1); // here target is itself obj1 thats why changes are showing both places
     console.log(obj4 === obj1); // true;
     obj4.name = 'object 4';
@@ -158,6 +159,10 @@ One way to make a deep copy of a JavaScript object, if it can be serialized, is 
 to convert the object to a JSON string, and then JSON.parse() to convert the string back into a
 (completely new) JavaScript object:
 
+Deep copy creates an exact copy of the original object, including all its nested objects,
+while shallow copy only creates copies of the top-level properties.
+
+
 */
 
 function deepCopyWithNested() {
@@ -171,3 +176,114 @@ function deepCopyWithNested() {
     console.log(obj1, obj2); // working perfect. value of c only changed in obj2.
 }
 deepCopyWithNested();
+
+
+//! Polyfill of deep copy :: Write custom function to create deep copy.
+
+
+// Taken one object that have primitive & non primitive both type of values.
+// Primitive - number, string, boolean
+// Non Primitive - object, array and function 
+
+let person = {
+    firstName: 'John',
+    lastName: 'Doe',
+    address: {
+        street: 'North 1st street',
+        city: 'San Jose',
+        state: 'CA',
+        country: 'USA',
+    },
+    sayHi: function () {
+        console.log("cap, say's Hi");
+    },
+    friends: ["peter", "tony"],
+    weapons: [
+        { toolName: "myolnoer", origin: "Asgard" },
+        { toolName: "shield", origin: "wakanda" }
+    ],
+    coordinates: [
+        [2, 3],
+        [7, 11]
+    ]
+};
+
+// source will be either array type or object type.
+function deepCopy(source) {
+    const isArray = Array.isArray(source); // find type of given source 
+    let target = isArray ? [] : {}; // based on type, create a target variable.
+
+    // for in works for both object and arrays
+    for (const key in source) {
+
+        if (Array.isArray(source[key])) {
+            // If source value is array type.
+            let newArr = [...source[key]]; // create new array using spread
+
+            // check each element of array
+            // Now this can also contains nested objects, function, array etc..
+            // so will call deep copy for this one.
+            newArr.forEach((element, i) => {
+                if (typeof element === 'object') {
+                    newArr[i] = deepCopy(element); // recursive call for array, objects and update result in newArr
+                }
+            });
+            target[key] = newArr;
+        } else if (typeof source[key] === 'object') {
+            target[key] = deepCopy(source[key]);
+
+        } else {
+            // If source value are function and primitive
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+
+const output = deepCopy(person);
+console.log(output);
+
+
+let comments = [
+    { id: 1, text: 'I am first' },
+    { id: 2, text: 'I am second' },
+    { id: 3, text: 'I am third' },
+    { id: 4, text: 'I am fourth' }
+]
+
+const output2 = deepCopy(comments);
+
+output2.push({ id: 5, text: 'I am part of only output 2' });
+
+console.log(comments);
+
+console.log(output2); // its different from comments array
+
+const emp = {
+    name: 'Peter'
+}
+
+const emp1 = deepCopy(emp);
+emp1.name = 'I am emp1';
+
+console.log(emp); //{name: 'Peter'} -- name only changed in emp1 object
+
+const school = {
+    name: 'SVM',
+    class: [
+        { id: 1, className: '10th', subjects: ['Hindi', 'Math'] },
+        { id: 2, className: '12th', subjects: ['English', 'Art'] }
+    ],
+    students: {
+        1: { age: 20, name: 'Amit' },
+        2: { age: 17, name: 'Rahul' }
+    }
+}
+
+const school1 = deepCopy(school);
+school.students[3] = { age: 22, name: 'Karan' };
+school.class[1].subjects.push('Science');
+school1.class[0].className = '11th';
+
+console.log('school', school);
+console.log('school1', school1);

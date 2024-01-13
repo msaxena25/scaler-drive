@@ -2,7 +2,7 @@ console.log('****************** CONSOLE OUTPUT *********************************
 
 let cap = {
     name: 'Js',
-    printName: function() {
+    printName: function () {
         console.log('My Name is ', this.name);
     }
 }
@@ -37,13 +37,56 @@ c1();  // My Name is
 
 // When you want a feature on all the children of a data types, Add that feature to Parent's prototype. 
 
-const arr = [2,3,4,5];
+const arr = [2, 3, 4, 5];
 const arr1 = [];
 
-Array.prototype.last = function() {
+Array.prototype.last = function () {
     console.log(this) // this will refer to array
     return this.length ? this[this.length - 1] : -1;
 }
 console.log(arr.last())
 console.log(arr1.last())
+
+/********* */
+
+//! check call by ref
+
+// When we take array or object as a parameters and alter these values inside function, they its update also goes in actual input arguments.
+// Actual arguments only effect in case of values changes not new value assignment.
+
+// assigning new values will not impact on actual values.
+function modifier(a, b) {
+    a = 10;
+    b = 20;
+}
+let p = [1, 2, 3]; let q = [4, 5, 6];
+modifier(p, q);
+console.log(p, q); // [ 1, 2, 3 ] [ 4, 5, 6 ]
+
+
+// altering data of input parameters
+function modifier1(a, b) {
+    a.push(12)
+    b.pop();
+}
+modifier1(p, q);
+console.log(p, q); // [ 1, 2, 3, 12 ] [ 4, 5 ]
+
+// assignment
+function modifier2(a) {
+    a = { c: 20 };
+}
+
+let r = { q: 1 };
+modifier2(r);
+console.log(r); //{ q: 1 }
+
+// alter
+function modifier3(a) {
+    a.d =  40;
+}
+modifier3(r);
+console.log(r); //{ q: 1, d: 40 }
+
+
 

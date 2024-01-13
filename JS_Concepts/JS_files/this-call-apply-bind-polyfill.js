@@ -264,8 +264,10 @@ Function.prototype.myApply = function (obj, args) {
     obj.temp(...args); // finally call our method.
     delete obj.temp;
 }
+const h1 = { address: 'London' };
+house.createHouse.myApply(h1, ['Mack']);
 
-house.createHouse.myApply({ address: 'London' }, ['Mack']);
+// h1.temp('stark'); --- h1.temp is not a function (But If we don't delete temp from object then this will be available here.)
 
 
 //* Create own bind method
@@ -284,6 +286,6 @@ Function.prototype.myBind = function (obj) {
     }
     return boundFn;
 }
-
-const bound = house.createHouse.myBind({ address: 'London' });
+let h3 = { address: 'London' };
+const bound = house.createHouse.myBind(h3);
 bound('Mike');
