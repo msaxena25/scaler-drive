@@ -130,20 +130,20 @@ console.log(res1)
 
 In above, sum & mul function are doing most of same thing on input data, just one logic change.
 
-? So by Using HOC we can simplify this code.
+? So by Using Higher Order, we can simplify this code.
 
 Create a main function like a modular function.
 That function will accept all input parameter with last parameter a function (known as callback function).
 Go through all input data.
 Apply that passed function where operation is happening.
 
-* Diff between Normal function and HOC function
+* Diff between Normal function and Higher Order function
 
 - Functions are like set of some statement that executes one by one like a procedure and return result.
 - Written operation are same for each set of input values. (we cannot change operation on fly).
 - So they generally can perform a single task. Like we have seen above sum and mul functions.
 
-- HOC functions can perform multiple operations.
+- Higher Order functions can perform multiple operations.
 - We can pass our logic or operation function to them to execute & produce result.
 - This can help speed up the development process and provide legibility (clear) of code.
 
