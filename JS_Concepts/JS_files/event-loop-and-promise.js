@@ -41,9 +41,9 @@ function fnName() {
 fnName();
 
 setTimeout(() => {
-    console.log('I am part of web api. So timer will run to web api.');
-    console.log('once timer finished, callback will move to Task Queue Or message queue');
-    console.log('CallStack is empty now, lets run now.')
+    console.log('I am part of web api. So timer will run in web api.');
+    console.log('once timer finished, settimeout callback function will move to Task Queue Or message queue');
+    console.log('CallStack is empty now, Event loop will move this to call stack and there this fn will execute.')
 }, 2000);
 
 
@@ -70,6 +70,8 @@ const sum2 = function (a, b) {
     }, 1000);
 }
 console.log('sum 2 results ', sum2(2, 3)); // sum 2 results  undefined
+
+// try with passing callback function as a parameter
 
 const sum3 = function (a, b, cb) {
     // sum could be done from api side as well. setTimeout is just for representing purpose of async.
@@ -121,12 +123,12 @@ function calculator() {
 
     function call(a, b, c, d, cb) {
         sum(a, b, function (res) {
-            console.log('sum is', res);
+            console.log('sum is', res); // pass this response to mul function
             mul(res, c, function (res) {
-                console.log('multiply is ', res);
+                console.log('multiply is ', res); // pass this response to minus function
                 minus(res, d, function (res) {
                     console.log('Minus is ', res);
-                    cb(res);
+                    cb(res); // finally return result
                 })
             })
         })
@@ -155,17 +157,23 @@ There isn't a special thing called a 'callback' in the JavaScript language, it's
 
 
  ? What is Inversion of controls?
+ - Give a control to some class to drive your way but safely.
 
-Callback have a problem that they are passed to async function or third parties and they can use these callbacks any times. So here is TRUST issue. Because of that output of code may be hamper. we can not trust to that third party library or any library (either we created) that they will use these callbacks only when required. And that is known as inversion of controls principle.
+Callback have a problem that they are passed to async function or third parties and they can use these callbacks any times. 
+So here is TRUST issue. Because of that, output of code may be hamper. 
+We can not trust to that third party library or any library (either we created) that they will use these callbacks only when required. 
+And that is known as inversion of controls principle.
 In Callback hell, there is also issue of this principle.
 
-* Callback hell is not a software problem or JS problem, its a problem of bad Code writing. Unstructured Code, Nested Code and non- modular code creates this issue and that can easily solve to use good code practice.
+* Callback hell is not a software problem or JS problem, its a problem of bad Code writing. 
+* Unstructured Code, Nested Code and non- modular code creates this issue and that can easily solve to use good code practice.
 
 ? Why Promise come into picture?
 
 - Promise is used to solve callback hell problem. that is very simple use case.
 - Promise came to action to solve callback access issue to anywhere in anyway. Or it is used to implement inversion of control principle.
-- Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the    future. This is same as real use case like when You order food on counter, then then give you a token and this token will work like future food for you. Once your token number food become ready, it is served you.
+- Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future. 
+This is same as real use case like when You order food on counter, then they give you a token and this token will work like future food for you. Once your token number food become ready, it is served you.
 
 
 */
@@ -178,8 +186,8 @@ In Callback hell, there is also issue of this principle.
 function printSumFromAPI(a, b, cb) {
     setTimeout(() => {
         cb(a + b);
-        cb();
-        cb();
+        cb(); // misuse of callback function
+        cb(); // again misuse of callback function
     }, 2000);
 }
 
@@ -255,7 +263,7 @@ let p1 = new Promise((resolve, reject) => {
 
 console.log(p1); // Promise { <pending> }
 
-// If you check this promise after 2 seconds, till that time it will be resolved or completed.
+// If you check this promise after 2 seconds, till that time it will be resolved.
 setTimeout(() => {
     console.log(p1); // Promise { 'I will be resolved automatically after 2 seconds' }
 }, 3000);
@@ -284,7 +292,23 @@ p3.catch((res) => {
     console.log(res); // no such file or directory
 })
  */
+
+
+
 //! Test with 2 resolve methods
+
+
+/* 
+
+Note: Promise only returns one state at a time which comes first. 
+If a Promise is resolved first then it will marked as fulfilled. 
+If Promise rejects first then marked as rejected. 
+
+Using multiple times resolve or reject one after another will not hamper your output. Means we can trust to promise.
+And thats why Promise authenticate inversion of control principle. 
+
+*/
+
 
 const p4 = new Promise((resolve, reject) => {
     resolve(1);
@@ -310,8 +334,6 @@ const p6 = new Promise((resolve, reject) => {
 console.log(p6); //Promise { <rejected> 'error - 1 p6' }
 p6.catch((error) => { console.log(error) })
 
-
-/* Note: Promise only returns one state at a time which comes first. If a Promise is resolved first then it will marked as fulfilled. If Promise rejects first then marked as rejected. */
 
 const p8 = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -377,7 +399,7 @@ promise.then((success) => {}, (rejected) => {});
 ! Promise.all()
 
 The Promise.all() static method takes an iterable of promises and returns a single Promise with an array of the fulfillment values, when all of the input's promises are fulfilled.
-It rejects when any of the input's promises is rejected, with this first rejection reason.
+It rejects when any one of the input's promises is rejected, with this first rejection reason.
 
 ! Promise.allSettled()
 
@@ -446,14 +468,14 @@ myCallbackAsPromise.then(function () {
 });
 
 /*
-callback-based methods takes callback as an argument and run itself after async process completes.
+callback-based methods takes callback as an parameter and run itself after async process completes.
 Promise does not take callback from you, they are resolved once async process completes.
 
 You can not trust to callback based methods because they can misuse your passed callback function.
 You can trust on Promise because then can only emit resolve or reject single time only.
 
 In callback type methods, you don't have control to execute your function.
-In Promise type, you have control only yo execute your function.
+In Promise type, you only have control to execute your function.
 
 */
 
@@ -542,3 +564,95 @@ Promise.customAll([p12, p13, Promise.reject('I am rejecting promise')])
     }).catch((err) => {
         console.log('test customAll with reject', err);
     });
+
+
+//! async await
+/*
+
+- Async await is just a cleaner way to write promise based behavior.
+- It avoids promise chaining.
+- The await keyword is only valid inside async functions.
+- To handle promise errors, we use try and catch here.
+
+try / catch
+
+- If first promise rejected then it will immediately move to catch block and will not execute further promises.
+- If first promise resolved then it will move to second promise.
+
+*/
+
+// A function that is returning promise.
+function resolveAfter2Seconds() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve('resolved');
+        }, 2000);
+    });
+}
+
+// async await way to utilize above promise.
+async function asyncCall() {
+    console.log('calling');
+    const result = await resolveAfter2Seconds(); // execution will stop for 2 seconds.
+    console.log(result);
+    // Expected output: "resolved"
+}
+
+const promise7 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('resolved after 4 seconds');
+    }, 4000);
+})
+
+const promise8 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        reject('rejected after 0 seconds');
+    });
+})
+
+
+// promise 7 is resolved thats why it moves to next promise 8 and catch error for promise8.
+async function handleError() {
+    try {
+        const p = await promise7;
+        console.log("👉  promise7  p:", p); // ok
+        const p1 = await promise8;
+        console.log("👉  promise8  p:", p1); // will go to catch
+
+    } catch (e) {
+        console.log("👉  error  e:", e); // ok
+
+    }
+}
+
+// order of promise8 is first, so it will go to catch error for promise8 & will not run promise7.
+async function handleError() {
+    try {
+        const p1 = await promise8;
+        console.log("👉  promise8  p:", p1); // will go to catch
+        const p = await promise7;
+        console.log("👉  promise7  p:", p); // will not execute 
+    } catch (e) {
+        console.log("👉  error  e:", e); // ok
+
+    }
+}
+
+// Such code will handle both separately.
+async function handleError1() {
+    try {
+        const p1 = await promise8;
+        console.log("👉  promise8  p:", p1);
+    } catch (e) {
+        console.log("👉  error  promise8:", e);
+
+    }
+    try {
+        const p = await promise7;
+        console.log("👉  promise7  p:", p);
+    } catch (e) {
+        console.log("👉  error  promise7:", e);
+
+    }
+}
+handleError1();
