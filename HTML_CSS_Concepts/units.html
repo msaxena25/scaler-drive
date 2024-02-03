@@ -1,0 +1,201 @@
+<!--
+
+Units are of two types:
+
+- absolute units
+- relative units
+
+Absolute -> px
+Relative -> percentage, rem, em, vh, vw
+
+* Pixels
+- very simple unit. It is default and absolute unit.
+
+* em (emphemeral unit)
+- It is related to the current font size. 1 em = current fontsize.
+- If we don't have font size for our current element then it goes to its parent and in the worst case it will go to html tag.
+- Most of time html tag default font size is 16px.
+
+* rem (short for “root-em”)
+- relative to the size of the root element
+- 1 rem = font size of HTML tag.
+- So on modifying the font size of html tag, the size of rem also changes.
+- Best use of this where elements sizing are dependents on body or html element.
+- So by changing font size of html tag, we can control sizing of whole website.
+
+* vh and vw
+- viewport height and viewport width.
+- current height and width of the browser window respectively.
+- Grid in Excel  sheet uses vh.
+- use-case - Creating tables and grid component.
+
+* percentage
+- Its also a relative unit.
+- We can give percentage unit to elements if its parent have a unit other then percentage.
+- You can not set unit percentage if parent does not have any other unit.
+
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Units</title>
+</head>
+<style>
+    .px {
+        font-size: 32px;
+    }
+
+    /* 2 em is equal to 32px because html tag have by default 16px size. */
+    .em {
+        font-size: 2em;
+    }
+
+    /* 2 rem is equal to 32px because html tag have by default 16px size. */
+    .rem {
+        font-size: 2em;
+    }
+
+    .parent1 {
+        font-size: 10px;
+    }
+
+    .em1 {
+        font-size: 2em;
+        width: 200px;
+    }
+
+    .em2 {
+        font-size: 2em;
+        /*  this width is depend on current element size and that is 2em,
+            and that is depend on parent1 size that is 10px, so here
+            width 10em = 10 * 2 = 20 * 10 = 200px.
+
+            If we don't have font-size here as 2em; then width will be 10 * 10 (parent1 size) = 100px;
+         */
+        width: 10em;
+    }
+
+    .parent2 {
+        font-size: 10px;
+    }
+
+    .rem1 {
+        font-size: 20px;
+    }
+
+    .rem2 {
+        /* this font-size & width is in rem unit so it depends on html tag sizing directly.
+            2 rem = 2 * 16 = 32px;
+            10 rem = 10 * 16 = 160px;
+        */
+        font-size: 2rem;
+        width: 10rem;
+    }
+
+    /* 100 vh = 100% of browser window visible screen height, So here 30 vh means 30% of window visible screen height.
+    100 vw = 100% of browser window visible screen height, so 40vw = 40% of visible area width.
+    Once you resize window, these figure changes automatically.
+    */
+    .vh-vw1 {
+        height: 30vh;
+        width: 40vw;
+        background-color: aqua;
+    }
+
+    /* you can give percentage unit to only child elements not parent element,
+    */
+    .percentage-parent {
+        background-color: aquamarine;
+        height: 100px;
+    }
+
+    /* Here percentage unit is working because it has parent & that have height in pixel unit.
+        To apply percentage unit, parent must have unit other then percentage.
+        Here 50% = 50px.
+    */
+    .percentage-child {
+        background-color: blueviolet;
+        height: 50%;
+        width: 50%;
+    }
+
+    /* parent3, parent4 and child5 - see how % is working */
+    .parent3 {
+        border: 1px solid salmon;
+        background-color: bisque;
+        /* 10 rem = 160px */
+        height: 10rem;
+    }
+
+    /* parent4 have its own parent parent3 so we can give here unit in percentage */
+    .parent4 {
+        /* 50% = 5 rem = 80px */
+        height: 50%;
+        background-color: beige;
+    }
+
+    .child5 {
+        /* child5 have parent 'parent4' => 60 % = 60 % of 80px (size of parent4) = 48px */
+        height: 60%;
+        background-color: azure;
+    }
+
+    /* child5 have parent 'parent4', What will happen if we remove height from parent4?
+       In this case, this height 60% will not work here because % height only work if parent have height.
+    */
+    .child5 {
+        /*60% will not work. So it will take default sizing of content that is 16px.
+        Div also have 1px border > height = 16 + 1 + 1 = 18px;
+        */
+        height: 60%;
+        background-color: azure;
+    }
+</style>
+
+<body>
+    <!-- Understand px em and rem when they don't have any parent element, In this case body or html tag are globally parent -->
+    <div class="px">Hi I am pixels.</div>
+    <div class="em">Hi I am em.</div>
+    <div class="rem">Hi I am rem.</div>
+    <!-- Understand em working inside parent div which also have font-size property.
+        Here em depends on parent1 div fontsize. So here 2 em = 20px;
+    -->
+    <div class="parent1">
+        <div class="em1">Hi I am em inside Parent 1 div.</div>
+        <div class="em2">Hi I am em inside Parent 1 div.</div>
+    </div>
+
+    <!-- rem only depends on html tag, and does not depend on any other parent.
+    Here rem1 and rem2 does not depend on parent2 for sizing. They rely on html tag size.
+    so 1 rem = 16px; -->
+    <div class="parent2">
+        <div class="rem1">Hi I am rem inside Parent 2 div.</div>
+        <div class="rem2">Hi I am rem inside Parent 2 div.</div>
+    </div>
+
+
+    <div class="vh-vw1">Hi I am vh & vw container and depends on Browser height and width</div>
+
+    <!-- Understand percentage working  -->
+    <div class="percentage-parent">
+        <div class="percentage-child">I am percentage child</div>
+    </div>
+
+    <!-- Understand percentage working for 3 levels -->
+    <div class="parent3">
+        I am parent3
+        <div class="parent4">
+            I am parent4
+            <div class="child5">
+                I am 3rd inner child5
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

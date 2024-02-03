@@ -1,0 +1,120 @@
+<!-- 
+    How CSS Order applied?
+
+    !important > inline style > id > class > element tag > universal > user agent styles > inheritance styles
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specificity</title>
+</head>
+
+<style>
+    /* universal selector */
+    * {
+        color: blue;
+        font-size: 20px;
+    }
+
+    /* element selector */
+    div {
+        color: red;
+    }
+
+    /* class */
+    .child {
+        color: lightgreen;
+    }
+
+    div.child {
+        color: black
+    }
+
+    .child#unique {
+        color: chocolate;
+    }
+
+    /* id selector */
+    #unique {
+        color: lightpink;
+    }
+
+    .child {
+        color: greenyellow;
+    }
+
+    .child1 {
+        color: bisque;
+    }
+
+    .child2 {
+        color: blueviolet !important;
+    }
+
+    .parent {
+        text-decoration: none;
+    }
+
+    .parent1>a {
+        text-decoration: none;
+    }
+</style>
+
+<body>
+
+    <h3>
+        !important > inline style > id > class > element tag > universal > user agent styles > inheritance styles
+    </h3>
+
+    <div class="child" id="unique" style="color:brown">
+        I am styled with inline styled color Brown
+    </div>
+    <div id="unique">
+        I am styled with unique Id class, color lightpink
+    </div>
+
+    <div class="child" id="unique">
+        I have Id selector, class child but styled with .child#unique class because this is more specific. Color
+        chocolate
+    </div>
+
+    <div class="child">
+        I am styled with div.child class not by only child class (div.child is more specific then normal child class),
+        color black
+    </div>
+    <span class="child">
+        I am styled with child class, color greenyellow
+    </span>
+
+    <div class="child1 child">
+        I have both child and child1 class but styled with div.child class not by child1 class, color black
+    </div>
+    <div class="child2 child">
+        I also have both child and child2 class but styled with child2 class because of !important, color blueviolet.
+    </div>
+
+    <!-- this parent class have property text-decoration none but that is not applied here.
+        Because anchor tag text-decoration is also part of user agent style and that have higher order rather then inheritance value.
+    -->
+    <div class="parent">
+        <a href="">I am Link, color is blue because of universal selector have color blue.
+            I have style text-decoration: underline; while my parent class have text-decoration: none;
+        </a>
+    </div>
+
+    <!-- .parent1 > a - this will applied here because it is more specific rather then user agent class. -->
+    <div class="parent1">
+        <a href="">I am Link but text-decoration styled with class 'parent1 > a' because it is more specific rather then
+            user agent class.
+        </a>
+    </div>
+
+</body>
+
+</html>

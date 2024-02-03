@@ -1,0 +1,163 @@
+<!-- 
+
+* align-items
+
+The align-items property will align the items on the cross axis.
+The initial value is stretch and this is why flex items stretch to the height of the flex container by default.
+
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexBox</title>
+</head>
+<style>
+    .outer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid gray;
+        height: 10rem;
+        width: 10rem;
+    }
+
+    .outer1 {
+        display: flex;
+        /* stretch is default value of align items, If we don't set align-items then flex items take full parent height. */
+        align-items: stretch;
+
+        /* center will place all flex item vertically in middle. */
+        align-items: center;
+
+        /* flex-end will place all flex item vertically at bottom. */
+        align-items: flex-end;
+
+        /* flex-start will place all flex item vertically at start. */
+        align-items: flex-start;
+
+        /* space-between - distribute space to all items equally, first item place at start and last item place at end */
+        justify-content: space-between;
+
+        /*space-evenly: items are distributed so that the spacing between any two items (and the space to the edges) is equal.*/
+        justify-content: space-evenly;
+
+        /*space-around: distributed equal space around items instead of first and last item. First and last item takes 1 unit of space related to edge and other takes double unit of space.*/
+        justify-content: space-around;
+
+        /* center: items are centered along the line */
+        justify-content: center;
+
+        align-items: center;
+
+        border: 1px solid gray;
+        height: 10rem;
+        width: 50rem;
+    }
+
+    .inner {
+        border: 1px solid orange;
+        padding: 2px;
+    }
+
+    .inner5 {
+        height: 5rem;
+        /* align-self overrides align-items and works for only individual flex item. */
+        align-self: flex-start;
+    }
+
+    .outer2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid gray;
+        /* flex-wrap works only with flex items width in percentage
+            Also provide min-width to break correctly in another line.
+            
+        */
+        flex-wrap: wrap;
+        /* it sets gap between rows and columns, We can also give gap for column and row individually using column-gap and row-gap. */
+        gap: 2rem;
+        /* column-gap: 2rem;  */
+    }
+
+    .inner2 {
+        /* width and min-width: using for flex-wrap; */
+        width: 10%;
+        min-width: 7rem;
+        height: 4rem;
+        background-color: aquamarine;
+        border: solid 1px red;
+    }
+
+    .outer3 {
+        width: 20rem;
+        display: flex;
+        /* justify-content: space-evenly; */
+
+        /* Like <row>, but reversed */
+        flex-direction: row-reverse;
+
+        /* The direction in which lines of text are stacked or column wise
+            If we don't pass width of flex item, then it takes full width of parent container in this case.
+        */
+        flex-direction: column;
+
+        /* Like <column>, but reversed */
+        flex-direction: column-reverse;
+
+        /* The direction text is laid out in a line or row */
+        flex-direction: row;
+
+    }
+
+    .inner3 {
+        height: 4rem;
+        width: 5rem;
+        background-color: rgb(156, 143, 231);
+        border: solid 1px red;
+    }
+</style>
+
+<body>
+    <!-- Make Inner span item in center of outer div using flex -->
+    <div class="outer">
+        <span>Hi I am in Center</span>
+    </div>
+
+    <!-- Check How flex items are placed using align items and justify-content property -->
+    <div class="outer1">
+        <div class="inner">I am first child</div>
+        <div class="inner">I am second child</div>
+        <div class="inner">I am third child</div>
+        <div class="inner">I am fourth child</div>
+        <div class="inner inner5">I am fifth child</div>
+    </div>
+
+    <!-- Understand flex-wrap -->
+    <div class="outer2">
+        <div class="inner2">1</div>
+        <div class="inner2">2</div>
+        <div class="inner2">3</div>
+        <div class="inner2">4</div>
+        <div class="inner2">5</div>
+        <div class="inner2">6</div>
+        <div class="inner2">7</div>
+        <div class="inner2">8</div>
+        <div class="inner2">9</div>
+    </div>
+
+    <!-- Understand flex direction property -->
+    <div class="outer3">
+        <div class="inner3">1</div>
+        <div class="inner3">2</div>
+        <div class="inner3">3</div>
+    </div>
+
+</body>
+
+</html>
