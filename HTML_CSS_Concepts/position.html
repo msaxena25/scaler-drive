@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position CSS</title>
+</head>
+<style>
+    div {
+        height: 6rem;
+        width: 6rem;
+    }
+
+    /* Container will not leave its original place, and can move from its original place using left, top, right and bottom. */
+    .div1 {
+        background-color: aqua;
+        position: relative;
+        left: 10px;
+    }
+
+    /* container will not take it's original position. it will allow next element to take it's place,
+        You can place this container using top left bottom and right.
+        By default it measures left and top wrt `page origin`.
+        If we don't supply left, top bottom or right to this container, then next element will place over to this.
+    */
+    .div2 {
+        background-color: rgba(17, 244, 119, 0.532);
+        position: absolute;
+        left: 15rem;
+    }
+
+    /* Fixed positioning removes an element from the normal flow and positions it relative to the viewport.
+       top and left are measured wrt page origin
+    */
+    .div3 {
+        background-color: rgb(235, 24, 186);
+        position: fixed;
+        top: 10px;
+        left: 20rem;
+    }
+
+    .div4 {
+        top: 2rem;
+        background-color: rgb(223, 16, 61);
+    }
+
+    .parent {
+        height: 10rem;
+        width: 20rem;
+        border: 1px solid red;
+        overflow: scroll;
+    }
+
+    /* It acts like a normal element unless your threshold is not reached, as threshold is reached it becomes fixed.
+    It becomes fixed relative to its nearest scrolling ancestor block.
+    div with class 'parent' is its scrolling ancestor so it will sticky relative to that.
+ */
+    .div5 {
+        background-color: blueviolet;
+        position: sticky;
+        /* this top is called threshold property for sticky position. */
+        top: 1rem;
+    }
+
+    /* this parent class has relative position so its all child absolute position will place relative to this. */
+    .parent1 {
+        height: 10rem;
+        width: 20rem;
+        border: 1px solid rgb(9, 16, 236);
+        overflow: scroll;
+        position: relative;
+    }
+
+    /* this absolute will flow based on its parent (because parent has relative position) */
+    .div6 {
+        background-color: rgb(135, 236, 21);
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+</style>
+
+<body>
+
+    <div class="div1">1 Relative</div>
+
+    <div class="div2">2 Absolute relative to viewport</div>
+
+    <div class="div3">3 Fixed</div>
+
+    <div class="div4">4 Normal</div>
+
+
+    <!-- Understand How sticky works? -->
+    <div class="parent">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur eaque ipsa rem, quam nobis necessitatibus
+        architecto, iure recusandae maxime facere velit, laudantium est eius minus maiores quisquam minima sapiente
+        dicta!
+        <div class="div5">5 Sticky</div>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Architecto, aspernatur at veritatis rem suscipit
+        incidunt facere molestias totam blanditiis ratione quia dolor, modi magnam. Unde pariatur cum deleniti odit
+        dolorum?
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odio vel, nostrum sequi fugit maxime laborum nisi
+        aspernatur mollitia dolorum dolorem praesentium accusamus in, a ipsa exercitationem iure enim totam quasi.
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptas eaque eligendi id odit sunt
+        consequuntur veniam illum maxime, soluta amet dolorem voluptatibus sequi laboriosam ut sapiente delectus
+        deserunt consectetur.
+    </div>
+
+    <!-- Understand How absolute works when parent has relative position -->
+    <div class="parent1">
+        <div class="div6">6 Absolute relative to its parent div that has position relative.</div>
+    </div>
+
+</body>
+
+</html>
