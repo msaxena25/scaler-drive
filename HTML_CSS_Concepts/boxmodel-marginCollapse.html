@@ -1,0 +1,135 @@
+<!--
+
+? What is box model?
+
+Represent every element using a box(squares and rectangles) is called Box Model.
+
+? What is box-sizing property?
+
+box-sizing property is used to calculate height and width of element.
+default value of box-sizing is content-box. other value of box-sizing is border-box.
+
+? what happens when set box-sizing border-box;
+
+On adding an extra property box-sizing: border-box;, the size of box is reduced.
+This implies that something is subtracted from by border box.
+
+? Calculate Height and width of element for both border-box and content-box?
+
+
+@ height -
+
+Content Box = content height + vertical border + vertical padding.
+Border Box = content height - vertical border - vertical padding.
+
+Note: In case of border-box, pure content height or width is considered, rest units are ignored.
+
+@ width -
+
+Content Box = content width + horizontal border + horizontal padding.
+Border Box = content width - horizontal border - horizontal padding.
+
+? We usually use border-box. Why?
+
+In case of content-box , padding and border are not part of box sizing, they take extra space (outside of element) on UI.
+So If see overall height or width of element, then it will be more then we specified.
+
+In Border box, padding and border are part of box sizing, they manage padding and border from given height and width of element.
+It simplifies the calculation of an element's width and height, making your layout more responsive and flexible & looks same as designs.
+
+
+? Margin Collapse ?
+
+Margin from bottom and margin from top of two divs are collapsed and vertical distance between both div
+is max of margins. That is called margin collapse.
+Margin collapse does not work for margin left and margin right.
+
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Model</title>
+</head>
+<style>
+    .p {
+        /* content related css */
+        height: 100px;
+        width: 100px;
+        background-color: aqua;
+        border: solid 5px red;
+        /* area outside my element */
+        padding: 1rem;
+        margin-top: 50px;
+    }
+
+    .p1 {
+        box-sizing: content-box;
+    }
+
+    .p2 {
+        box-sizing: border-box;
+    }
+
+    .margin-p {
+        height: 100px;
+        width: 100px;
+        background-color: rgb(236, 31, 216);
+        border: solid 5px red;
+    }
+
+    .margin1 {
+        margin-bottom: 50px;
+    }
+
+    .margin2 {
+        margin-top: 20px;
+    }
+
+    .margin3 {
+        margin-right: 50px;
+    }
+
+    .margin4 {
+        margin-left: 20px;
+    }
+</style>
+
+<body>
+    <!-- This box looks bigger on screen.
+        When you inspect this box, you will height and width of element (div) is 100px which we have given in css.
+    -->
+    <div class="p p1">content box.</div>
+
+    <!-- This box looks smaller while we have same styles as above div because of box sizing border box
+        Here width and height of element is 58px while we have provided 100px.
+        height 58px = 100px - 32px (1 rem padding top and bottom) - 10px (5 px border top and bottom) = 58px 
+    -->
+    <div class="p p2">border box</div>
+
+    <hr>
+
+    <!-- Understand Margin Collapse Concept
+
+        First div have margin bottom 50px; and second div have margin top 20px;
+        So in this way total margin between both divs should be 70px But actually that is not.
+        Maximum margin between both is 50px only and that is known as Margin Collapse.
+    
+    -->
+    <div class="margin-p margin1">Margin bottom 50px</div>
+    <div class="margin-p margin2">Margin top 20px</div>
+
+    <hr>
+
+    <!-- Margin Collapse does not work with horizontal margin, Here total gap between is 70px -->
+   <div style="display: flex;">
+    <div class="margin-p margin3">Margin right 50px</div>
+    <div class="margin-p margin4">Margin left 20px</div>
+   </div>
+</body>
+
+</html>

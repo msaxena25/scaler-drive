@@ -1,0 +1,242 @@
+<!-- 
+* .class1.class2 {}
+ - To select elements with more than one class.
+ - Apply style on a element that have both the classes not single.
+
+* .class1, .class2 {}
+ - This is just a way to write common styles for both classes class1 and class2.
+ - This style will apply for both elements class1 and class2.
+
+
+
+ * Combinators and Descendants
+
+ @ A combinator is something that explains the relationship between the selectors.
+
+ 
+? What are the 4 combinators of CSS?
+
+descendant selector (space)
+child selector (>)
+adjacent sibling selector (+)
+general sibling selector (~)
+
+
+@ .class1 .class2 {}
+ - This is called Descendant Selector.
+ - This is also known as ancestor combinator or descendant combinator.
+ - It represents that class1 is ancestor of class2.
+ - Means class2 element is somewhere inside class1 element.
+
+@ .class1 > .class2 {}
+ - This is Parent Combinator or child selector or child combinator.
+ - here class2 element is direct child or son of class1 element.
+
+@ .class1 + .class2 {}
+ -  This is known as Adjacent Sibling Selector.
+ -  This select first class2 element that is just after class1 element.
+ -  Another class2 element will not get this style.
+
+@ .class1 ~ .class2 {}
+ - This is known as General Sibling Selector.
+ - Select all class2 element that are after class1 element.
+
+? What is the difference between child combinator and descendant selector?
+
+The descendant combinator matches a child, grandchild, and so on.
+The child combinator selects elements that are direct children of another element.
+
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>selectors</title>
+</head>
+<style>
+    /* Element with multiple classes */
+    .m1.m2 {
+        color: blue;
+    }
+
+    /* c2 is somewhere inside c1 class element. */
+    .c1 .c2 {
+        color: orange;
+    }
+
+    /* p element is direct son of c3 element */
+    .c3>p {
+        color: brown;
+    }
+
+    /* This will change every p element color that are inside c3 */
+    /* .c3 p {
+        color: blueviolet;
+    } */
+
+    /* This is best way to select everything inside c4 and apply style. */
+    .c4>* {
+        color: chartreuse;
+    }
+
+    /* We can also do above like this but this will not impact everyone.
+        Div c4 also have a anchor tag and this style will not work on that If we do this way.
+        And anchor tak will take default text color blue.
+    */
+    .c4 {
+        color: chartreuse;
+    }
+
+    /* This will change every input background color */
+    /* input {
+        background-color: blueviolet;
+    } */
+
+    /* Attribute selector, select button with value attribute */
+    input[value='I am button 2'] {
+        background-color: cadetblue;
+    }
+
+    /* Attribute selector, select button with value attribute */
+    input[value='I am button 1'] {
+        background-color: rgb(160, 44, 238);
+    }
+
+    .p4 {
+        border: solid 1px blue;
+    }
+
+    /* This will apply on each elements that have c5 and c6 both classes
+    .c5.c6 {
+        color: tomato;
+    } */
+
+    /* This will apply on each elements having class c5 c6 & are somewhere inside parent p5 element
+    .p5 .c5.c6 {
+        color: tomato;
+    } */
+
+    /* This will select all three items of id div-1
+    #div-1 .c5.c6 {
+        color: tomato;
+    }  */
+
+    /* This will select elements which we need to style */
+    #div-1>.c5.c6 {
+        color: tomato;
+    }
+
+    /* Same style will apply for both elements c7 and c8 */
+    .c7,
+    .c8 {
+        font-size: 20px;
+        color: red;
+    }
+
+    /* This will select p element that is just after p7 class */
+    .p7+p {
+        color: blue;
+    }
+
+    /* This will select all p elements that are just after p7 class */
+    .p7~p {
+        color: blue;
+    }
+</style>
+
+<body>
+    <!-- .m1.m2 class will work here -->
+    <div class="m1 m2"> I have m1 and m2 both classes</div>
+
+    <div class="m1">I have only m1 class</div>
+    <div class="m2">I have only m2 class</div>
+
+    <!-- Select "I am c2 inside somewhere to c1 element. Find me." and make it orange  -->
+    <div class="c1">
+        <div>
+            <div>
+                <span>
+                    <div class="c2">I am c2 inside somewhere to c1 element. Find me.</div>
+                </span>
+            </div>
+        </div>
+    </div>
+    <span>
+        <div class="c2">I am only c2, Don't select me</div>
+    </span>
+
+    <!-- select "I'm the direct son of c3, Find me" and make it brown  -->
+    <div class="c3">
+        <p>
+            I'm the direct son of c3, Find me
+        </p>
+    </div>
+    <div class="c3">
+        <span>
+            <!-- If you want to change style of this p element only then can use span>p -->
+            <p>I'm the indirect son of c3</p>
+        </span>
+    </div>
+
+
+    <!-- Change every child item of c4 color  -->
+    <div class="c4">
+        <p>I am p of c4</p>
+        <div> I am div of c4</div>
+        <a href="">I am link of c4</a>
+        <div>
+            <div> I am nested div of c4</div>
+        </div>
+        <ul>
+            <li>I am li item inside c4</li>
+        </ul>
+    </div>
+
+    <!-- Understand attribute selector -->
+    <form>
+        <input type="button" value="I am button 1">
+        <input type="button" value="I am button 2">
+    </form>
+
+
+    <!-- Select the element with "Select me" and make it blue  -->
+    <div class="p4">
+        <div class="p5">
+            <div id="div-1">
+                <p>Random</p>
+                <div>
+                    <p class="c5 c6">Random</p>
+                </div>
+                <p class="c5 c6">Select me</p>
+                <div class="c5 c6">Select me</div>
+            </div>
+        </div>
+        <div class="p5">
+            <p class="c5">Random</p>
+            <p class="c6">Random</p>
+            <p class="c5 c6">Random</p>
+        </div>
+    </div>
+
+    <!-- Understand comma separated classes selectors -->
+    <div class="p6">
+        <div class="c7">I am c7 inside p6</div>
+        <div class="c8">I am c8 inside p6</div>
+    </div>
+
+    <!-- Apply style on p tag 'I am second para after p7' that is just after div element -->
+    <div class="p7">
+        <p>I am first para of p7</p>
+    </div>
+    <p>I am second para after p7</p>
+    <p>I am third para after p7</p>
+    <div>
+        <p>I am fourth para after p7 but inside another div</p>
+    </div>
+</body>
+
+</html>
