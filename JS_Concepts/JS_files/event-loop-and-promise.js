@@ -171,7 +171,7 @@ In Callback hell, there is also issue of this principle.
 ? Why Promise come into picture?
 
 - Promise is used to solve callback hell problem. that is very simple use case.
-- Promise came to action to solve callback access issue to anywhere in anyway. Or it is used to implement inversion of control principle.
+- Promise came to action to solve callback access issue to anywhere in anyway. Or it is used to implement inversion of control principle correctly.
 - Instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future. 
 This is same as real use case like when You order food on counter, then they give you a token and this token will work like future food for you. Once your token number food become ready, it is served you.
 
@@ -245,8 +245,10 @@ Promise returns a promise object immediately and returns serial operations outpu
 
 Promise has three main states -
 pending: initial state.
-fulfilled: the operation was completed successfully.
+fulfilled: the operation was completed successfully or can say Resolved.
 rejected: operation failed.
+
+One more state we have and that is called settled. (means promise is either resolve or reject but not in pending)
 
 @ Resolve have then listener and Reject have catch listener.
 
@@ -400,6 +402,7 @@ promise.then((success) => {}, (rejected) => {});
 
 The Promise.all() static method takes an iterable of promises and returns a single Promise with an array of the fulfillment values, when all of the input's promises are fulfilled.
 It rejects when any one of the input's promises is rejected, with this first rejection reason.
+It works like transaction. If all pass then success and if anyone failed then rejected.
 
 ! Promise.allSettled()
 
@@ -443,7 +446,8 @@ Promise.any(promises)
 
 //! What is promisify?
 
-//@ Promisify is a function that can turn any given function into a promisified version of itself. The objective is to convert a function that uses traditional callback-based asynchronous programming into a function that returns a promise.
+//@ Promisify is a function that can turn any given function into a promisified version of itself.
+//@ The objective is to convert a function that uses traditional callback-based asynchronous programming into a function that returns a promise.
 
 const myCallback = function (cb) {
     setTimeout(() => {

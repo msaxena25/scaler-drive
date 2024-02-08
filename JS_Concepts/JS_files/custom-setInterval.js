@@ -9,7 +9,7 @@ console.log('Understand custom set interval');
 2. So on same pattern we will create a custom method.
 3. Our approach is to call settimeout inside function in recursive manner.
 4. Create inner function and inside that execute cb(), and then call again same inner function with in settimeout.
-5. For first time execution call settimeout direct with inner function as a callback.
+5. For first time execution, call settimeout direct with inner function as a callback.
 6. Also add config object to clear interval.
 7. You can customize with more feature to add into this config object.
 8. return config object from main method.

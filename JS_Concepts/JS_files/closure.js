@@ -79,7 +79,7 @@ In add5's lexical environment, x is 5, while in the lexical environment for add1
 //? Closures are useful because they let you associate data (the lexical environment) with a function that operates on that data. 
 
 
-//! Closures - useful to Private variables and methods.
+//! Closures - useful for Private variables and methods.
 
 function counter() {
     let value = 0; // private variable (not accessible outside)
@@ -159,8 +159,10 @@ arrFn[2]();
 
 //! Function currying : Closure function chain
 
-/* 
-creating a function fn that allows for function chaining and keeps track of the number of function calls made. 
+/*
+* Question -
+
+create a function that allows for function chaining and keeps track of the number of function calls made. 
 Each time the function is called, it returns another function, and the count of function calls is incremented.
 The function chain can be terminated by passing 0.
 */

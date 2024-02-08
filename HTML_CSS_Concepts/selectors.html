@@ -46,6 +46,55 @@ general sibling selector (~)
 The descendant combinator matches a child, grandchild, and so on.
 The child combinator selects elements that are direct children of another element.
 
+? Understand pseudo class
+
+ Pseudo classes
+    1. syntax (:) - after element there will be only one colon
+    2. use-case :
+        * usually used to style state of an element
+        * nth element
+
+1. Select all the even paragraphs and give them a background color of lightblue.
+    p:nth-child(even) {
+        background-color: lightblue;
+    }
+2. Select the first paragraph with class "highlight" and make its text color red.
+3. Select the last paragraph with class "highlight" and add a double underline.
+
+4. Select every link (<a>) element when hovered, change its background color to yellow.
+ a:link {
+        color: red;
+    }
+link state -> when anchor wasn't previously clicked 
+
+? Understand Pseudo selectors?
+
+* Use-case
+    * used to add content with the help of css
+    * Syntax two colons (::) in front of selector
+
+1. Add "Read more" link 
+
+ p::after {
+        /*content property only present when you use pseudo selectors */
+        content: " Read more";
+        color: blue;
+        text-decoration: underline;
+    }
+
+2. Apply double underline to the first letter of paragraphs.
+
+p::first-letter {
+    text-decoration: underline double;
+}
+
+3. Add "NEW" label to headings of articles published.
+
+h2::before{
+    content: "New";
+    font-size: 1rem;
+    color:green ;
+}
 
  -->
 
@@ -146,6 +195,88 @@ The child combinator selects elements that are direct children of another elemen
     .p7~p {
         color: blue;
     }
+
+    /*********** Pseudo classes and selectors *********************/
+
+
+    /* valid pseudo class example */
+    input:valid {
+        background-color: ivory;
+        border: none;
+        outline: 2px solid rgb(12, 231, 26);
+    }
+
+    /* invalid pseudo class example */
+    input:invalid {
+        background-color: rgb(240, 124, 114);
+        color: white;
+        border: none;
+        outline: 2px solid rgb(234, 73, 28);
+    }
+
+    .p9 {
+        height: 500px;
+        width: 500px;
+        background-color: aquamarine;
+    }
+
+    .c9 {
+        height: 90px;
+        width: 90px;
+        background-color: burlywood;
+        margin: 1px;
+    }
+
+
+    /* This is incorrect way of using :last-child, these selectors not means to use with parent div and then its child */
+    .p9:last-child {
+        background-color: blueviolet;
+    }
+
+    /* This is correct way to use last-child pseudo selector.
+        last child name looks like that it will use with parent div but not.
+        This is used like - pick last child of class name on which you have applied.
+    */
+    .c9:last-child {
+        background-color: blue;
+    }
+
+    /* Pick select last element : use :nth-last-child() selector.
+        Pass 1 - means last child, 2 means second last child and so on
+    */
+    .c9:nth-last-child(2) {
+        background-color: orange;
+    }
+
+    /* use :first-child selector */
+    .c9:first-child {
+        background-color: rgb(103, 99, 233);
+    }
+
+    /* Pick second element by using nth-child() selector  */
+    .c9:nth-child(2) {
+        background-color: chartreuse;
+    }
+
+    /* only-child selector works only if applied class name is single child of its parent.
+        If there is no specific parent, then body will be its parent.
+    */
+    .c10:only-child {
+        color: red
+    }
+
+    /* Use of not with pseudo selectors, apply style on all items except first item */
+    .c11:not(:first-child) {
+        color: green;
+        font-size: 20px;
+        margin-left: 30px;
+    }
+    /* skip second child and apply css on c12 items */
+    .c12:not(:nth-child(2)) {
+        color: darkblue;
+        font-size: 30px;
+        margin-left: 40px;
+    }
 </style>
 
 <body>
@@ -237,6 +368,78 @@ The child combinator selects elements that are direct children of another elemen
     <div>
         <p>I am fourth para after p7 but inside another div</p>
     </div>
+
+    <hr>
+
+    <!-- Understand Pseudo classes -->
+
+    <form>
+        <!-- apply valid and invalid pseudo classes on this email field -->
+        <input type="email" name="email" id="email" placeholder="enter email">
+    </form>
+
+    <hr>
+
+
+    <!-- Understand first, last and nth child selector and correct way to use these -->
+    <div class="p9">
+        <div class="c9"></div>
+        <div class="c9"></div>
+        <div class="c9"></div>
+        <div class="c9"></div>
+        <div class="c9"></div>
+
+    </div>
+
+    <hr>
+
+    <!-- Understand only-child selector -->
+    <div>
+        <div class="c10">I am c10 - 1</div>
+        <div class="c10">I am c10 - 2</div>
+    </div>
+    <div>
+        <div class="c10">I am c10 - 3</div>
+    </div>
+
+    <hr>
+
+    <!-- Understand using of not with pseudo selectors -  .c11:not(:first-child)
+        If we remove parent div then not:first-child will not work here.
+    -->
+    <div>
+        <div class="c11">I am c11 - 1</div>
+        <div class="c11">I am c11 - 2</div>
+        <div class="c11">I am c11 - 3</div>
+    </div>
+    <hr>
+
+    <!-- another Example of not - first: child 
+    we are writing css for c11 class elements like .c11:not(:first-child)
+    style will only apply on element that have c11 class only, except first child of that parent.
+    first child will skip no matter it has c11 class or not.
+    elements that does not have c11, those will also be ignored.
+    -->
+    <div>
+        <div>I am 0th child - 0</div>
+        <div>I am first child - 1</div>
+        <div class="c11">I am c11 - 2</div>
+        <div class="c11">I am c11 - 3</div>
+        <div>I am 4th child - 4</div>
+    </div>
+    <hr>
+
+    <!-- apply css on c12 class items but skip first c12 item 
+     .c12:not(:nth-child(2))
+    -->
+    <div>
+        <div>I am 0th child - 0</div>
+        <div class="c12">I am c12 - 2</div>
+        <div class="c12">I am c12 - 3</div>
+        <div class="c12">I am c12 - 4</div>
+        <div>I am 4th child - 4</div>
+    </div>
+    
 </body>
 
 </html>

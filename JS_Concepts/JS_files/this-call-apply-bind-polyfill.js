@@ -34,7 +34,8 @@ For Execution context created with a function call(calling without object), this
 
 !Host objects
 
-Objects that are provided by the environment are known as host objects. Examples of host objects in the browser are window, document, local storage, etc. Examples of host objects in nodejs are global, os, process, etc. Host objects are dependent on the environment.
+Objects that are provided by the environment are known as host objects. Examples of host objects in the browser are window, document, local storage, etc.
+Examples of host objects in nodejs are global, os, process, etc. Host objects are dependent on the environment.
 
 !Native objects
 
