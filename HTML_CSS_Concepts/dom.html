@@ -1,0 +1,160 @@
+<!--
+
+! What is DOM?
+
+D - document - HTML File or web page
+O - objects - Nodes or HTML elements
+m - models - Generic Tree
+
+ document : is an object representing webpage in the current tab
+
+@ The appendChild() method adds a node to the end of the list of children of parent node.
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM and Its Methods</title>
+</head>
+
+<body>
+
+    <h1>Hi I am h1</h1>
+
+    <div class="p1">I am p1</div>
+
+    <div id="element1">I am Element 1</div>
+
+    <div id='div1'>
+        <p>I am p inside div1</p>
+        <div>I am a div inside div1</div>
+        <p style="display: none;">I am second p inside div1</p>
+    </div>
+
+    <div id="div2">
+        <p>Below is UL and LI example.</p>
+        <ul>
+            <li>I am li item 1</li>
+            <li>I am li item 2</li>
+            <li>I am li item 3</li>
+        </ul>
+    </div>
+
+</body>
+
+<script>
+
+    // Understand different way and methods to select elements.
+    // And Also Most important thing is its return type.
+
+    // NOTE: document.getElementByTagName is not a function
+    let h1 = document.getElementsByTagName('h1');
+    console.log("👉  h1:", h1); // HTMLCollection [h1]
+
+    let h2 = document.querySelector('h1');
+    console.log("👉  h2:", h2); // Node Element
+
+    let h3 = document.querySelectorAll('h1');
+    console.log("👉  h3:", h3); // NodeList [h1]
+
+    let p1 = document.getElementsByClassName('p1');
+    console.log("👉  p1:", p1); // HTMLCollection [div.p1]
+
+    // NOTE: document.getElementByClassName is not a function
+    /*  let p2 = document.getElementByClassName('p1');
+     console.log("👉  p2:", p2); */
+
+    let p2 = document.querySelector('.p1');
+    console.log("👉  p2:", p2); // Node Element
+
+    let p3 = document.querySelectorAll('.p1');
+    console.log("👉  p3:", p3); // NodeList [div.p1]
+
+    let el1 = document.getElementById('element1')
+    console.log("👉  el1:", el1); // Node element
+
+    let el2 = document.querySelector('#element1')
+    console.log("👉  el2:", el2); // Node element
+
+    //****************************************************************
+
+    // Node: appendChild() method
+    const pTag = document.createElement("p");
+    pTag.innerText = "I am added with the help of js";
+    pTag.setAttribute("class", "p1");
+    el2.appendChild(pTag);
+
+    /***************styling**************************/
+    p2.style.backgroundColor = "lightyellow";
+    p2.style.color = "red";
+
+    /*************************************************/
+    // Understand innerHTML, innerText and textContent
+    /*
+     * innerHTML : gives you all the children in html code 
+     * innerText : gives you text of only the visible children
+     * textContent : gives you text of all the children whether they are visible or not  
+    */
+
+    let div1 = document.getElementById('div1')
+    console.log("👉  div1.innerHTML:", div1.innerHTML);
+    /*  <p>I am p inside div1</p>
+        <div>I am a div inside div1</div>
+        <p style="display: none;">I am second p inside div1</p>
+    */
+    console.log("👉  div1.innerText:", div1.innerText);
+    /*   I am p inside div1
+      I am a div inside div1 */
+
+    console.log("👉  div1.textContent:", div1.textContent);
+    /*     I am p inside div1
+            I am a div inside div1
+            I am second p inside div1 */
+
+    /*************************************************************/
+
+    let div2 = document.getElementById('div2');
+
+    /*
+ 
+    childNodes =>  Child nodes include elements, text and comments and returns a live NodeList of child nodes.
+    children =>  It includes only element nodes and returns a live HTMLCollection.
+    firstChild => returns the node's first child in the tree, or null if the node has no children.
+    parentNode => returns the parent of the specified node in the DOM tree. It at most same as parentElement property.
+    
+     */
+
+    console.log("👉  div2.childNodes:", div2.childNodes); //NodeList(5) [text, p, text, ul, text]
+
+    console.log("👉   div2.children:", div2.children); // HTMLCollection(2)[p, ul]
+
+    console.log("👉  div2.firstChild:", div2.firstChild); // first child node of tree and that is text.
+
+
+
+    const ul = div2.children[1];
+    const li = ul.children;
+    const newLi = document.createElement("li"); // create element
+    newLi.textContent = 'I am new LI item';
+    newLi.style.color = 'green';
+
+    // insertBefore method : insertBefore(newNode, referenceNode)
+    // both 2 arguments are required here.
+    ul.insertBefore(newLi, li[1]);
+
+    console.log("👉  ul.parentNode:", ul.parentNode); // div2 id node element
+    console.log("👉  ul.parentElement:", ul.parentElement); // div2 id node element
+
+    console.log("👉  document.parentElement:", document.parentElement); // null
+    console.log("👉  document.parentNode:", document.parentNode); // null
+
+
+
+
+</script>
+
+</html>

@@ -18,6 +18,18 @@ p.then((data) => { console.log(data) });
 p.catch(console.log);
 
 
+/*
+* Understand Promise approach
+
+- Promise function takes one parameter and that is a executable function.
+- When we call this Promise with new keyword, it returns a promise object.
+- Executable function is like a higher order function that takes two function argument named resolve and reject.
+- Promise have two public methods here, then and catch.
+- Then and catch method also takes callbacks which executes once promise resolved or reject.
+
+*/
+
+
 /*********************** CUSTOM PROMISE */
 
 /*
@@ -36,31 +48,31 @@ const REJECTED = 'REJECTED';
 /* 
 - Default state is Pending.
 - Created a function named MyPromise which will take promise function as argument.
-- This Promise callback function requires resolve and reject method as a parameter to execute.
+- This Promise executable function requires resolve and reject method as a parameter to execute.
 - First Implement then method
     - We call then method of promise object with a success callback as a parameter.
     - example - p.then(() => {})
     - Create a then method with a callback argument.
     - As we know that then's callback does not execute immediately. this runs after resolve only.
-    - So what can we do? we can store this callback fn in a variable named successCb.
+    - So what can we do? we can store this callback fn in a variable named handlerCb.
     - One thing we can also do that in case Promise already resolved then we can execute this here only.
     - To check Promise resolved we can check its state. (state === RESOLVED)
 
 - Implement Resolve method
-    - it calls inside promise function, Once our task is completed then we can call resolve method with success value.
+    - It calls inside promise function, Once our task is completed then we can call resolve method with success value.
     - Create a resolve method with a parameter (success Value or response) inside our class.
     - First set state as resolved.
-    - After that execute successCb function that we stored from then method.
+    - After that execute handlerCb function that we stored from then method.
 
 - Implement Catch method
     - It also takes error callback as a parameter.
     - Follow same approach as then method.
     - If state is rejected then execute error callback immediately.
-    - Else store this callback in a variable named errorCb;
+    - Else store this callback in a variable named handlerCb;
 
 - Implement Reject method
     - Mark state a rejected.
-    - Call error callback which we stored in errorCb variable.
+    - Call error callback which we stored in handlerCb variable.
     - As we know that reject also throw error so we can throw error like - throw new Error(err).
     - One extra check we can add that If someone do not implement catch method then also throw error.
 
@@ -69,8 +81,11 @@ const REJECTED = 'REJECTED';
 @ Note:
 
 - We are executing callbacks inside public api queueMicrotask because Promise callbacks always run in async.
-- Before calling successCb, do a check if it exists or not.
-- Same for errorCb.
+- To correctly emulate the behavior we have to call it inside a microtask queue so that 
+    * it is called async
+    * higher priority then normal async cbs
+- Before calling handlerCb, do a check if it exists or not.
+- Same for handlerCb.
 - We can also store these callbacks in a array and can run inside forEach method.
 - Promise then and catch method are only public methods so we add these in this object.
 - resolve and reject are private methods.
@@ -80,40 +95,33 @@ function MyPromise(promiseFn) {
     let state = PENDING;
     let successData;
     let error;
-    let successCb;
-    let errorCb;
+    let handlerCb = [];
     const resolve = function (response) {
         successData = response;
         state = RESOLVED;
-        queueMicrotask(() => successCb && successCb(successData));
-        // successCb.forEach(cb => {
-        //     queueMicrotask(() => cb(response));
-        // });
+        console.log(handlerCb);
+        handlerCb.forEach(cb => {
+            queueMicrotask(() => cb(response));
+        });
 
     }
 
     const reject = function (err) {
         state = REJECTED;
         error = err;
-        if (!errorCb) {
+        if (!handlerCb) {
             throw new Error(err);
         }
-        queueMicrotask(() => {
-            errorCb && errorCb(error);
+        handlerCb.forEach(cb => {
+            queueMicrotask(() => cb(error));
             throw new Error(err);
         });
-        // errorCb.forEach(cb => {
-        //     queueMicrotask(() => cb(error));
-        //     throw new Error(err);
-        // });
     }
     this.then = function (cb) {
         if (state === RESOLVED) {
-            //cb(successData);
             queueMicrotask(() => cb(successData));
         } else {
-            //successCb.push(cb);
-            successCb = cb;
+            handlerCb.push(cb);
         }
 
     }
@@ -122,8 +130,7 @@ function MyPromise(promiseFn) {
         if (state === REJECTED) {
             queueMicrotask(() => cb(error));
         } else {
-            //errorCb.push(cb);
-            errorCb = cb;
+            handlerCb.push(cb);
         }
     }
 
@@ -140,7 +147,10 @@ let promiseFn1 = (resolve, reject) => {
 
 const p1 = new MyPromise(promiseFn1);
 
-p1.then((data) => { console.log('then', data) });
+p1.then((data) => { console.log('then 1', data) });
+
+// we can add multiple then on same object thats why in polyfill we have handlerCb as an array.
+p1.then((data) => { console.log('then 2', data) });
 
 const p2 = new MyPromise((resolve, reject) => {
     setTimeout(() => {
@@ -178,24 +188,22 @@ class MyPromise1 {
     state = PENDING;
     successData;
     error;
-    successCb;
-    errorCb;
-
+    handlerCb;
     constructor(promiseFn) {
         // resolve and reject must be created here only. Cannot be created outside because we need these to call promiseFn.
         const resolve = (response) => {
             this.successData = response;
             this.state = RESOLVED;
-            queueMicrotask(() => this.successCb && this.successCb(this.successData));
+            queueMicrotask(() => this.handlerCb && this.handlerCb(this.successData));
         }
         const reject = (err) => {
             this.state = REJECTED;
             this.error = err;
-            if (!this.errorCb) {
+            if (!this.handlerCb) {
                 throw new Error(err);
             }
             queueMicrotask(() => {
-                this.errorCb && this.errorCb(this.error);
+                this.handlerCb && this.handlerCb(this.error);
                 throw new Error(this.error);
             });
         }
@@ -205,7 +213,7 @@ class MyPromise1 {
         if (this.state === RESOLVED) {
             queueMicrotask(() => cb(this.successData));
         } else {
-            this.successCb = cb;
+            this.handlerCb = cb;
         }
     }
 
@@ -213,7 +221,7 @@ class MyPromise1 {
         if (this.state === REJECTED) {
             queueMicrotask(() => cb(this.error));
         } else {
-            this.errorCb = cb;
+            this.handlerCb = cb;
         }
     }
 }
