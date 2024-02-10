@@ -1,11 +1,76 @@
+<!-- 
+
+The DocumentFragment interface represents a minimal document object that has no parent.
+It does not create any tag on DOM.
+It is like ng-container in angular.
+
+ -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments</title>
 </head>
+
 <body>
-    
+    <h1>Adding multiple elements</h1>
+    <button>add 1000 items</button>
+    <ul></ul>
 </body>
+
+<script>
+    const ul = document.querySelector("ul");
+
+    // In this way, we are creating new li element every time and append this in ul element.
+    // So it will re-render again and again whenever appendChild will call.
+    // That lead to poor performance.
+    function add1000ItemsNormally() {
+        // bad solution
+        for (let i = 0; i < 1000; i++) {
+            const li = document.createElement("li");
+            // 2. add attributes
+            li.textContent = "task elements"
+            // add all the element in a batch
+            ul.appendChild(li);
+        }
+    }
+
+    // add1000ItemsNormally();
+
+    // here we are creating fragment and every new li item will be added into that only.
+    // At the end, we have complete fragment with all 1000 items.
+    // Finally we can add this fragment to main ul element.
+    // In this way, we are doing appendChild in ul item only one time.
+    // SO means only one time ul will render.
+    // Good user experience and good performance.
+    function add1000ItemsUsingFragments() {
+        let fragment = document.createDocumentFragment();
+        for (let i = 0; i < 10000; i++) {
+            const li = document.createElement("li");
+            li.textContent = `I am ${i + 1}`;
+            fragment.appendChild(li);
+        }
+        // 1 re-render will be required 
+        ul.appendChild(fragment);
+    }
+
+    //add1000ItemsUsingFragments();
+
+    // This is same as above, just a difference to initialize DocumentFragment.
+    function add1000ItemsUsingFragments1() {
+        const fragment = new DocumentFragment();
+        for (let i = 0; i < 10000; i++) {
+            const li = document.createElement("li");
+            li.textContent = `I am ${i + 1}`;
+            fragment.appendChild(li);
+        }
+        // 1 re-render will be required 
+        ul.appendChild(fragment);
+    }
+
+    add1000ItemsUsingFragments1();
+</script>
+
 </html>
