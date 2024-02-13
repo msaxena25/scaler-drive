@@ -1,0 +1,49 @@
+<!-- 
+
+! Application Requirement.
+
+
+- Component must have 5 ratings 1 to 5.
+- Default color must be gray.
+- When mouse over on the stars then they should be highlighted with yellow color.
+- When mouse leave then it must be back to its previous state.
+- And when click on any star, previous all stars must be highlighted & count must be updated.
+- Count should not change on mouse over or leave.
+
+* &#9733;  -- This is UNI Code to display star on UI.
+
+
+
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Rating Component</title>
+
+</head>
+
+<body>
+    <!-- Here we will follow BEM Structure -->
+    <div class="container">
+        <h1 class="container__title">Star Rating Component</h1>
+        <div class="container__stars">
+            <div class="container__stars__star" data-idx="1">&#9733;</div>
+            <div class="container__stars__star" data-idx="2">&#9733;</div>
+            <div class="container__stars__star" data-idx="3">&#9733;</div>
+            <div class="container__stars__star" data-idx="4">&#9733;</div>
+            <div class="container__stars__star" data-idx="5">&#9733;</div>
+        </div>
+        <!-- element -->
+        <h2 class="container__rating">
+            Rating count: <span id="count">0</span>
+        </h2>
+    </div>
+
+</body>
+<script src="./start-rating.js"></script>
+<link rel="stylesheet" href="star-rating.css">
+
+</html>

@@ -1,0 +1,122 @@
+<!-- 
+
+! BEM Structure (Block-Element-Modifier)
+
+- BEM is a naming convention for CSS class names that helps to maintain a clear and consistent structure in a project’s styling.
+- It is based on the idea of breaking down a web page into smaller, reusable blocks of code.
+- BEM uses double underscores (__) and hyphens (-) to construct CSS class names.
+
+* Syntax: block__element--modifier
+
+Blocks, Elements and Modifiers
+
+@ Block
+Standalone entity that is meaningful on its own.
+
+Examples
+header, container, menu, checkbox, input
+
+@ Element
+A part of a block that has no standalone meaning and is semantically tied to its block.
+
+Examples
+menu item, list item, checkbox caption, header title
+
+@ Modifier
+A flag on a block or element. Use them to change appearance or behavior.
+
+Examples
+disabled, highlighted, checked, fixed, size big, color yellow
+
+? Why BEM is useful ?
+
+Clarity - BEM clears which styles apply to which HTML element.
+Reusability - encourages the use of reusable blocks of code.
+Scalability - maintain consistency across a large codebase & easier to scale project.
+Name spacing - provides a clear namespace for each element and modifier.
+
+
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* Using the BEM naming convention to design a Card */
+
+    /* The Block follows the naming convention as: .card */
+    .card {
+        background-color: rgb(155, 235, 187);
+        border-radius: 8px;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 100px auto;
+        box-shadow: 0px 2px 5px 2px #aaaaaa;
+        padding: 1rem;
+    }
+
+
+    /* The Elements follow the naming convention  
+    mentioned as: .block__element */
+
+    .card__content {
+        padding: 16px;
+    }
+
+    .card__title {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .card__text {
+        font-size: 20px;
+        color: gray;
+        text-align: center;
+    }
+
+    .card__button {
+        background-color: white;
+        color: black;
+        border-radius: 4px;
+        padding: 10px;
+        text-transform: uppercase;
+        margin: 10px;
+        cursor: pointer;
+        box-shadow: 0px 2px 5px 2px #aaaaaa;
+        font-weight: bold;
+    }
+
+
+    /* The Modifiers follow the naming convention  
+    mentioned as: .block__element--modifier */
+
+    .card__button--primary {
+        background-color: blue;
+        margin: 10px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <!-- Understand BEM Structure -->
+    <div class="card">
+        <div class="card__content">
+            <h3 class="card__title">Card Title</h3>
+            <p class="card__text">Card text</p>
+        </div>
+        <button class="card__button">Button</button>
+        <button class="card__button card__button--primary">
+            Primary Button
+        </button>
+    </div>
+</body>
+
+</html>

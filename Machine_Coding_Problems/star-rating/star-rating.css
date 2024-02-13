@@ -1,0 +1,24 @@
+.container {
+    display: grid;
+    place-items: center;
+}
+
+.container__stars {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    padding: 1rem;
+    font-size: 2rem;
+}
+
+.container__title {
+    color: blueviolet;
+}
+
+.container__stars__star {
+    color: gray;
+    cursor: pointer;
+
+}
