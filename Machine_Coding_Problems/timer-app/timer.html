@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./timer.css">
+</head>
+
+<body>
+    <!-- 
+Problem statement : count down timer
+
+Must Have 
+*  time in hours , minute and second
+* start , pause , continue feature
+* timer should  not go show negative  when time runs out -> 0:0:0
+ 
+Good to Have features
+* reset 
+*  validation
+    * Negative values.
+    * Hours greater than 24 hours.
+    * min/sec -> 60 
+    * input can only be numbers
+* alert on timer finish
+Accessibility
+* 
+
+ -->
+
+
+    <!--
+
+ Accessibility: screen reader and more keyboard use
+    * Semantic
+        * ul, li , input, label , semantic tags
+    * aria-(labels): whatever you are not able to convey with the help your
+    normal html then aria-labels used 
+   -->
+    <div class="countdown-timer">
+        <h1>Count Down Timer</h1>
+        <!-- BEM convention -->
+        <div class="countdown-timer_labels">
+            <label for="hr" class="countdown-timer__label label--hrs">Hours:</label>
+            <label for="min" class="countdown-timer__label label--mins">Minutes:</label>
+            <label for="sec" class="countdown-timer__label label--sec">Seconds:</label>
+        </div>
+        <!-- all the inputs are upto of 2 digits  -->
+        <div class="countdown-timer__inputs">
+            <input type="number" maxlength="2" id="hr" placeholder="00" oninput="applyMaxTwoLengthOnInputField(this)"
+                aria-live="assertive">
+            <span>:</span>
+            <input type="number" maxlength="2" id="min" placeholder="00" oninput="applyMaxTwoLengthOnInputField(this)"
+                aria-live="assertive">
+            <span>:</span>
+            <input type="number" maxlength="2" id="sec" placeholder="00" oninput="applyMaxTwoLengthOnInputField(this)"
+                aria-live="assertive">
+        </div>
+        <div class="countdown-timer__btns">
+            <button class="btn btn-start" id="start">Start</button> 
+            <button class="btn btn-reset" id="reset">Reset</button>
+            <button class="btn btn-pause" id="pause">Pause</button>
+            <button class="btn btn-continue" id="continue">Continue</button>
+        </div>
+    </div>
+    <script src="./timer.js"></script>
+</body>
+
+</html>

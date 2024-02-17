@@ -1,0 +1,27 @@
+input[type='number'] {
+    font-size: 20px;
+}
+
+.btn {
+    margin-top: 10px;
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+
+}
+
+.btn-start {
+    background-color: greenyellow;
+}
+.btn-reset {
+    background-color: brown;
+    color: white;
+}
+.btn-pause {
+    background-color: aqua;
+}
+.btn-continue {
+    background-color: aquamarine;
+}
