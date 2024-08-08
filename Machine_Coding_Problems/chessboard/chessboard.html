@@ -1,0 +1,52 @@
+<!--
+
+Problem Statement Features :
+* Build the chessboard
+* show all the possible path when someone hover over any chess block.
+* remove the hover effect when we remove it.
+
+Chessboard is 8 * 8 Matrix.
+
+In Design term, chessboard have 8 rows (means table row 'tr')
+and 8 columns (table columns 'td').
+
+We create only single element named table and 8 rows and columns will be added dynamically using js.
+
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Board</title>
+    <link rel="stylesheet" href="./chessboard.css">
+</head>
+
+<body>
+    <!-- This is just a sample of HTML table element -->
+    <table>
+        <colgroup>
+            <col span="2" style="background-color:rgb(240, 84, 84)">
+            <col style="background-color:yellow">
+        </colgroup>
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>3476896</td>
+            <td>My first HTML</td>
+            <td>$53</td>
+        </tr>
+    </table>
+
+    <h1 class="heading">Chessboard</h1>
+    <table id="tbl" class="table" cellspacing="0"></table>
+    <script src="./chessboard.js"></script>
+</body>
+
+</html>

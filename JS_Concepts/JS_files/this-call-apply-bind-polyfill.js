@@ -65,7 +65,7 @@ let cap = {
         iAmInner();
     }
 }
-cap.sayHi(); // iAmInner JSMount iAmInner undefined
+cap.sayHi(); // sayHi JSMount iAmInner undefined
 
 // We are calling sayHi() with cap object, so this is method call. So 'this' will be cap object.
 // Now inside 'this' when iAmInner() is called. Then this will be a window object as it is a function call.
@@ -88,7 +88,7 @@ let cap1 = {
 cap1.sayHi(); // sayHi Mohit iAmInner arrow fn Mohit
 
 // cap1.sayHi() is method call so 'this' will be cap object.
-// Inside sayHi, isAmInner() call is function call and isAmInner is arrow function and does not have its own this. So it will go to sayHi() to get their this.
+// Inside sayHi, iAmInner is arrow function and does not have its own this. So it will go to sayHi() to get their this.
 
 //@ Another example
 
